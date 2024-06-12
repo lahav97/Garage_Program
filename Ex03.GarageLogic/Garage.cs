@@ -1,6 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using Vehicle;
+using Vehicles;
 
 namespace Garage
 {
@@ -21,15 +21,23 @@ namespace Garage
             Vehicle m_Vehicle;
         }
 
-        public void ReEnterVehicleToGarage(string i_LicensePlateID);
-        public bool IsVehicleInSystem()
+        public void ReEnterVehicleToGarage(string i_LicensePlateID)
         {
 
         }
-        public abstract void EnterNewVehicleToGarage();
-        public List<Vehicle> getVehiclesLicensePlateList(eVehicleStatus i_VehicleStatusWanted)
+        public bool IsVehicleInSystem() //TODO
+        {
+            bool res = false;
+            return res;
+        }
+        public void EnterNewVehicleToGarage()
         {
 
+        }
+        public List<Vehicle> getVehiclesLicensePlateList(eVehicleStatus i_VehicleStatusWanted) //TODO
+        {
+            List<Vehicle> res = new List<Vehicle>();
+            return res;
         }
         public void ChangeVehicleStatus(string i_LicensePlateID, eVehicleStatus i_VehicleStatusToChange)
         {
