@@ -25,17 +25,19 @@ namespace Garage
         {
 
         }
-        public bool IsVehicleInSystem()
+        public bool IsVehicleInSystem() //TODO
         {
-
+            bool res = false;
+            return res;
         }
         public void EnterNewVehicleToGarage()
         {
 
         }
-        public List<Vehicle> getVehiclesLicensePlateList(eVehicleStatus i_VehicleStatusWanted)
+        public List<Vehicle> getVehiclesLicensePlateList(eVehicleStatus i_VehicleStatusWanted) //TODO
         {
-
+            List<Vehicle> res = new List<Vehicle>();
+            return res;
         }
         public void ChangeVehicleStatus(string i_LicensePlateID, eVehicleStatus i_VehicleStatusToChange)
         {

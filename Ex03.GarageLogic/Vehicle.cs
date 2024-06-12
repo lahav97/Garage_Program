@@ -33,9 +33,9 @@ namespace Vehicles
 
     internal abstract class Vehicle
     {
-        protected string m_ModelName { get;  set; }
+        protected string m_ModelName { get; set; }
         protected string m_LicensePlateID { get; set; }
-        protected float m_EnergyPercentageLeft { get;}
+        protected float m_EnergyPercentageLeft { get; }
         protected Wheel[] m_Wheels { get; }
         protected EnergyStorage m_VehicleTank { get; }
 
@@ -163,20 +163,20 @@ namespace Vehicles
         public float m_MinAirPressure { get; } = 0;
         public float m_AirPressure
         {
-            get {  return m_AirPressure; }
+            get { return m_AirPressure; }
             set
             {
-              if (value >= 0 && value < m_MaxAirPressure)
-              {
+                if (value >= 0 && value < m_MaxAirPressure)
+                {
                     m_AirPressure = value;
-              }
-              else
-              {
+                }
+                else
+                {
                     throw new ValueOutOfRangeException.ValueOutOfRangeException(m_MaxAirPressure, m_MinAirPressure);
-              }
+                }
             }
         }
-        
+
 
         public Wheel(float i_AirPressure, float i_MaxAirPressure, string i_ManufactureName)
         {
