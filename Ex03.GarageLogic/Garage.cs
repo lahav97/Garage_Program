@@ -90,7 +90,7 @@ namespace VehicleGarage
             currentEnergyStorage.Refuel(i_MinutesToCharge);
         }
 
-        public VehicleInformations getVehicleFromSystem(string i_LicensePlateID)
+        internal VehicleInformations getVehicleFromSystem(string i_LicensePlateID)
         {
             VehicleInformations vehicleToReturn;
             if (m_Vehicle.TryGetValue(i_LicensePlateID, out vehicleToReturn))
