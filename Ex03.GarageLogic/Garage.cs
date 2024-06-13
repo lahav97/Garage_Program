@@ -50,17 +50,17 @@ namespace Garage
 
         public List<string> getVehiclesLicensePlateList(eVehicleStatus i_VehicleStatusWanted)
         {
-            List<string> licensePlates = new List<string>();
+            List<string> licensePlatesList = new List<string>();
 
             foreach (string licensePlate in m_Vehicle.Keys)
             {
                 if (m_Vehicle[licensePlate].m_VehicleStatus == i_VehicleStatusWanted)
                 {
-                    licensePlates.Add(licensePlate);
+                    licensePlatesList.Add(licensePlate);
                 }
             }
 
-            return licensePlates;
+            return licensePlatesList;
         }
 
         public void ChangeVehicleStatus(string i_LicensePlateID, eVehicleStatus i_VehicleStatusToChange)
@@ -94,14 +94,14 @@ namespace Garage
 
         public Vehicle GetVehicleDetails(string i_LicensePlateID)
         {
-            foreach(string licensePlate in m_Vehicle.Keys)
+            foreach (string licensePlate in m_Vehicle.Keys)
             {
-                if(m_Vehicle[licensePlate] == i_LicensePlateID)
+                if(licensePlate == i_LicensePlateID)
                 {
-
+                    return m_Vehicle[licensePlate].m_VehicleDetails;
                 }
             }
-            
+            throw new KeyNotFoundException();
         }
     }
 }
