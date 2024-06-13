@@ -48,15 +48,19 @@ namespace Garage
 
         }
 
-        public List<Vehicle> getVehiclesLicensePlateList(eVehicleStatus i_VehicleStatusWanted) //TODO
+        public List<string> getVehiclesLicensePlateList(eVehicleStatus i_VehicleStatusWanted)
         {
-            List<Vehicle> res = new List<Vehicle>();
-            
-            foreach(Vehicle currentVehicle in m_Vehicle)
+            List<string> licensePlatesList = new List<string>();
+
+            foreach (string licensePlate in m_Vehicle.Keys)
             {
-                if(currentVehicle. ==  )
+                if (m_Vehicle[licensePlate].m_VehicleStatus == i_VehicleStatusWanted)
+                {
+                    licensePlatesList.Add(licensePlate);
+                }
             }
-            return res;
+
+            return licensePlatesList;
         }
 
         public void ChangeVehicleStatus(string i_LicensePlateID, eVehicleStatus i_VehicleStatusToChange)
@@ -88,9 +92,16 @@ namespace Garage
             currentEnergyStorage.Refuel(i_MinutesToCharge);
         }
 
-        public void GetVehicleDetails(string i_LicensePlateID)
+        public Vehicle GetVehicleDetails(string i_LicensePlateID)
         {
-            
+            foreach (string licensePlate in m_Vehicle.Keys)
+            {
+                if(licensePlate == i_LicensePlateID)
+                {
+                    return m_Vehicle[licensePlate].m_VehicleDetails;
+                }
+            }
+            throw new KeyNotFoundException();
         }
     }
 }
