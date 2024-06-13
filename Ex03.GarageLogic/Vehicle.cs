@@ -171,6 +171,7 @@ namespace Vehicles
         internal float m_MinAirPressure = 0;
         internal string m_ManufactureName;
         internal float m_AirPressure;
+        
 
         internal float MaxAirPressure
         {  
