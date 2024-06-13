@@ -325,7 +325,7 @@ namespace Vehicles
                     throw new ValueOutOfRangeException.ValueOutOfRangeException(m_MaxAirPressure, wheel.m_MinAirPressure);
                 }
             }
-            
+
         }
 
         protected bool IsAmountOfWheelsValid(Wheel[] i_Wheels)
