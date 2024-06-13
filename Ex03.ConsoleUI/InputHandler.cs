@@ -9,7 +9,6 @@ namespace Ex03.ConsoleUI
 {
     internal class InputHandler
     {
-
         public static string GetLeicensePlate()
         {
             Console.WriteLine("Please Enter Vihacle leicense plate:");

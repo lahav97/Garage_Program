@@ -9,3 +9,7 @@ C:\Users\lahavrabinovitz\Source\Repos\Garage_Program\Ex03.GarageLogic\obj\Debug\
 C:\Users\lahavrabinovitz\Source\Repos\Garage_Program\Ex03.GarageLogic\obj\Debug\Ex03.GarageLogic.csproj.CoreCompileInputs.cache
 C:\Users\lahavrabinovitz\Source\Repos\Garage_Program\Ex03.GarageLogic\obj\Debug\Ex03.GarageLogic.dll
 C:\Users\lahavrabinovitz\Source\Repos\Garage_Program\Ex03.GarageLogic\obj\Debug\Ex03.GarageLogic.pdb
+C:\Users\Win10\source\repos\Garage_Program\Ex03.GarageLogic\obj\Debug\Ex03.GarageLogic.csproj.AssemblyReference.cache
+C:\Users\Win10\source\repos\Garage_Program\Ex03.GarageLogic\obj\Debug\Ex03.GarageLogic.csproj.CoreCompileInputs.cache
+C:\Users\Win10\source\repos\Garage_Program\Ex03.GarageLogic\obj\Debug\Ex03.GarageLogic.dll
+C:\Users\Win10\source\repos\Garage_Program\Ex03.GarageLogic\obj\Debug\Ex03.GarageLogic.pdb
