@@ -34,10 +34,10 @@ namespace Vehicles
     internal abstract class Vehicle
     {
         protected string m_ModelName { get; set; }
-        protected string m_LicensePlateID { get; set; }
+        internal string m_LicensePlateID { get; set; }
         protected float m_EnergyPercentageLeft { get; }
-        protected Wheel[] m_Wheels { get; }
-        protected EnergyStorage m_VehicleTank { get; }
+        internal Wheel[] m_Wheels { get; set; }
+        internal EnergyStorage m_VehicleTank { get; }
 
         protected Vehicle(string i_ModelName, string i_LicensePlateID, float i_EnergyPercentageLeft, Wheel[] i_Wheels, EnergyStorage i_VehicleTank)
         {
@@ -85,17 +85,17 @@ namespace Vehicles
 
     internal abstract class EnergyStorage
     {
-        protected float m_MaxEnergyCapacity { get; set; }
-        protected float m_MinEnergyCapacity { get; set; } = 0;
-        protected float m_CurrentEnergyStorage { get; set; }
+        private float m_MaxEnergyCapacity { get; set; }
+        private float m_MinEnergyCapacity { get; set; } = 0;
+        private float m_CurrentEnergyStorage { get; set; }
 
         public EnergyStorage(float i_MaxEnergyCapacity, float i_CurrentEnergyStorage)
         {
             m_MaxEnergyCapacity = i_MaxEnergyCapacity;
             m_CurrentEnergyStorage = i_CurrentEnergyStorage;
         }
-        protected abstract void Refuel(float i_EnergyPercentageToAdd, eGasTypes i_GasType);
-        protected abstract void Refuel(float i_EnergyPercentageToAdd);
+        internal abstract void Refuel(float i_EnergyPercentageToAdd, eGasTypes i_GasType);
+        internal abstract void Refuel(float i_EnergyPercentageToAdd);
 
         public bool IsOutOfRange(float i_EnergyPercentageToAdd)
         {
@@ -108,12 +108,12 @@ namespace Vehicles
         public Battery(float i_MaxEnergyCapacity, float i_CurrentEnergyStorage)
            : base(i_MaxEnergyCapacity, i_CurrentEnergyStorage) { }
 
-        protected override void Refuel(float i_EnergyPercentageToAdd, eGasTypes i_GasType)
+        internal override void Refuel(float i_EnergyPercentageToAdd, eGasTypes i_GasType)
         {
             throw new NotImplementedException();
         }
 
-        protected override void Refuel(float i_EnergyPercentageToAdd)
+        internal override void Refuel(float i_EnergyPercentageToAdd)
         {
             if (IsOutOfRange(i_EnergyPercentageToAdd))
             {
@@ -138,12 +138,12 @@ namespace Vehicles
             m_GasType = i_GasType;
         }
 
-        protected override void Refuel(float i_EnergyPercentageToAdd, eGasTypes i_GasType)
+        internal override void Refuel(float i_EnergyPercentageToAdd, eGasTypes i_GasType)
         {
             throw new NotImplementedException();
         }
 
-        protected override void Refuel(float i_EnergyPercentageToAdd)
+        internal override void Refuel(float i_EnergyPercentageToAdd)
         {
             if (IsOutOfRange(i_EnergyPercentageToAdd))
             {
@@ -166,7 +166,7 @@ namespace Vehicles
             get { return m_AirPressure; }
             set
             {
-                if (value >= 0 && value < m_MaxAirPressure)
+                if (value >= 0 && value <= m_MaxAirPressure)
                 {
                     m_AirPressure = value;
                 }
@@ -177,16 +177,14 @@ namespace Vehicles
             }
         }
 
-
         public Wheel(float i_AirPressure, float i_MaxAirPressure, string i_ManufactureName)
         {
             m_MaxAirPressure = i_MaxAirPressure;
             m_AirPressure = i_AirPressure;
             m_ManufactureName = i_ManufactureName;
-            m_MinAirPressure = 0;
         }
 
-        private void InflateWheel(float i_AirToAdd)
+        public void InflateWheel(float i_AirToAdd)
         {
             if (IsMoreThanMaxAirPressure(i_AirToAdd))
             {
@@ -201,6 +199,10 @@ namespace Vehicles
         private bool IsMoreThanMaxAirPressure(float i_AirToAdd)
         {
             return i_AirToAdd + m_AirPressure <= m_MaxAirPressure;
+        }
+        public void InflateToMaximum()
+        {
+            m_AirPressure = m_MaxAirPressure;
         }
     }
 
@@ -309,18 +311,16 @@ namespace Vehicles
             m_CargoVolume = i_CargoVolume;
         }
 
-        protected bool IsAirPressureValid(Wheel[] i_Wheels)
+        protected void CheckAirPressure(Wheel[] i_Wheels)
         {
-            bool airPressureValid = true;
             foreach (Wheel wheel in i_Wheels)
             {
                 if (wheel.m_MaxAirPressure > m_MaxAirPressure)
                 {
-                    airPressureValid = false;
-                    break;
+                    throw new ValueOutOfRangeException.ValueOutOfRangeException(m_MaxAirPressure, wheel.m_MinAirPressure);
                 }
             }
-            return airPressureValid;
+            
         }
 
         protected bool IsAmountOfWheelsValid(Wheel[] i_Wheels)

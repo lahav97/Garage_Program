@@ -13,51 +13,84 @@ namespace Garage
 
     internal class Garage
     {
-        internal class VehicleDetails
+        private Dictionary<string, VehicleInformations> m_Vehicle = new Dictionary<string, VehicleInformations>();
+
+        internal class VehicleInformations
         {
-            string m_OwnerName;
-            string m_OwnerPhoneNumber;
-            eVehicleStatus m_VehicleStatus;
-            Vehicle m_Vehicle;
+            public string m_OwnerName;
+            public string m_OwnerPhoneNumber;
+            public eVehicleStatus m_VehicleStatus;
+            public Vehicle m_VehicleDetails;
         }
 
         public void ReEnterVehicleToGarage(string i_LicensePlateID)
         {
+            VehicleInformations vehicleToReEnterToGarage = findVehicleInSystem(i_LicensePlateID);
+            vehicleToReEnterToGarage.m_VehicleStatus = eVehicleStatus.InRepair;
+        }
 
-        }
-        public bool IsVehicleInSystem() //TODO
+
+        public VehicleInformations findVehicleInSystem(string i_LicensePlateID) //TODO
         {
-            bool res = false;
-            return res;
+            VehicleInformations vehicleToReturn;
+            if (m_Vehicle.TryGetValue(i_LicensePlateID, out vehicleToReturn))
+            {
+                return vehicleToReturn;
+            }
+            else
+            {
+                throw new KeyNotFoundException();
+            }
         }
+
         public void EnterNewVehicleToGarage()
         {
 
         }
+
         public List<Vehicle> getVehiclesLicensePlateList(eVehicleStatus i_VehicleStatusWanted) //TODO
         {
             List<Vehicle> res = new List<Vehicle>();
+            
+            foreach(Vehicle currentVehicle in m_Vehicle)
+            {
+                if(currentVehicle. ==  )
+            }
             return res;
         }
+
         public void ChangeVehicleStatus(string i_LicensePlateID, eVehicleStatus i_VehicleStatusToChange)
         {
-
+            VehicleInformations vehicleToReEnterToGarage = findVehicleInSystem(i_LicensePlateID);
+            vehicleToReEnterToGarage.m_VehicleStatus = i_VehicleStatusToChange;
         }
+
         public void InflateWheelsToMaximum(string i_LicensePlateID)
         {
-
+            VehicleInformations vehicleInformation = findVehicleInSystem(i_LicensePlateID);
+            foreach (Wheel wheel in vehicleInformation.m_VehicleDetails.m_Wheels)
+            {
+                wheel.InflateToMaximum();
+            }
         }
+
         public void RefuelVehicle(string i_LicensePlateID, eGasTypes i_GasType, float i_AmountToRefuel)
         {
-
+            VehicleInformations vehicleInformation = findVehicleInSystem(i_LicensePlateID);
+            EnergyStorage currentEnergyStorage = vehicleInformation.m_VehicleDetails.m_VehicleTank;
+            currentEnergyStorage.Refuel(i_AmountToRefuel, i_GasType);
         }
+
         public void ChargeVehicle(string i_LicensePlateID, int i_MinutesToCharge)
         {
-
+            VehicleInformations vehicleInformation = findVehicleInSystem(i_LicensePlateID);
+            EnergyStorage currentEnergyStorage = vehicleInformation.m_VehicleDetails.m_VehicleTank;
+            currentEnergyStorage.Refuel(i_MinutesToCharge);
         }
+
         public void GetVehicleDetails(string i_LicensePlateID)
         {
-
+            
         }
     }
 }
