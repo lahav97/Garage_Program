@@ -26,5 +26,10 @@ namespace Ex03.ConsoleUI
 
             return leicensePlate;
         }
+
+        /*public void bool CheckIfInputIsCorrect(string i_input)
+        {
+            if (string.IsNullOrWhiteSpace(i_input))
+        }*/
     }
 }

@@ -82,15 +82,19 @@ please write choice number: ");
             }
             else
             {
-
+                //TO DO
             }
         }
 
-
-
         private void showVehicels()
         {
-
+            Console.WriteLine(@"
+Please choose which vehicels to show:
+1. All vihacelss in garage.
+2. All vihacels being repaird.
+3. All repaired vihacels.
+4. All vihacels that where paid for.");
+            
         }
 
         private void changeVehicleSitoation()
