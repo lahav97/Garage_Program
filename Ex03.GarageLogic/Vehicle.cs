@@ -265,12 +265,13 @@ namespace Vehicles
 
     internal class Car : Vehicle
     {
-        private readonly eCarColors m_CarColor;
+        private eCarColors m_CarColor;
         private readonly int m_NumberOfDoors;
         private readonly float m_MaxAirPressure = 31;
         private readonly int m_MaxWheels = 5;
 
-        public Car(string i_ModelName, string i_LicensePlateID, float i_EnergyPercentageLeft, Wheel[] i_Wheels, eCarColors i_eCarColor, int i_NumberOfDoors, bool i_IsElectric, eGasTypes i_eGasType, float i_MaxEnergyCapacity, float i_CurrentEnergyStorage)
+        public Car(string i_ModelName, string i_LicensePlateID, float i_EnergyPercentageLeft, Wheel[] i_Wheels, eCarColors i_eCarColor, int i_NumberOfDoors, 
+            bool i_IsElectric, eGasTypes i_eGasType, float i_MaxEnergyCapacity, float i_CurrentEnergyStorage)
             : base(i_ModelName, i_LicensePlateID, i_EnergyPercentageLeft, i_Wheels, i_IsElectric, i_eGasType, i_MaxEnergyCapacity, i_CurrentEnergyStorage)
         {
             m_CarColor = i_eCarColor;
