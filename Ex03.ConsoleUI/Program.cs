@@ -9,6 +9,8 @@ namespace Ex03.ConsoleUI
 {
     internal class Program
     {
+        readonly int r_MinumumSizeOfNumericInput = 1;
+        readonly int r_ProgramOptionsSize = 7;
         public void StartGarageProgram()
         {
             Garage garage;
@@ -68,7 +70,7 @@ Please choose what you want to do:
 
 please write choice number: ");
 
-            return InputHandler.GetUserChoice();
+            return InputHandler.GetInputNumberFromUser(r_MinumumSizeOfNumericInput, r_ProgramOptionsSize);
         }
 
         private void EnterVihacleToGarage()
@@ -92,7 +94,8 @@ Please choose which vehicels to show:
 2. All vihacels being repaird.
 3. All repaired vihacels.
 4. All vihacels that where paid for.");
-
+            
+            int usersChiceToShow = InputHandler.GetInputNumberFromUser(r_MinumumSizeOfNumericInput, 4);
         }
 
         private void changeVehicleSitoation()

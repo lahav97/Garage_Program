@@ -9,15 +9,6 @@ namespace Ex03.ConsoleUI
 {
     internal class InputHandler
     {
-        public static int GetUserChoice()
-        {
-            string userChoiceString;
-            int userChoiceInt;
-            userChoiceString = Console.ReadLine();
-            int.TryParse(userChoiceString, out userChoiceInt);
-
-            return userChoiceInt;
-        }
 
         public static string GetLeicensePlate()
         {
@@ -27,9 +18,24 @@ namespace Ex03.ConsoleUI
             return leicensePlate;
         }
 
-        /*public void bool CheckIfInputIsCorrect(string i_input)
+        public static int GetInputNumberFromUser(int i_minmumNumber, int i_maximumNumber)
         {
-            if (string.IsNullOrWhiteSpace(i_input))
-        }*/
+            string inputNumberString;
+            int inputNumberInt;
+            bool firstTimeInLoop = true;
+
+            do
+            {
+                if(!firstTimeInLoop)
+                {
+                    Console.WriteLine($"The input You enterd is out of range, please enter a number between {i_minmumNumber} - {i_maximumNumber}");
+                }
+
+                inputNumberString = Console.ReadLine();
+                firstTimeInLoop = false;
+            } while (!int.TryParse(inputNumberString, out inputNumberInt) && inputNumberInt >= i_minmumNumber && inputNumberInt <= i_maximumNumber);
+            
+            return inputNumberInt;
+        }
     }
 }
