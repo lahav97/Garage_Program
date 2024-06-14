@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
@@ -9,7 +10,7 @@ namespace Ex03.ConsoleUI
 {
     internal class InputHandler
     {
-        public static string GetLeicensePlate()
+        internal static string GetLeicensePlate()
         {
             Console.WriteLine("Please Enter Vihacle leicense plate:");
             string leicensePlate = Console.ReadLine();
@@ -17,7 +18,7 @@ namespace Ex03.ConsoleUI
             return leicensePlate;
         }
 
-        public static int GetInputNumberFromUser(int i_minmumNumber, int i_maximumNumber)
+        internal static int GetInputNumberFromUser(int i_minmumNumber, int i_maximumNumber)
         {
             string inputNumberString;
             int inputNumberInt;
@@ -35,6 +36,24 @@ namespace Ex03.ConsoleUI
             } while (!int.TryParse(inputNumberString, out inputNumberInt) && inputNumberInt >= i_minmumNumber && inputNumberInt <= i_maximumNumber);
             
             return inputNumberInt;
+        }
+
+        internal static float GetFloatFromUser()
+        {
+            float inputNumberfloat;
+            bool firstTimeInLoop = true;
+
+            do
+            {
+                if (!firstTimeInLoop)
+                {
+                    Console.WriteLine($"The input You enterd is incurrect");
+                }
+                firstTimeInLoop = false;
+
+            } while (!float.TryParse(Console.ReadLine(), out inputNumberfloat) && inputNumberfloat > 0);
+
+            return inputNumberfloat;
         }
     }
 }
