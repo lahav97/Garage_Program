@@ -1,6 +1,7 @@
 using VehicleGarage;
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization.Formatters;
 
 namespace Vehicles
 {
@@ -36,7 +37,7 @@ namespace Vehicles
         internal readonly string r_LicensePlateID;
         protected float m_EnergyPercentageLeft;
         internal Wheel[] m_Wheels;
-        internal EnergyStorage m_VehicleTank;
+        internal readonly EnergyStorage m_VehicleTank;
 
         protected Vehicle(string i_ModelName, string i_LicensePlateID, float i_EnergyPercentageLeft, Wheel[] i_Wheels, EnergyStorage i_VehicleTank)
         {
@@ -52,12 +53,12 @@ namespace Vehicles
             get { return m_ModelName; }
         }
         internal string LicensePlateID
-        {
+        { 
             get { return r_LicensePlateID; }
         }
         protected float EnergyPercentageLeft
         {
-            get { return m_EnergyPercentageLeft; }
+            get { return m_EnergyPercentageLeft;}
         }
         internal Wheel[] Wheels
         {
@@ -65,8 +66,8 @@ namespace Vehicles
             set { m_Wheels = value; }
         }
         internal EnergyStorage VehicleTank
-        {
-            get { return m_VehicleTank; }
+        { 
+            get { return m_VehicleTank; } 
         }
     }
     internal abstract class EnergyStorage
@@ -86,9 +87,9 @@ namespace Vehicles
         }
         internal float CurrentEnergyStorage
         {
-            set
-            {
-                if (value > 0 && value <= MaxEnergyCapacity)
+            set 
+            { 
+                if(value > 0 && value <= MaxEnergyCapacity)
                 {
                     m_CurrentEnergyStorage = value;
                 }
@@ -110,7 +111,7 @@ namespace Vehicles
 
         public bool IsOutOfRange(float i_EnergyPercentageToAdd)
         {
-            return i_EnergyPercentageToAdd + m_CurrentEnergyStorage <= m_MaxEnergyCapacity;
+            return i_EnergyPercentageToAdd + CurrentEnergyStorage <= MaxEnergyCapacity;
         }
     }
 
@@ -137,7 +138,6 @@ namespace Vehicles
         }
     }
 
-
     internal class FuelTank : EnergyStorage
     {
         eGasTypes m_GasType;
@@ -156,36 +156,35 @@ namespace Vehicles
         {
             if (IsOutOfRange(i_EnergyPercentageToAdd))
             {
-                throw new ValueOutOfRangeException.ValueOutOfRangeException(m_MaxEnergyCapacity, m_MinEnergyCapacity);
+                throw new ValueOutOfRangeException.ValueOutOfRangeException(MaxEnergyCapacity, MinEnergyCapacity);
             }
             else
             {
-                m_CurrentEnergyStorage += i_EnergyPercentageToAdd;
+                CurrentEnergyStorage += i_EnergyPercentageToAdd;
             }
         }
     }
 
     internal class Wheel
     {
-        internal float m_MaxAirPressure;
-        internal float m_MinAirPressure = 0;
-        internal string m_ManufactureName;
+        internal readonly float m_MaxAirPressure;
+        internal readonly float m_MinAirPressure = 0;
+        internal readonly string m_ManufactureName;
         internal float m_AirPressure;
 
         internal float MaxAirPressure
-        {
-            get { return m_MaxAirPressure; }
+        {  
+            get {  return m_MaxAirPressure; }
         }
 
         internal float MinAirPressure
-        {
-            get { return m_MinAirPressure; }
+        { 
+            get { return m_MinAirPressure; } 
         }
 
         internal string ManufactureName
         {
             get { return m_ManufactureName; }
-            set { m_ManufactureName = value; }
         }
 
         public float AirPressure
@@ -210,7 +209,7 @@ namespace Vehicles
             m_AirPressure = i_AirPressure;
             m_ManufactureName = i_ManufactureName;
         }
-
+        
         public void InflateWheel(float i_AirToAdd)
         {
             if (IsMoreThanMaxAirPressure(i_AirToAdd))
@@ -227,6 +226,7 @@ namespace Vehicles
         {
             return i_AirToAdd + AirPressure <= MaxAirPressure;
         }
+
         public void InflateToMaximum()
         {
             AirPressure = MaxAirPressure;
@@ -236,10 +236,30 @@ namespace Vehicles
 
     internal class Motorcycle : Vehicle
     {
-        private eLicenseType m_LicenseType;
-        private int m_EngineVolume;
-        int m_MarAirPressure = 33;
-        int m_MaxWheels = 2;
+        internal readonly eLicenseType m_LicenseType;
+        internal readonly int m_EngineVolume;
+        internal readonly float m_MaxAirPressure = 33;
+        internal readonly int m_MaxWheels = 2;
+
+        internal eLicenseType LicenseType
+        {
+            get { return m_LicenseType; }
+        }
+
+        internal int EngineVolume
+        {
+            get { return m_EngineVolume; }
+        }
+
+        internal float MaxAirPressure
+        {
+            get { return m_MaxAirPressure; }
+        }
+
+        internal int MaxWheels
+        {
+            get { return MaxWheels; }
+        }
 
         public Motorcycle(string i_ModelName, string i_LicensePlateID, float i_EnergyPercentageLeft, Wheel[] i_Wheels, eLicenseType i_LicenseType, int i_EngineVolume, EnergyStorage i_VehicleTank)
             : base(i_ModelName, i_LicensePlateID, i_EnergyPercentageLeft, i_Wheels, i_VehicleTank)
@@ -253,7 +273,7 @@ namespace Vehicles
             bool airPressureValid = true;
             foreach (Wheel wheel in i_Wheels)
             {
-                if (wheel.m_AirPressure > m_MarAirPressure)
+                if (wheel.AirPressure > MaxAirPressure)
                 {
                     airPressureValid = false;
                     break;
@@ -264,16 +284,36 @@ namespace Vehicles
 
         protected bool IsAmountOfWheelsValid(Wheel[] i_Wheels)
         {
-            return i_Wheels.Length <= m_MaxWheels;
+            return i_Wheels.Length <= MaxWheels;
         }
     }
 
     internal class Car : Vehicle
     {
-        private readonly eCarColors m_CarColor;
+        internal readonly eCarColors m_CarColor;
         private readonly int m_NumberOfDoors;
         private readonly float m_MaxAirPressure = 31;
         private readonly int m_MaxWheels = 5;
+
+        internal eCarColors CarColor
+        {
+            get { return m_CarColor; }
+        }
+
+        internal int NumberOfDoors
+        {
+            get { return m_NumberOfDoors; }
+        }
+
+        internal float MaxAirPressure
+        {
+            get { return m_MaxAirPressure; }
+        }
+
+        internal int MaxWheels
+        {
+            get { return m_MaxWheels; }
+        }
 
         public Car(string i_ModelName, string i_LicensePlateID, float i_EnergyPercentageLeft, Wheel[] i_Wheels, eCarColors i_eCarColor, int i_NumberOfDoors, EnergyStorage i_VehicleTank)
             : base(i_ModelName, i_LicensePlateID, i_EnergyPercentageLeft, i_Wheels, i_VehicleTank)
