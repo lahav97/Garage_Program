@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Text;
 using GarageLogic.Exceptions;
-
 
 namespace GarageLogic.Vehicles.Types
 {

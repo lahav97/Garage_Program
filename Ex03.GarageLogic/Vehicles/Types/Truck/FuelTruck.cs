@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GarageLogic.Exceptions;
-
-
-namespace GarageLogic.Vehicles.Types.Truck
+﻿namespace GarageLogic.Vehicles.Types.Truck
 {
     public class FuelTruck : FuelVehicle
     {

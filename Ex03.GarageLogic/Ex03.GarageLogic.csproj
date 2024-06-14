@@ -54,7 +54,8 @@
     <Compile Include="Vehicles\Types\Truck\FuelTruck.cs" />
     <Compile Include="Vehicles\Types\Truck\TruckInfo.cs" />
     <Compile Include="Vehicles\Vehicle.cs" />
-    <Compile Include="Vehicles\VehicleFactory\eVehicleStatus.cs" />
+    <Compile Include="GarageManagement\eVehicleStatus.cs" />
+    <Compile Include="Vehicles\VehicleFactory\eVehicleType.cs" />
     <Compile Include="Vehicles\VehicleFactory\VehicleBuilder.cs" />
     <Compile Include="Vehicles\VehicleInformation.cs" />
     <Compile Include="Vehicles\Wheel\eMaxWheelAirPressure.cs" />

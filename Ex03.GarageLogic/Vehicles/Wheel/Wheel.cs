@@ -1,7 +1,4 @@
-﻿using System.Text;
-using GarageLogic.Exceptions;
-
-namespace GarageLogic.Vehicles
+﻿namespace GarageLogic.Vehicles
 {
     public class Wheel
     {
