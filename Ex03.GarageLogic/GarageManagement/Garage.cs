@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Vehicles;
+using GarageLogic.Exceptions;
 
 namespace VehicleGarage
 {
-    public enum eVehicleStatus
+   /* public enum eVehicleStatus
     {
         InRepair,
         WasRepair,
@@ -14,8 +14,8 @@ namespace VehicleGarage
     public class Garage
     {
         private Dictionary<string, VehicleInformations> m_Vehicle = new Dictionary<string, VehicleInformations>();
-        
-        internal class VehicleInformations
+
+        public class VehicleInformations
         {
             public string m_OwnerName;
             public string m_OwnerPhoneNumber;
@@ -76,11 +76,11 @@ namespace VehicleGarage
             }
         }
 
-        public void RefuelVehicle(string i_LicensePlateID, eGasTypes i_GasType, float i_AmountToRefuel)
+        public void RefuelVehicle(string i_LicensePlateID, eFuelTypes i_FuelType, float i_AmountToRefuel)
         {
             VehicleInformations vehicleInformation = getVehicleFromSystem(i_LicensePlateID);
             EnergyStorage currentEnergyStorage = vehicleInformation.m_VehicleDetails.m_VehicleTank;
-            currentEnergyStorage.Refuel(i_AmountToRefuel, i_GasType);
+            currentEnergyStorage.Refuel(i_AmountToRefuel, i_FuelType);
         }
 
         public void ChargeVehicle(string i_LicensePlateID, int i_MinutesToCharge)
@@ -107,5 +107,5 @@ namespace VehicleGarage
         {
             return m_Vehicle.ContainsKey(i_LicensePlateID);
         }
-    }
+    }*/
 }

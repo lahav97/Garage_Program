@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using VehicleGarage;
+using Vehicles;
 
 namespace Ex03.ConsoleUI
 {
@@ -14,9 +15,15 @@ namespace Ex03.ConsoleUI
         Garage garage;
         readonly int r_MinumumSizeOfNumericInput = 1;
         readonly int r_ProgramOptionsSize = 7;
+
+        static void Main()//To Change with Smadar
+        {
+
+        }
+
         public void StartGarageProgram()
         {
-            
+
             int userChoice;
 
             while (true)
@@ -46,7 +53,7 @@ namespace Ex03.ConsoleUI
             }
             else if (i_userChoice == 5)
             {
-                feuelGasVehicle();
+                feuelFuelVehicle();
             }
             else if (i_userChoice == 6)
             {
@@ -67,7 +74,7 @@ Please choose what you want to do:
 2. Show all vehicales in Garage.
 3. Change vehicle Situation.
 4. Inflate vehicle wheels.
-5. Feuel gas vehicle.
+5. Feuel Fuel vehicle.
 6. Charge Electric vehicle.
 7. Show all information for a vehicle.
 
@@ -78,7 +85,7 @@ please write choice number: ");
 
         private void EnterVihacleToGarage()
         {
-            string leicensePlate = InputHandler.GetLeicensePlate();
+/*            string leicensePlate = InputHandler.GetLeicensePlate();
             if (garage.IsVehicleInSystem(leicensePlate))
             {
                 garage.ReEnterVehicleToGarage(leicensePlate);
@@ -86,22 +93,22 @@ please write choice number: ");
             else
             {
                 //TO DO
-            }
+            }*/
         }
 
         private void showVehicels()
         {
             Console.WriteLine(@"
 Please choose which vehicels to show:
-1. All vihacelss in garage.
-2. All vihacels being repaird.
-3. All repaired vihacels.
-4. All vihacels that where paid for.");
-            
+1. All vihacels being repaird.
+2. All repaired vihacels.
+3. All vihacels that where paid for.
+4. All vihacelss in garage.");
+
             int usersChiceToShow = InputHandler.GetInputNumberFromUser(r_MinumumSizeOfNumericInput, 4);
             List<string> leicencePlateList = new List<string>();
 
-            if(usersChiceToShow == 0) 
+            if (usersChiceToShow == 4)
             {
                 //leicencePlateList = //get all leicnse plates
             }
@@ -109,7 +116,7 @@ Please choose which vehicels to show:
             {
                 //leicencePlateList = get specific leicnse plates
             }
-            
+
             foreach (string leicencePlate in leicencePlateList)
             {
                 Console.WriteLine(leicencePlate);
@@ -118,12 +125,13 @@ Please choose which vehicels to show:
 
         private eVehicleStatus getVehicleStatusEnumChoice(int i_usersChice)
         {
-            eVehicleStatus UserChice;
-            if (i_usersChice == 2)
+            eVehicleStatus UserChice = new eVehicleStatus();
+
+            if (i_usersChice == 1)
             {
                 UserChice = eVehicleStatus.InRepair;
             }
-            else if (i_usersChice == 3)
+            else if (i_usersChice == 2)
             {
                 UserChice = eVehicleStatus.WasRepair;
             }
@@ -146,8 +154,8 @@ Please choose what Status to change Vihacle into:
 3. Was paid for");
             int userStatusChoice = InputHandler.GetInputNumberFromUser(r_MinumumSizeOfNumericInput, 3);
             garage.ChangeVehicleStatus(leicencePlateOfVihacleToChnge, getVehicleStatusEnumChoice(userStatusChoice));
-            catch
-            { 
+            //catch
+            {
                 // TO DO ! ! !
             }
             Console.WriteLine($"Vihacle {leicencePlateOfVihacleToChnge} Status was changed succecfully");
@@ -159,21 +167,74 @@ Please choose what Status to change Vihacle into:
             string leicencePlateOfVihacleToInflate = InputHandler.GetLeicensePlate();
 
             garage.InflateWheelsToMaximum(leicencePlateOfVihacleToInflate);
-            catch
+            //catch
             {
                 // TO DO ! ! !
             }
             Console.WriteLine("Wheels where inflated succecfully");
         }
 
-        private void feuelGasVehicle()
+        private void feuelFuelVehicle()
         {
+            Console.WriteLine($"Please choose which vehicele to refuel:");
+            string leicencePlateOfVihacleToRefuel = InputHandler.GetLeicensePlate();
+            eFuelTypes FuelTypeToFill = getFuelTypeFromUser();
 
+            Console.WriteLine($"Please choose amount of Fuel to fill:");
+/*            garage.RefuelVehicle(leicencePlateOfVihacleToRefuel, FuelTypeToFill, InputHandler.GetFloatFromUser());
+            //catch
+            {
+                // TO DO ! ! !
+            }*/
+        }
+
+        private eFuelTypes getFuelTypeFromUser()
+        {
+            Console.WriteLine(@"
+Please enter Vehicle Fuel Type:
+1. Soler,
+2. Octan95
+3. Octan96
+4. Octan98");
+
+            return changeInputToEFuelType(InputHandler.GetInputNumberFromUser(r_MinumumSizeOfNumericInput, 4));
+        }
+
+        private eFuelTypes changeInputToEFuelType(int i_usersChice)
+        {
+            eFuelTypes UserChice = new eFuelTypes();
+
+            if (i_usersChice == 1)
+            {
+                UserChice = eFuelTypes.Soler;
+            }
+            else if (i_usersChice == 2)
+            {
+                UserChice = eFuelTypes.Octan95;
+            }
+            else if (i_usersChice == 3)
+            {
+                UserChice = eFuelTypes.Octan96;
+            }
+            else
+            {
+                UserChice = eFuelTypes.Octan98;
+            }
+
+            return UserChice;
         }
 
         private void chargeElectricVehicle()
         {
+            Console.WriteLine($"Please choose which vehicele to charge:");
+            string leicencePlateOfVihacleToCharge = InputHandler.GetLeicensePlate();
+            Console.WriteLine($"Please choose how long to charge the car in minutes:");
 
+            garage.ChargeVehicle(leicencePlateOfVihacleToCharge, InputHandler.GetInputNumberFromUser(r_MinumumSizeOfNumericInput, int.MaxValue));
+            //catch
+            {
+                //TO DO!!!
+            }
         }
 
         private void showAllInformationForAVehicle()

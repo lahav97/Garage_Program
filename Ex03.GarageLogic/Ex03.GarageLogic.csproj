@@ -40,10 +40,27 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Exception.cs" />
-    <Compile Include="Garage.cs" />
-    <Compile Include="Vehicle.cs" />
-    <Compile Include="VehiclesBuilder.cs" />
+    <Compile Include="Exceptions\ValueOutOfRangeException .cs" />
+    <Compile Include="Exceptions\VehicleAlreadyExistsException .cs" />
+    <Compile Include="GarageManagement\Garage.cs" />
+    <Compile Include="Vehicles\Types\Car\CarInfor.cs" />
+    <Compile Include="Vehicles\Types\Car\ElectricCar.cs" />
+    <Compile Include="Vehicles\Types\Car\FuelCar.cs" />
+    <Compile Include="Vehicles\Types\ElectricVehicle.cs" />
+    <Compile Include="Vehicles\Types\FuelVehicle.cs" />
+    <Compile Include="Vehicles\Types\Motorcycle\ElectricMotorcycle.cs" />
+    <Compile Include="Vehicles\Types\Motorcycle\FuelMotorcycle.cs" />
+    <Compile Include="Vehicles\Types\Motorcycle\MotorcycleInfo.cs" />
+    <Compile Include="Vehicles\Types\Truck\FuelTruck.cs" />
+    <Compile Include="Vehicles\Types\Truck\TruckInfo.cs" />
+    <Compile Include="Vehicles\Vehicle.cs" />
+    <Compile Include="Vehicles\VehicleFactory\eVehicleStatus.cs" />
+    <Compile Include="Vehicles\VehicleFactory\VehicleBuilder.cs" />
+    <Compile Include="Vehicles\VehicleInformation.cs" />
+    <Compile Include="Vehicles\Wheel\eMaxWheelAirPressure.cs" />
+    <Compile Include="Vehicles\Wheel\eNumberOfWheels.cs" />
+    <Compile Include="Vehicles\Wheel\Wheel.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
