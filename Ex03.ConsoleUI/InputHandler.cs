@@ -18,6 +18,25 @@ namespace Ex03.ConsoleUI
             return leicensePlate;
         }
 
+        internal static string GetAStringFromUser(string i_wantedFormat)
+        {
+            string inputName = Console.ReadLine();
+            bool firstTimeInLoop = true;
+
+            do
+            {
+                if (!firstTimeInLoop)
+                {
+                    Console.WriteLine($"The {i_wantedFormat} You enterd is incorect, please enter again:");
+                }
+
+                inputName = Console.ReadLine();
+                firstTimeInLoop = false;
+            } while (string.IsNullOrEmpty(inputName));
+
+            return inputName;
+        }
+
         internal static int GetInputNumberFromUser(int i_minmumNumber, int i_maximumNumber)
         {
             string inputNumberString;

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using VehicleGarage;
 using Vehicles;
@@ -14,7 +15,18 @@ namespace Ex03.ConsoleUI
     {
         Garage garage;
         readonly int r_MinumumSizeOfNumericInput = 1;
-        readonly int r_ProgramOptionsSize = 7;
+        readonly int r_ProgramOptionsSize = Enum.GetValues(typeof(eProgramChoices)).Length;        
+        private enum eProgramChoices
+        {
+            EnterVihacleToGarage = 1,
+            ShowVehicels,
+            ChangeVehicleSituation,
+            InflateVehicleWheels,
+            FeuelGasVehicle,
+            ChargeElectricVehicle,
+            ShowAllInformationForAVehicle
+        }
+
         public void StartGarageProgram()
         {
             
@@ -29,31 +41,31 @@ namespace Ex03.ConsoleUI
 
         private void playChoice(int i_userChoice)
         {
-            if (i_userChoice == 1)
+            if (i_userChoice == (int)eProgramChoices.EnterVihacleToGarage)
             {
                 EnterVihacleToGarage();
             }
-            else if (i_userChoice == 2)
+            else if (i_userChoice == (int)eProgramChoices.ShowVehicels)
             {
                 showVehicels();
             }
-            else if (i_userChoice == 3)
+            else if (i_userChoice == (int)eProgramChoices.ChangeVehicleSituation)
             {
                 changeVehicleSituation();
             }
-            else if (i_userChoice == 4)
+            else if (i_userChoice == (int)eProgramChoices.InflateVehicleWheels)
             {
                 inflateVehicleWheels();
             }
-            else if (i_userChoice == 5)
+            else if (i_userChoice == (int)eProgramChoices.FeuelGasVehicle)
             {
                 feuelGasVehicle();
             }
-            else if (i_userChoice == 6)
+            else if (i_userChoice == (int)eProgramChoices.ChargeElectricVehicle)
             {
                 chargeElectricVehicle();
             }
-            else if (i_userChoice == 7)
+            else if (i_userChoice == (int)eProgramChoices.ShowAllInformationForAVehicle)
             {
                 showAllInformationForAVehicle();
             }
@@ -90,6 +102,18 @@ please write choice number: ");
             }
         }
 
+        private void EnterNewCarToSystem(int i_leicensePlate)
+        {
+            Console.WriteLine("You are entering a new Vihecle to the garage, please provide the following information:");
+            Console.WriteLine("Please enter Car owner name:");
+            string ownerName = InputHandler.GetAStringFromUser("car owner name");
+
+            Console.WriteLine("Please enter Car owner Phone number:");
+            string ownerPhoneNumber = InputHandler.GetAStringFromUser("phone number");
+
+            Console.WriteLine();
+        }
+
         private void showVehicels()
         {
             Console.WriteLine(@"
@@ -110,31 +134,18 @@ Please choose which vehicels to show:
             {
                 //leicencePlateList = get specific leicnse plates
             }
-            
-            foreach (string leicencePlate in leicencePlateList)
-            {
-                Console.WriteLine(leicencePlate);
-            }
-        }
 
-        private eVehicleStatus getVehicleStatusEnumChoice(int i_usersChice)
-        {
-            eVehicleStatus UserChice = new eVehicleStatus();
-
-            if (i_usersChice == 1)
+            if(leicencePlateList.Count == 0)
             {
-                UserChice = eVehicleStatus.InRepair;
-            }
-            else if (i_usersChice == 2)
-            {
-                UserChice = eVehicleStatus.WasRepair;
+                Console.WriteLine("There are no Vihacles to show in this category");
             }
             else
             {
-                UserChice = eVehicleStatus.InRepair;
+                foreach (string leicencePlate in leicencePlateList)
+                {
+                    Console.WriteLine(leicencePlate);
+                }
             }
-
-            return UserChice;
         }
 
         private void changeVehicleSituation()
@@ -184,38 +195,13 @@ Please choose what Status to change Vihacle into:
 
         private eGasTypes getGasTypeFromUser()
         {
-            Console.WriteLine(@"
-Please enter Vehicle Gas Type:
-1. Soler,
-2. Octan95
-3. Octan96
-4. Octan98");
-
-            return changeInputToEGasType(InputHandler.GetInputNumberFromUser(r_MinumumSizeOfNumericInput, 4));
-        }
-
-        private eGasTypes changeInputToEGasType(int i_usersChice)
-        {
-            eGasTypes UserChice = new eGasTypes();
-
-            if (i_usersChice == 1)
+            Console.WriteLine(@"Please enter Vehicle Gas Type:");
+            foreach (eGasTypes gasType in Enum.GetValues(typeof(eGasTypes)))
             {
-                UserChice = eGasTypes.Soler;
-            }
-            else if (i_usersChice == 2)
-            {
-                UserChice = eGasTypes.Octan95;
-            }
-            else if(i_usersChice == 3)
-            {
-                UserChice = eGasTypes.Octan96;
-            }
-            else
-            {
-                UserChice = eGasTypes.Octan98;
+                Console.WriteLine($"{(int)gasType}. {gasType}");
             }
 
-            return UserChice;
+            return (eGasTypes)(InputHandler.GetInputNumberFromUser(r_MinumumSizeOfNumericInput, 4));
         }
 
         private void chargeElectricVehicle()
