@@ -7,7 +7,7 @@ namespace GarageLogic.Vehicles.Types
     {
         public enum eFuelTypes
         {
-            Soler,
+            Soler = 1,
             Octan95,
             Octan96,
             Octan98
@@ -51,7 +51,7 @@ namespace GarageLogic.Vehicles.Types
 
         private void ValidateFuelType(eFuelTypes i_FuelType)
         {
-            if(!FuelType.Equals(i_FuelType))
+            if (!FuelType.Equals(i_FuelType))
             {
                 throw new ArgumentException($"Invalid Fuel type for this licensed number :{VehicleInfo.LicensePlateID}");
             }

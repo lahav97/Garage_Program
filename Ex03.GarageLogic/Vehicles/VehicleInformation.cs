@@ -8,7 +8,6 @@ namespace GarageLogic.VehiclesInfo
         protected string m_LicensePlateID;
         protected float m_EnergyPercentageLeft;
         public float m_MaxEnergyPercentage = 100;
-        private float m_MinEnergyPercentage = 0;
         
         private float MaxEnergyPercentage {  get; }
 

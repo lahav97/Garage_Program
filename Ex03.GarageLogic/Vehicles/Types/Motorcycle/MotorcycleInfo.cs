@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GarageLogic.Vehicles.VehicleFactory;
+using System;
 
 namespace GarageLogic.Vehicles.Types.Motorcycle
 {
@@ -6,7 +7,7 @@ namespace GarageLogic.Vehicles.Types.Motorcycle
     {
         public enum eMotorcycleLicenseType
         {
-            A,
+            A = 1,
             A1,
             AA,
             B1
@@ -27,21 +28,18 @@ namespace GarageLogic.Vehicles.Types.Motorcycle
 
         public eMotorcycleLicenseType MotorcycleLicense { get; private set; }
 
-        public void setMotorLicenseType(string i_LicenseType)
+        public void setMotorLicenseType(eMotorcycleLicenseType i_LicenseType)
         {
-            MotorcycleLicense = ValidateMotorcycleLicenseTypeAndGetIt(i_LicenseType);
+            ValidateAndSetMotorcycleLicenseType(i_LicenseType);
         }
 
-        private eMotorcycleLicenseType ValidateMotorcycleLicenseTypeAndGetIt(string i_LicenseType)
+        private void ValidateAndSetMotorcycleLicenseType(eMotorcycleLicenseType i_LicenseType)
         {
-            if (Enum.TryParse(i_LicenseType, out eMotorcycleLicenseType LicenseType))
+            if (!Enum.IsDefined(typeof(eMotorcycleLicenseType), i_LicenseType))
             {
-                return LicenseType;
+                throw new ArgumentException("Invalid vehicle type!");
             }
-            else
-            {
-                throw new ArgumentException("Invalid motorcycle license choice !");
-            }
+            MotorcycleLicense =  i_LicenseType;
         }
     }
 }
