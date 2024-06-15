@@ -15,9 +15,15 @@ namespace Ex03.ConsoleUI
         Garage garage;
         readonly int r_MinumumSizeOfNumericInput = 1;
         readonly int r_ProgramOptionsSize = 7;
+
+        static void Main()//To Change with Smadar
+        {
+
+        }
+
         public void StartGarageProgram()
         {
-            
+
             int userChoice;
 
             while (true)
@@ -47,7 +53,7 @@ namespace Ex03.ConsoleUI
             }
             else if (i_userChoice == 5)
             {
-                feuelGasVehicle();
+                feuelFuelVehicle();
             }
             else if (i_userChoice == 6)
             {
@@ -68,7 +74,7 @@ Please choose what you want to do:
 2. Show all vehicales in Garage.
 3. Change vehicle Situation.
 4. Inflate vehicle wheels.
-5. Feuel gas vehicle.
+5. Feuel Fuel vehicle.
 6. Charge Electric vehicle.
 7. Show all information for a vehicle.
 
@@ -79,7 +85,7 @@ please write choice number: ");
 
         private void EnterVihacleToGarage()
         {
-            string leicensePlate = InputHandler.GetLeicensePlate();
+/*            string leicensePlate = InputHandler.GetLeicensePlate();
             if (garage.IsVehicleInSystem(leicensePlate))
             {
                 garage.ReEnterVehicleToGarage(leicensePlate);
@@ -87,7 +93,7 @@ please write choice number: ");
             else
             {
                 //TO DO
-            }
+            }*/
         }
 
         private void showVehicels()
@@ -110,7 +116,7 @@ Please choose which vehicels to show:
             {
                 //leicencePlateList = get specific leicnse plates
             }
-            
+
             foreach (string leicencePlate in leicencePlateList)
             {
                 Console.WriteLine(leicencePlate);
@@ -168,7 +174,21 @@ Please choose what Status to change Vihacle into:
             Console.WriteLine("Wheels where inflated succecfully");
         }
 
-        private void feuelGasVehicle()
+        private void feuelFuelVehicle()
+        {
+            Console.WriteLine($"Please choose which vehicele to refuel:");
+            string leicencePlateOfVihacleToRefuel = InputHandler.GetLeicensePlate();
+            eFuelTypes FuelTypeToFill = getFuelTypeFromUser();
+
+            Console.WriteLine($"Please choose amount of Fuel to fill:");
+/*            garage.RefuelVehicle(leicencePlateOfVihacleToRefuel, FuelTypeToFill, InputHandler.GetFloatFromUser());
+            //catch
+            {
+                // TO DO ! ! !
+            }*/
+        }
+
+        private eFuelTypes getFuelTypeFromUser()
         {
             Console.WriteLine($"Please choose which vehicele to refuel:");
             string leicencePlateOfVihacleToRefuel = InputHandler.GetLeicensePlate();
