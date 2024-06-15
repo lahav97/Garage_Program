@@ -104,11 +104,11 @@ Please choose which vehicels to show:
 2. All repaired vihacels.
 3. All vihacels that where paid for.
 4. All vihacelss in garage.");
-
+            
             int usersChiceToShow = InputHandler.GetInputNumberFromUser(r_MinumumSizeOfNumericInput, 4);
             List<string> leicencePlateList = new List<string>();
 
-            if (usersChiceToShow == 4)
+            if(usersChiceToShow == 4) 
             {
                 //leicencePlateList = //get all leicnse plates
             }
@@ -155,7 +155,7 @@ Please choose what Status to change Vihacle into:
             int userStatusChoice = InputHandler.GetInputNumberFromUser(r_MinumumSizeOfNumericInput, 3);
             garage.ChangeVehicleStatus(leicencePlateOfVihacleToChnge, getVehicleStatusEnumChoice(userStatusChoice));
             //catch
-            {
+            { 
                 // TO DO ! ! !
             }
             Console.WriteLine($"Vihacle {leicencePlateOfVihacleToChnge} Status was changed succecfully");
@@ -190,35 +190,49 @@ Please choose what Status to change Vihacle into:
 
         private eFuelTypes getFuelTypeFromUser()
         {
+            Console.WriteLine($"Please choose which vehicele to refuel:");
+            string leicencePlateOfVihacleToRefuel = InputHandler.GetLeicensePlate();
+            eGasTypes GasTypeToFill = getGasTypeFromUser();
+
+            Console.WriteLine($"Please choose amount of gas to fill:");
+            garage.RefuelVehicle(leicencePlateOfVihacleToRefuel, GasTypeToFill, InputHandler.GetFloatFromUser());
+            //catch
+            {
+                // TO DO ! ! !
+            }
+        }
+
+        private eGasTypes getGasTypeFromUser()
+        {
             Console.WriteLine(@"
-Please enter Vehicle Fuel Type:
+Please enter Vehicle Gas Type:
 1. Soler,
 2. Octan95
 3. Octan96
 4. Octan98");
 
-            return changeInputToEFuelType(InputHandler.GetInputNumberFromUser(r_MinumumSizeOfNumericInput, 4));
+            return changeInputToEGasType(InputHandler.GetInputNumberFromUser(r_MinumumSizeOfNumericInput, 4));
         }
 
-        private eFuelTypes changeInputToEFuelType(int i_usersChice)
+        private eGasTypes changeInputToEGasType(int i_usersChice)
         {
-            eFuelTypes UserChice = new eFuelTypes();
+            eGasTypes UserChice = new eGasTypes();
 
             if (i_usersChice == 1)
             {
-                UserChice = eFuelTypes.Soler;
+                UserChice = eGasTypes.Soler;
             }
             else if (i_usersChice == 2)
             {
-                UserChice = eFuelTypes.Octan95;
+                UserChice = eGasTypes.Octan95;
             }
-            else if (i_usersChice == 3)
+            else if(i_usersChice == 3)
             {
-                UserChice = eFuelTypes.Octan96;
+                UserChice = eGasTypes.Octan96;
             }
             else
             {
-                UserChice = eFuelTypes.Octan98;
+                UserChice = eGasTypes.Octan98;
             }
 
             return UserChice;
