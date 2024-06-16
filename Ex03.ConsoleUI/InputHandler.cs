@@ -10,7 +10,7 @@ namespace Ex03.ConsoleUI
 {
     internal class InputHandler
     {
-        internal static string GetLeicensePlate()
+        internal static string GetLicensePlate()
         {
             Console.WriteLine("Please Enter Vihacle leicense plate:");
             string leicensePlate = Console.ReadLine();
@@ -45,7 +45,7 @@ namespace Ex03.ConsoleUI
 
             do
             {
-                if(!firstTimeInLoop)
+                if (!firstTimeInLoop)
                 {
                     Console.WriteLine($"The input You enterd is out of range, please enter a number between {i_minmumNumber} - {i_maximumNumber}");
                 }
@@ -53,7 +53,7 @@ namespace Ex03.ConsoleUI
                 inputNumberString = Console.ReadLine();
                 firstTimeInLoop = false;
             } while (!int.TryParse(inputNumberString, out inputNumberInt) && inputNumberInt >= i_minmumNumber && inputNumberInt <= i_maximumNumber);
-            
+
             return inputNumberInt;
         }
 
