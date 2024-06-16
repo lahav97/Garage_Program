@@ -1,13 +1,8 @@
-﻿using System;
+﻿using GarageLogic.Vehicles.VehicleFactory;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using VehicleGarage;
-using Vehicles;
+using static GarageLogic.Vehicles.Types.FuelVehicle;
 
 namespace Ex03.ConsoleUI
 {
@@ -91,8 +86,8 @@ please write choice number: ");
 
         private void EnterVihacleToGarage()
         {
-            string leicensePlate = InputHandler.GetLeicensePlate();
-            if (garage.IsVehicleInSystem(leicensePlate))
+            string leicensePlate = InputHandler.GetLicensePlate();
+            if (garage.isVehicleInSystem(leicensePlate))
             {
                 garage.ReEnterVehicleToGarage(leicensePlate);
             }
@@ -150,76 +145,118 @@ Please choose which vehicels to show:
 
         private void changeVehicleSituation()
         {
-            Console.WriteLine($"Please choose which vehicele to change its Status:");
-            string leicencePlateOfVihacleToChnge = InputHandler.GetLeicensePlate();
-            Console.WriteLine(@"
+            while(true)
+            {
+                Console.WriteLine($"Please choose which vehicele to change its Status:");
+                string leicencePlateOfVihacleToChnge = InputHandler.GetLicensePlate();
+                Console.WriteLine(@"
 Please choose what Status to change Vihacle into:
 1. To repair
 2. Was repaird
 3. Was paid for");
-            int userStatusChoice = InputHandler.GetInputNumberFromUser(r_MinumumSizeOfNumericInput, 3);
-            garage.ChangeVehicleStatus(leicencePlateOfVihacleToChnge, getVehicleStatusEnumChoice(userStatusChoice));
-            //catch
-            { 
-                // TO DO ! ! !
+                int userStatusChoice = InputHandler.GetInputNumberFromUser(r_MinumumSizeOfNumericInput, 3);
+
+                try
+                {
+                    garage.ChangeVehicleStatus(leicencePlateOfVihacleToChnge, (eVehicleStatus)userStatusChoice);
+                    Console.WriteLine($"Vihacle {leicencePlateOfVihacleToChnge} Status was changed succecfully");
+                    break;
+                }
+                catch(ArgumentException exeption)
+                {
+                    Console.WriteLine(exeption.Message);
+                }
             }
-            Console.WriteLine($"Vihacle {leicencePlateOfVihacleToChnge} Status was changed succecfully");
+
         }
 
         private void inflateVehicleWheels()
-        {
-            Console.WriteLine($"Please choose which vehicele to inflate its wheels:");
-            string leicencePlateOfVihacleToInflate = InputHandler.GetLeicensePlate();
-
-            garage.InflateWheelsToMaximum(leicencePlateOfVihacleToInflate);
-            //catch
+        {   while(true)
             {
-                // TO DO ! ! !
+                Console.WriteLine($"Please choose which vehicele to inflate its wheels:");
+                string leicencePlateOfVihacleToInflate = InputHandler.GetLicensePlate();
+                try
+                {
+                    garage.InflateWheelsToMaximum(leicencePlateOfVihacleToInflate);
+                    break;
+                }
+                catch(ArgumentException exeption)
+                    {
+                    Console.WriteLine(exeption.Message);
+                }
             }
             Console.WriteLine("Wheels where inflated succecfully");
+
         }
 
         private void feuelGasVehicle()
         {
-            Console.WriteLine($"Please choose which vehicele to refuel:");
-            string leicencePlateOfVihacleToRefuel = InputHandler.GetLeicensePlate();
-            eGasTypes GasTypeToFill = getGasTypeFromUser();
-
-            Console.WriteLine($"Please choose amount of gas to fill:");
-            garage.RefuelVehicle(leicencePlateOfVihacleToRefuel, GasTypeToFill, InputHandler.GetFloatFromUser());
-            //catch
+            while(true)
             {
-                // TO DO ! ! !
+                Console.WriteLine($"Please choose which vehicele to refuel:");
+                string leicencePlateOfVihacleToRefuel = InputHandler.GetLicensePlate();
+                eFuelTypes GasTypeToFill = getGasTypeFromUser();
+                
+                Console.WriteLine($"Please choose amount of gas to fill:");
+                try
+                {
+                    garage.RefuelVehicle(leicencePlateOfVihacleToRefuel, GasTypeToFill, InputHandler.GetFloatFromUser());
+                    break;
+                }
+                catch (ArgumentException exeption)
+                {
+                    Console.WriteLine(exeption.Message);
+                }
             }
+
+            Console.WriteLine("Vehicele was reFeuld successfully:");
         }
 
-        private eGasTypes getGasTypeFromUser()
+        private eFuelTypes getGasTypeFromUser()
         {
             Console.WriteLine(@"Please enter Vehicle Gas Type:");
-            foreach (eGasTypes gasType in Enum.GetValues(typeof(eGasTypes)))
+            foreach (eFuelTypes gasType in Enum.GetValues(typeof(eFuelTypes)))
             {
                 Console.WriteLine($"{(int)gasType}. {gasType}");
             }
 
-            return (eGasTypes)(InputHandler.GetInputNumberFromUser(r_MinumumSizeOfNumericInput, 4));
+            return (eFuelTypes)(InputHandler.GetInputNumberFromUser(r_MinumumSizeOfNumericInput, 4));
         }
 
         private void chargeElectricVehicle()
         {
-            Console.WriteLine($"Please choose which vehicele to charge:");
-            string leicencePlateOfVihacleToCharge = InputHandler.GetLeicensePlate();
-            Console.WriteLine($"Please choose how long to charge the car in minutes:");
-
-            garage.ChargeVehicle(leicencePlateOfVihacleToCharge, InputHandler.GetInputNumberFromUser(r_MinumumSizeOfNumericInput, int.MaxValue));
-            //catch
+            while(true)
             {
-                //TO DO!!!
+                Console.WriteLine($"Please choose which vehicele to charge:");
+                string leicencePlateOfVihacleToCharge = InputHandler.GetLicensePlate();
+                Console.WriteLine($"Please choose how long to charge the car in minutes:");
+                try
+                {
+                    garage.ChargeVehicle(leicencePlateOfVihacleToCharge, InputHandler.GetInputNumberFromUser(r_MinumumSizeOfNumericInput, int.MaxValue));
+                    break;
+                }
+                catch(ArgumentException exeption)
+                {
+                    Console.WriteLine(exeption.Message);
+                }
             }
+
+            Console.WriteLine($"Vehicele was charged successfully:");
         }
 
         private void showAllInformationForAVehicle()
         {
+            Console.WriteLine($"Please choose which vehicele to show:");
+            string leicencePlateOfVihacleToCharge = InputHandler.GetLicensePlate();
 
+            try
+            {
+                //Console.WriteLine(garage.);
+            }
+            catch( ArgumentException exeption)
+            {
+                Console.WriteLine(exeption.Message);
+            }
         }
     }
 }
