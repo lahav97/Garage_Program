@@ -38,11 +38,6 @@ namespace VehicleGarage
             }
         }
 
-        public void ReEnterVehicleToGarage(string i_LicensePlateID)
-        {
-            ChangeVehicleStatus(i_LicensePlateID, eVehicleStatus.InRepair);
-        }
-
         public void EnterNewVehicleToGarage(Vehicle i_Vehicle, string i_OwnerName, string i_OwnerPhoneNumber) //GOOD
         {
             VehicleInformations vehicleInformations = new VehicleInformations();
@@ -52,6 +47,11 @@ namespace VehicleGarage
 
             r_Vehicles.Add(i_Vehicle);
             r_VehicleInformation.Add(i_Vehicle.VehicleInfo.LicensePlateID, vehicleInformations);
+        }
+
+        public void ReEnterVehicleToGarage(string i_LicensePlateID)
+        {
+            ChangeVehicleStatus(i_LicensePlateID, eVehicleStatus.InRepair);
         }
 
         public List<string> GetVehiclesLicensePlateListByStatus(eVehicleStatus? i_VehicleStatus = null)
@@ -71,18 +71,6 @@ namespace VehicleGarage
             }
 
             return licensePlatesList;
-        }
-
-        public eVehicleStatus ValidateAndParseVehicleStatus(string i_VehicleStatus) //GOOD
-        {
-            if (Enum.TryParse(i_VehicleStatus, out eVehicleStatus VehicleStatus))
-            {
-                return VehicleStatus;
-            }
-            else
-            {
-                throw new ArgumentException("Invalid vehicle status!");
-            }
         }
 
         public List<string> GetListOfAllVehiclesInTheGarage() //GOOD
@@ -143,14 +131,23 @@ namespace VehicleGarage
             }
         }
 
-        public string getVehicleInformationstring(string i_LicensePlateID) //TODO
+        public string GetVehicleInformationstring(string i_LicensePlateID) //GOOD
         {
+            Vehicle vehicle = getVehicleFromSystem(i_LicensePlateID);
 
+            if (vehicle != null)
+            {
+                return vehicle.ToString();
+            }
+            else
+            {
+                throw new ArgumentException($"Vehicle with license plate ID '{i_LicensePlateID}' does not exist in the system.");
+            }
         }
 
         private Vehicle getVehicleFromSystem(string i_LicensePlateID) //GOOD
         {
-            if (!isVehicleInSystem(i_LicensePlateID))
+            if (!IsVehicleInSystem(i_LicensePlateID))
             {
                 throw new ArgumentException($"Vehicle with license plate ID '{i_LicensePlateID}' does not exist in the system.");
             }
@@ -169,7 +166,7 @@ namespace VehicleGarage
             return resultVehicle;
         }
 
-        public bool isVehicleInSystem(string i_LicensePlateID) //GOOD
+        public bool IsVehicleInSystem(string i_LicensePlateID) //GOOD
         {
             return r_VehicleInformation.ContainsKey(i_LicensePlateID);
         }
