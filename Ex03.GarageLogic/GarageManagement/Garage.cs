@@ -131,7 +131,7 @@ namespace VehicleGarage
             }
         }
 
-        public string GetVehicleInformationstring(string i_LicensePlateID) //GOOD
+        public string GetVehicleInformationString(string i_LicensePlateID) //GOOD
         {
             Vehicle vehicle = getVehicleFromSystem(i_LicensePlateID);
 
