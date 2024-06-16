@@ -16,6 +16,7 @@ namespace GarageLogic.Vehicles.Types.Motorcycle
         }
 
         int m_EngineVolume;
+        eMotorcycleLicenseType m_eMotorLicenseType;
 
         public int EngineVolume 
         {
@@ -29,20 +30,17 @@ namespace GarageLogic.Vehicles.Types.Motorcycle
             }
         }
 
-        public eMotorcycleLicenseType MotorcycleLicense { get; private set; }
-
-        public void SetMotorLicenseType(eMotorcycleLicenseType i_LicenseType)
+        public eMotorcycleLicenseType MotorcycleLicense
         {
-            validateAndSetMotorcycleLicenseType(i_LicenseType);
-        }
-
-        private void validateAndSetMotorcycleLicenseType(eMotorcycleLicenseType i_LicenseType)
-        {
-            if (!Enum.IsDefined(typeof(eMotorcycleLicenseType), i_LicenseType))
+            get { return m_eMotorLicenseType; }
+            private set
             {
-                throw new ArgumentException("Invalid vehicle type !");
+                if (!Enum.IsDefined(typeof(eMotorcycleLicenseType), value))
+                {
+                    throw new ArgumentException("Invalid vehicle type !");
+                }
+                MotorcycleLicense = value;
             }
-            MotorcycleLicense =  i_LicenseType;
         }
 
         public override string ToString()

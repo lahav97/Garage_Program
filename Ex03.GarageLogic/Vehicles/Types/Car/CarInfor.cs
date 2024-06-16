@@ -2,6 +2,7 @@
 using System.Text;
 using GarageLogic.Exceptions;
 using GarageLogic.VehiclesInfo;
+using static GarageLogic.Vehicles.Types.Car.CarInfor;
 using static GarageLogic.Vehicles.Types.Motorcycle.MotorcycleInfo;
 
 namespace GarageLogic.Vehicles.Types.Car
@@ -23,34 +24,33 @@ namespace GarageLogic.Vehicles.Types.Car
             FiveDoor = 5
         }
 
-        public eCarColors CarColor { get; private set; }
-        public eNumberOfDoors NumberOfDoors { get; private set; }
-        public void SetCarColor(eCarColors i_CarColor)
-        {
-            validateAndSetCarColor(i_CarColor);
-        }
+        eCarColors m_eCarColor;
+        eNumberOfDoors m_NumberOfDoors;
 
-        public void SetNumberOfDoors(eNumberOfDoors i_NumberOfDoors)
-        {
-            validateAndSetNumberOfDoors(i_NumberOfDoors);
-        }
-
-        private void validateAndSetNumberOfDoors(eNumberOfDoors i_NumberOfDoors)
-        {
-            if (!Enum.IsDefined(typeof(eNumberOfDoors), i_NumberOfDoors))
+        public eCarColors CarColor 
+        { 
+            get { return m_eCarColor;}
+            private set
             {
-                throw new ArgumentException("Invalid number of doors !");
+                if (!Enum.IsDefined(typeof(eCarColors), value))
+                {
+                    throw new ArgumentException("Invalid car color !");
+                }
+                CarColor = value;
             }
-            NumberOfDoors = i_NumberOfDoors;
         }
 
-        private void validateAndSetCarColor(eCarColors i_CarColorToCheck)
-        {
-            if (!Enum.IsDefined(typeof(eCarColors), i_CarColorToCheck))
+        public eNumberOfDoors NumberOfDoors 
+        { 
+            get { return m_NumberOfDoors;}
+            private set
             {
-                throw new ArgumentException("Invalid car color !");
+                if (!Enum.IsDefined(typeof(eNumberOfDoors), value))
+                {
+                    throw new ArgumentException("Invalid number of doors !");
+                }
+                NumberOfDoors = value;
             }
-            CarColor = i_CarColorToCheck;
         }
 
         public override string ToString()

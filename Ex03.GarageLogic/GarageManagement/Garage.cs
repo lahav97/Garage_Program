@@ -117,9 +117,9 @@ namespace VehicleGarage
         {
             Vehicle currentVehicle = getVehicleFromSystem(i_LicensePlateID);
 
-            if (currentVehicle is FuelVehicle fuelVehicle)
+            if (currentVehicle is FuelVehicle currentFuelVehicle)
             {
-                fuelVehicle.Refuel(i_AmountToRefuel, i_FuelType);
+                currentFuelVehicle.Refuel(i_AmountToRefuel, i_FuelType);
             }
             else
             {
@@ -131,9 +131,9 @@ namespace VehicleGarage
         {
             Vehicle currentVehicle = getVehicleFromSystem(i_LicensePlateID);
 
-            if (currentVehicle is ElectricVehicle electricVehicle)
+            if (currentVehicle is ElectricVehicle currentElectricVehicle)
             {
-                electricVehicle.ChargeBattery(i_MinutesToCharge);
+                currentElectricVehicle.ChargeBattery(i_MinutesToCharge);
             }
             else
             {
