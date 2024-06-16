@@ -14,14 +14,16 @@ namespace Ex03.ConsoleUI
             return leicensePlate;
         }
 
-        internal static bool GetYesOrNoAnswer()
+
+        internal static bool GetYesOrNoAnswer() 
         {
             while (true)
             {
                 Console.WriteLine("Please answer y/n:");
                 string answer = Console.ReadLine();
-                if (answer == "y" || answer == "n")
-                {
+
+                if (answer == "y" || answer == "n") 
+                { 
                     return answer == "y";
                 }
 
@@ -86,10 +88,11 @@ namespace Ex03.ConsoleUI
             return inputNumberfloat;
         }
 
-        internal static eMotorcycleLicenseType GetMotorcycleLicenseType()
+
+        internal static eMotorcycleLicenseType GetMotorcycleLicenseType() 
         {
             Console.WriteLine("Please enter one of the following options:");
-            foreach (eMotorcycleLicenseType motorcycleLicenseType in Enum.GetValues(typeof(eMotorcycleLicenseType)))
+            foreach(eMotorcycleLicenseType motorcycleLicenseType in Enum.GetValues(typeof(eMotorcycleLicenseType)))
             {
                 Console.WriteLine($"{(int)motorcycleLicenseType}. {motorcycleLicenseType}");
             }

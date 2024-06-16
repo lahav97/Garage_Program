@@ -1,6 +1,5 @@
-﻿using VehicleGarage;
+﻿namespace Ex03.ConsoleUI
 
-namespace Ex03.ConsoleUI
 {
     internal class Program
     {

@@ -1,7 +1,7 @@
 ﻿namespace GarageLogic.Vehicles.Types.Truck
 {
     public class FuelTruck : FuelVehicle
-    {
+    { 
         public FuelTruck()
         {
             InstallWheels((int)eNumberOfWheels.Truck, (float)eMaxWheelAirPressure.Truck);
