@@ -1,12 +1,14 @@
 ﻿using GarageLogic.Exceptions;
 using System;
+using static GarageLogic.Vehicles.Types.FuelVehicle;
+using System.Text;
 
 namespace GarageLogic.Vehicles.Types
 {
     public abstract class ElectricVehicle : Vehicle
     {
         float m_MaxBatteryCapacity;
-        float m_RemainingBattery;
+        float m_RemainingBatteryTime;
 
         public float MaxBatteryCapacity
         {
@@ -14,23 +16,23 @@ namespace GarageLogic.Vehicles.Types
             set { m_MaxBatteryCapacity = value; }
         }
 
-        public float RemainingBattery
+        public float RemainingBatteryTime
         {
             get
             {
-                return m_RemainingBattery * VehicleInfo.EnergyPercentageLeft / 100;
+                return m_RemainingBatteryTime * VehicleInfo.EnergyPercentageLeft / 100;
             }
         }
 
         public void ChargeBattery(float i_ChargingTime)
         {
             ValidateOutOfRange(i_ChargingTime);
-            VehicleInfo.EnergyPercentageLeft = (RemainingBattery + i_ChargingTime) / 100;
+            VehicleInfo.EnergyPercentageLeft = (RemainingBatteryTime + i_ChargingTime) / 100;
         }
 
         public void ValidateOutOfRange(float i_FuelToAdd)
         {
-            if (i_FuelToAdd + RemainingBattery > m_MaxBatteryCapacity)
+            if (i_FuelToAdd + RemainingBatteryTime > m_MaxBatteryCapacity)
             {
                 throw new ValueOutOfRangeException("charging time", m_MaxBatteryCapacity, 0f);
             }
@@ -43,6 +45,17 @@ namespace GarageLogic.Vehicles.Types
         public void InitializeMaxBatteryTime(float i_MaxBatteryCapacity)
         {
             MaxBatteryCapacity = i_MaxBatteryCapacity;
+        }
+
+        public override string ToString()
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+
+            stringBuilder.AppendLine(base.ToString())
+              .AppendLine($"Max battery capacity: {MaxBatteryCapacity}")
+              .AppendLine($"Remaining battery time: {RemainingBatteryTime}");
+
+            return stringBuilder.ToString();
         }
     }
 }

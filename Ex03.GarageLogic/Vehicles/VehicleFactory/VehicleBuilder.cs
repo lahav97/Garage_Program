@@ -7,12 +7,12 @@ namespace GarageLogic.Vehicles.VehicleFactory
 {
     public class VehicleBuilder
     {
-        public Vehicle BuildVehicle(string i_VehicleType, out eVehicleType o_CarType)
+        public Vehicle BuildVehicle(eVehicleType i_VehicleType)
         {
             Vehicle resultVehicle;
-            o_CarType = ValidateVehicleTypeAndGetIt(i_VehicleType);
+            validateVehicleTypeAndGetIt(i_VehicleType);
 
-            switch (o_CarType)
+            switch (i_VehicleType)
             {
                 case eVehicleType.FuelCar:
                     resultVehicle = new FuelCar();
@@ -35,15 +35,11 @@ namespace GarageLogic.Vehicles.VehicleFactory
             return resultVehicle;
         }
 
-        private eVehicleType ValidateVehicleTypeAndGetIt(string i_VehicleType)
+        private void validateVehicleTypeAndGetIt(eVehicleType i_VehicleType)
         {
-            if (Enum.TryParse(i_VehicleType, out eVehicleType resultVehicleType))
+            if (!Enum.IsDefined(typeof(eVehicleType), i_VehicleType))
             {
-                return resultVehicleType;
-            }
-            else
-            {
-                throw new ArgumentException("Invalid car type !");
+                throw new ArgumentException("Invalid vehicle type!");
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using GarageLogic.Exceptions;
 
 namespace GarageLogic.Vehicles.Types
@@ -7,7 +8,7 @@ namespace GarageLogic.Vehicles.Types
     {
         public enum eFuelTypes
         {
-            Soler,
+            Soler = 1,
             Octan95,
             Octan96,
             Octan98
@@ -32,12 +33,12 @@ namespace GarageLogic.Vehicles.Types
 
         public void Refuel(float i_FuelToAdd, eFuelTypes i_FuelType)
         {
-            ValidateFuelType(i_FuelType);
-            ValidateOutOfRange(i_FuelToAdd);
+            validateFuelType(i_FuelType);
+            validateOutOfRange(i_FuelToAdd);
             VehicleInfo.EnergyPercentageLeft = (RemainingFuel + i_FuelToAdd) / 100;
         }
 
-        public void ValidateOutOfRange(float i_FuelToAdd)
+        private void validateOutOfRange(float i_FuelToAdd)
         {
             if(i_FuelToAdd + RemainingFuel > MaxFuelTank)
             {
@@ -49,9 +50,9 @@ namespace GarageLogic.Vehicles.Types
             }
         }
 
-        private void ValidateFuelType(eFuelTypes i_FuelType)
+        private void validateFuelType(eFuelTypes i_FuelType)
         {
-            if(!FuelType.Equals(i_FuelType))
+            if (!FuelType.Equals(i_FuelType))
             {
                 throw new ArgumentException($"Invalid Fuel type for this licensed number :{VehicleInfo.LicensePlateID}");
             }
@@ -62,6 +63,18 @@ namespace GarageLogic.Vehicles.Types
         {
             FuelType = i_FuelType;
             MaxFuelTank = i_MaxFuelTank;
+        }
+
+        public override string ToString()
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+
+            stringBuilder.AppendLine(base.ToString())
+               .AppendLine($"Fuel type: {FuelType}")
+              .AppendLine($"Max fuel tank: {MaxFuelTank}")
+              .AppendLine($"Remaining fuel: {RemainingFuel}");
+
+            return stringBuilder.ToString();
         }
     }
 }

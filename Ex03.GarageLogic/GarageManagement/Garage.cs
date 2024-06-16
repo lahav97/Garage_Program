@@ -11,25 +11,27 @@ namespace VehicleGarage
 {
     public class Garage
     {
-        private readonly Dictionary<string, VehicleInformations> r_Vehicle = new Dictionary<string, VehicleInformations>();
+        private readonly Dictionary<string, VehicleInformations> r_VehicleInformation = new Dictionary<string, VehicleInformations>();
         private readonly List<Vehicle> r_Vehicles = new List<Vehicle>();
 
         public class VehicleInformations
         {
             public string m_OwnerName;
             public string m_OwnerPhoneNumber;
-            public eVehicleStatus m_VehicleStatus;
+            public eVehicleStatus eVehicleStatus;
 
+            public eVehicleStatus VehicleStatus {  get;  set; }
+           
             public string OwnerName
             {
                 get { return m_OwnerName; } 
-                private set { m_OwnerName = value; }
+                set { m_OwnerName = value; }
             }
 
             public string OwnerPhoneNumber
             {
                 get { return m_OwnerPhoneNumber; }
-                private set
+                set
                 {
                     m_OwnerPhoneNumber = value;
                 }
@@ -38,31 +40,34 @@ namespace VehicleGarage
 
         public void ReEnterVehicleToGarage(string i_LicensePlateID)
         {
-            VehicleInformations vehicleToReEnterToGarage = getVehicleFromSystem(i_LicensePlateID);
-            vehicleToReEnterToGarage.m_VehicleStatus = eVehicleStatus.InRepair;
+            ChangeVehicleStatus(i_LicensePlateID, eVehicleStatus.InRepair);
         }
 
-        public void EnterNewVehicleToGarage()
+        public void EnterNewVehicleToGarage(Vehicle i_Vehicle, string i_OwnerName, string i_OwnerPhoneNumber) //GOOD
         {
+            VehicleInformations vehicleInformations = new VehicleInformations();
+            vehicleInformations.OwnerPhoneNumber = i_OwnerName;
+            vehicleInformations.OwnerName = i_OwnerName;
+            vehicleInformations.VehicleStatus = eVehicleStatus.InRepair;
 
+            r_Vehicles.Add(i_Vehicle);
+            r_VehicleInformation.Add(i_Vehicle.VehicleInfo.LicensePlateID, vehicleInformations);
         }
 
-        public List<string> GetVehiclesLicensePlateListByStatus(string i_VehicleStatus) //GOOD
+        public List<string> GetVehiclesLicensePlateListByStatus(eVehicleStatus? i_VehicleStatus = null)
         {
             List<string> licensePlatesList;
 
-            if (!i_VehicleStatus.Equals("All"))
+            if (i_VehicleStatus.HasValue)
             {
-                licensePlatesList = r_Vehicle.Keys.ToList();
-            }
-            else
-            {
-                eVehicleStatus vehicleStatus = ValidateAndParseVehicleStatus(i_VehicleStatus);
-
-                licensePlatesList = r_Vehicle
-                    .Where(licensePlates => licensePlates.Value.m_VehicleStatus == vehicleStatus)
-                    .Select(licensePlates => licensePlates.Key)
+                licensePlatesList = r_VehicleInformation
+                    .Where(vehicleInfo => vehicleInfo.Value.eVehicleStatus == i_VehicleStatus.Value)
+                    .Select(vehicleInfo => vehicleInfo.Key)
                     .ToList();
+            }
+            else //To return all license plate in the garage
+            {
+                licensePlatesList = r_VehicleInformation.Keys.ToList();
             }
 
             return licensePlatesList;
@@ -84,7 +89,7 @@ namespace VehicleGarage
         {
             List<string> VhiecleList = new List<string>();
 
-            foreach (string licensePlate in r_Vehicle.Keys)
+            foreach (string licensePlate in r_VehicleInformation.Keys)
             {
                 VhiecleList.Add(licensePlate);
             }
@@ -92,60 +97,81 @@ namespace VehicleGarage
             return VhiecleList;
         }
 
-        public void ChangeVehicleStatus(string i_LicensePlateID, eVehicleStatus i_VehicleStatusToChange) //CHECK IF GOOD
+        public void ChangeVehicleStatus(string i_LicensePlateID, eVehicleStatus i_VehicleStatusToChange) //GOOD
         {
-            VehicleInformations vehicleToReEnterToGarage = getVehicleFromSystem(i_LicensePlateID);
-            vehicleToReEnterToGarage.m_VehicleStatus = i_VehicleStatusToChange;
-        }
-
-        public void InflateWheelsToMaximum(string i_LicensePlateID)
-        {
-            VehicleInformations vehicleInformation = getVehicleFromSystem(i_LicensePlateID);
-            foreach (Wheel wheel in vehicleInformation.r_VehicleDetails.m_Wheels)
+            if (r_VehicleInformation.TryGetValue(i_LicensePlateID, out VehicleInformations vehicleInfo))
             {
-                wheel.InflateToMaximum();
+                vehicleInfo.VehicleStatus = i_VehicleStatusToChange;
+            }
+            else
+            {
+                throw new ArgumentException($"Vehicle with license plate ID '{i_LicensePlateID}' not found.");
             }
         }
 
-        public void RefuelVehicle(string i_LicensePlateID, eFuelTypes i_FuelType, float i_AmountToRefuel)
+        public void InflateWheelsToMaximum(string i_LicensePlateID) //GOOD
         {
-            VehicleInformations vehicleInformation = getVehicleFromSystem(i_LicensePlateID);
-            EnergyStorage currentEnergyStorage = vehicleInformation.r_VehicleDetails.r_VehicleTank;
-            currentEnergyStorage.Refuel(i_AmountToRefuel, i_FuelType);
+            Vehicle currentVehicle = getVehicleFromSystem(i_LicensePlateID);
+            currentVehicle.InflateAllWheelsToMaximum();
         }
 
-        public void ChargeVehicle(string i_LicensePlateID, int i_MinutesToCharge)
+        public void RefuelVehicle(string i_LicensePlateID, FuelVehicle.eFuelTypes i_FuelType, float i_AmountToRefuel) //GOOD
         {
-            Vehicle currentVehicle = getVehicleFromSystem(i_LicensePlateID).r_VehicleDetails;
-            EnergyStorage currentEnergyStorage = currentVehicle.r_VehicleTank;
-            currentEnergyStorage.Refuel(i_MinutesToCharge);
+            Vehicle currentVehicle = getVehicleFromSystem(i_LicensePlateID);
+
+            if (currentVehicle is FuelVehicle fuelVehicle)
+            {
+                fuelVehicle.Refuel(i_AmountToRefuel, i_FuelType);
+            }
+            else
+            {
+                throw new ArgumentException("Expected a FuelVehicle but received an ElectricVehicle.");
+            }
+        }
+
+        public void ChargeVehicle(string i_LicensePlateID, int i_MinutesToCharge) //GOOD
+        {
+            Vehicle currentVehicle = getVehicleFromSystem(i_LicensePlateID);
+
+            if (currentVehicle is ElectricVehicle electricVehicle)
+            {
+                electricVehicle.ChargeBattery(i_MinutesToCharge);
+            }
+            else
+            {
+                throw new ArgumentException("Expected an electric vehicle but received fuel vehicle.");
+            }
+        }
+
+        public string getVehicleInformationstring(string i_LicensePlateID) //TODO
+        {
+
         }
 
         private Vehicle getVehicleFromSystem(string i_LicensePlateID) //GOOD
         {
-            Vehicle resulVehicle = null;
-            if(isVehicleInSystem(i_LicensePlateID))
-            {
-                foreach (Vehicle vehicle in r_Vehicles)
-                {
-                    if (vehicle.VehicleInfo.LicensePlateID.Equals(i_LicensePlateID))
-                    {
-                        resulVehicle = vehicle;
-                        break;
-                    }
-                }
-            }
-            else
+            if (!isVehicleInSystem(i_LicensePlateID))
             {
                 throw new ArgumentException($"Vehicle with license plate ID '{i_LicensePlateID}' does not exist in the system.");
             }
 
-            return resulVehicle;
+            Vehicle resultVehicle = null;
+
+            foreach (Vehicle vehicle in r_Vehicles)
+            {
+                if (vehicle.VehicleInfo.LicensePlateID.Equals(i_LicensePlateID))
+                {
+                    resultVehicle = vehicle;
+                    break;
+                }
+            }
+
+            return resultVehicle;
         }
 
         public bool isVehicleInSystem(string i_LicensePlateID) //GOOD
         {
-            return r_Vehicle.ContainsKey(i_LicensePlateID);
+            return r_VehicleInformation.ContainsKey(i_LicensePlateID);
         }
     }
 }

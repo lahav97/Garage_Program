@@ -1,12 +1,15 @@
-﻿using System;
+﻿using GarageLogic.Vehicles.VehicleFactory;
+using GarageLogic.VehiclesInfo;
+using System;
+using System.Text;
 
 namespace GarageLogic.Vehicles.Types.Motorcycle
 {
-    public class MotorcycleInfo
+    public class MotorcycleInfo : VehicleInformation
     {
         public enum eMotorcycleLicenseType
         {
-            A,
+            A = 1,
             A1,
             AA,
             B1
@@ -27,21 +30,29 @@ namespace GarageLogic.Vehicles.Types.Motorcycle
 
         public eMotorcycleLicenseType MotorcycleLicense { get; private set; }
 
-        public void setMotorLicenseType(string i_LicenseType)
+        public void SetMotorLicenseType(eMotorcycleLicenseType i_LicenseType)
         {
-            MotorcycleLicense = ValidateMotorcycleLicenseTypeAndGetIt(i_LicenseType);
+            validateAndSetMotorcycleLicenseType(i_LicenseType);
         }
 
-        private eMotorcycleLicenseType ValidateMotorcycleLicenseTypeAndGetIt(string i_LicenseType)
+        private void validateAndSetMotorcycleLicenseType(eMotorcycleLicenseType i_LicenseType)
         {
-            if (Enum.TryParse(i_LicenseType, out eMotorcycleLicenseType LicenseType))
+            if (!Enum.IsDefined(typeof(eMotorcycleLicenseType), i_LicenseType))
             {
-                return LicenseType;
+                throw new ArgumentException("Invalid vehicle type!");
             }
-            else
-            {
-                throw new ArgumentException("Invalid motorcycle license choice !");
-            }
+            MotorcycleLicense =  i_LicenseType;
+        }
+
+        public override string ToString()
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+
+            stringBuilder.AppendLine(base.ToString())
+                .AppendLine($"Motorcycle's license type: {MotorcycleLicense}")
+                .AppendLine($"Motorcycle's engine volume: {EngineVolume} cc");
+
+            return stringBuilder.ToString();
         }
     }
 }

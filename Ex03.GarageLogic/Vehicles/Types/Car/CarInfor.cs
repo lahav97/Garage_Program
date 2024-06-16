@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Text;
 using GarageLogic.Exceptions;
+using GarageLogic.VehiclesInfo;
+using static GarageLogic.Vehicles.Types.Motorcycle.MotorcycleInfo;
 
 namespace GarageLogic.Vehicles.Types.Car
 {
-    public class CarInfor
+    public class CarInfor : VehicleInformation
     {
         public enum eCarColors
         {
-            Yellow,
+            Yellow = 1,
             White,
             Red,
             Black
@@ -23,38 +25,43 @@ namespace GarageLogic.Vehicles.Types.Car
 
         public eCarColors CarColor { get; private set; }
         public eNumberOfDoors NumberOfDoors { get; private set; }
-        public void setCarColor(string i_CarColor)
+        public void setCarColor(eCarColors i_CarColor)
         {
-            CarColor = ValidateCarColorAndGetIt(i_CarColor);
+            validateAndSetCarColor(i_CarColor);
         }
 
-        public void setNumberOfDoors(int i_NumberOfDoors)
+        public void setNumberOfDoors(eNumberOfDoors i_NumberOfDoors)
         {
-            NumberOfDoors = ValidateNumberOfDoorsAndGetIt(i_NumberOfDoors);
+            validateAndSetNumberOfDoors(i_NumberOfDoors);
         }
 
-        private eNumberOfDoors ValidateNumberOfDoorsAndGetIt(int i_NumberOfDoors)
+        private void validateAndSetNumberOfDoors(eNumberOfDoors i_NumberOfDoors)
         {
-            if (Enum.IsDefined(typeof(eNumberOfDoors), i_NumberOfDoors))
-            {
-                return (eNumberOfDoors)i_NumberOfDoors;
-            }
-            else
+            if (!Enum.IsDefined(typeof(eNumberOfDoors), i_NumberOfDoors))
             {
                 throw new ArgumentException("Invalid number of doors !");
             }
+            NumberOfDoors = i_NumberOfDoors;
         }
 
-        private eCarColors ValidateCarColorAndGetIt(string i_CarColorToCheck)
+        private void validateAndSetCarColor(eCarColors i_CarColorToCheck)
         {
-            if (Enum.TryParse(i_CarColorToCheck, out eCarColors resultColor))
-            {
-                return resultColor;
-            }
-            else
+            if (!Enum.IsDefined(typeof(eCarColors), i_CarColorToCheck))
             {
                 throw new ArgumentException("Invalid car color !");
             }
+            CarColor = i_CarColorToCheck;
+        }
+
+        public override string ToString()
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+
+            stringBuilder.AppendLine(base.ToString())
+                .AppendLine($"Car's color: {CarColor}")
+                .AppendLine($"Number of doors in car: {NumberOfDoors}");
+
+            return stringBuilder.ToString();
         }
     }
 }
