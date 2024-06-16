@@ -1,4 +1,6 @@
-﻿namespace GarageLogic.Vehicles
+﻿using System.Text;
+
+namespace GarageLogic.Vehicles
 {
     public class Wheel
     {
@@ -10,7 +12,7 @@
         {
             MaxAirPressure = i_MaxAirPressure;
         }
-
+        
         public float MaxAirPressure { get; set; }
 
         public string ManufactureName
@@ -37,7 +39,7 @@
 
         public void InflateWheels(float i_AirPressureToAdd)
         {
-            if (IsMoreThanMaxAirPressure(i_AirPressureToAdd))
+            if (isMoreThanMaxAirPressure(i_AirPressureToAdd))
             {
                 throw new GarageLogic.Exceptions.ValueOutOfRangeException(i_AirPressureToAdd.ToString(), MaxAirPressure, 0f);
             }
@@ -47,7 +49,7 @@
             }
         }
 
-        private bool IsMoreThanMaxAirPressure(float i_AirToAdd)
+        private bool isMoreThanMaxAirPressure(float i_AirToAdd)
         {
             return i_AirToAdd + m_CurrentAirPressure <= MaxAirPressure;
         }
@@ -55,6 +57,17 @@
         public void InflateToMaximum()
         {
             m_CurrentAirPressure = MaxAirPressure;
+        }
+
+        public override string ToString()
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+
+            stringBuilder.AppendLine($"Wheel manufacture Name: {ManufactureName}")
+              .AppendLine($"Wheel current air pressure: {CurrentAirPressure} PSI")
+              .AppendLine($"Wheel maximum air pressure: {MaxAirPressure} PSI");
+
+            return stringBuilder.ToString();
         }
     }
 }

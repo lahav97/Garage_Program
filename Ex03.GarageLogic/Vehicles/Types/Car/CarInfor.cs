@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Text;
 using GarageLogic.Exceptions;
+using GarageLogic.VehiclesInfo;
 using static GarageLogic.Vehicles.Types.Motorcycle.MotorcycleInfo;
 
 namespace GarageLogic.Vehicles.Types.Car
 {
-    public class CarInfor
+    public class CarInfor : VehicleInformation
     {
         public enum eCarColors
         {
@@ -26,15 +27,15 @@ namespace GarageLogic.Vehicles.Types.Car
         public eNumberOfDoors NumberOfDoors { get; private set; }
         public void setCarColor(eCarColors i_CarColor)
         {
-            ValidateAndSetCarColor(i_CarColor);
+            validateAndSetCarColor(i_CarColor);
         }
 
         public void setNumberOfDoors(eNumberOfDoors i_NumberOfDoors)
         {
-            ValidateAndSetNumberOfDoors(i_NumberOfDoors);
+            validateAndSetNumberOfDoors(i_NumberOfDoors);
         }
 
-        private void ValidateAndSetNumberOfDoors(eNumberOfDoors i_NumberOfDoors)
+        private void validateAndSetNumberOfDoors(eNumberOfDoors i_NumberOfDoors)
         {
             if (!Enum.IsDefined(typeof(eNumberOfDoors), i_NumberOfDoors))
             {
@@ -43,13 +44,24 @@ namespace GarageLogic.Vehicles.Types.Car
             NumberOfDoors = i_NumberOfDoors;
         }
 
-        private void ValidateAndSetCarColor(eCarColors i_CarColorToCheck)
+        private void validateAndSetCarColor(eCarColors i_CarColorToCheck)
         {
             if (!Enum.IsDefined(typeof(eCarColors), i_CarColorToCheck))
             {
                 throw new ArgumentException("Invalid car color !");
             }
             CarColor = i_CarColorToCheck;
+        }
+
+        public override string ToString()
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+
+            stringBuilder.AppendLine(base.ToString())
+                .AppendLine($"Car's color: {CarColor}")
+                .AppendLine($"Number of doors in car: {NumberOfDoors}");
+
+            return stringBuilder.ToString();
         }
     }
 }

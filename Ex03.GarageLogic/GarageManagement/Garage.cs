@@ -18,7 +18,7 @@ namespace VehicleGarage
         {
             public string m_OwnerName;
             public string m_OwnerPhoneNumber;
-            public eVehicleStatus m_VehicleStatus;
+            public eVehicleStatus eVehicleStatus;
 
             public eVehicleStatus VehicleStatus {  get;  set; }
            
@@ -61,7 +61,7 @@ namespace VehicleGarage
             if (i_VehicleStatus.HasValue)
             {
                 licensePlatesList = r_VehicleInformation
-                    .Where(vehicleInfo => vehicleInfo.Value.m_VehicleStatus == i_VehicleStatus.Value)
+                    .Where(vehicleInfo => vehicleInfo.Value.eVehicleStatus == i_VehicleStatus.Value)
                     .Select(vehicleInfo => vehicleInfo.Key)
                     .ToList();
             }

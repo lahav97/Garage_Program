@@ -1,9 +1,11 @@
 ﻿using GarageLogic.Vehicles.VehicleFactory;
+using GarageLogic.VehiclesInfo;
 using System;
+using System.Text;
 
 namespace GarageLogic.Vehicles.Types.Motorcycle
 {
-    public class MotorcycleInfo
+    public class MotorcycleInfo : VehicleInformation
     {
         public enum eMotorcycleLicenseType
         {
@@ -28,18 +30,29 @@ namespace GarageLogic.Vehicles.Types.Motorcycle
 
         public eMotorcycleLicenseType MotorcycleLicense { get; private set; }
 
-        public void setMotorLicenseType(eMotorcycleLicenseType i_LicenseType)
+        public void SetMotorLicenseType(eMotorcycleLicenseType i_LicenseType)
         {
-            ValidateAndSetMotorcycleLicenseType(i_LicenseType);
+            validateAndSetMotorcycleLicenseType(i_LicenseType);
         }
 
-        private void ValidateAndSetMotorcycleLicenseType(eMotorcycleLicenseType i_LicenseType)
+        private void validateAndSetMotorcycleLicenseType(eMotorcycleLicenseType i_LicenseType)
         {
             if (!Enum.IsDefined(typeof(eMotorcycleLicenseType), i_LicenseType))
             {
                 throw new ArgumentException("Invalid vehicle type!");
             }
             MotorcycleLicense =  i_LicenseType;
+        }
+
+        public override string ToString()
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+
+            stringBuilder.AppendLine(base.ToString())
+                .AppendLine($"Motorcycle's license type: {MotorcycleLicense}")
+                .AppendLine($"Motorcycle's engine volume: {EngineVolume} cc");
+
+            return stringBuilder.ToString();
         }
     }
 }

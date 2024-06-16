@@ -10,7 +10,7 @@ namespace GarageLogic.Vehicles.VehicleFactory
         public Vehicle BuildVehicle(eVehicleType i_VehicleType)
         {
             Vehicle resultVehicle;
-            ValidateVehicleTypeAndGetIt(i_VehicleType);
+            validateVehicleTypeAndGetIt(i_VehicleType);
 
             switch (i_VehicleType)
             {
@@ -35,7 +35,7 @@ namespace GarageLogic.Vehicles.VehicleFactory
             return resultVehicle;
         }
 
-        private void ValidateVehicleTypeAndGetIt(eVehicleType i_VehicleType)
+        private void validateVehicleTypeAndGetIt(eVehicleType i_VehicleType)
         {
             if (!Enum.IsDefined(typeof(eVehicleType), i_VehicleType))
             {

@@ -1,4 +1,5 @@
 ﻿using GarageLogic.Exceptions;
+using System.Text;
 
 namespace GarageLogic.VehiclesInfo
 {
@@ -7,7 +8,8 @@ namespace GarageLogic.VehiclesInfo
         string m_ModelName;
         protected string m_LicensePlateID;
         protected float m_EnergyPercentageLeft;
-        public float m_MaxEnergyPercentage = 100;
+        private float m_MaxEnergyPercentage = 100;
+        private float m_MinEnergyPercentage = 0;
         
         private float MaxEnergyPercentage {  get; }
 
@@ -39,6 +41,16 @@ namespace GarageLogic.VehiclesInfo
                     throw new ValueOutOfRangeException("Energy Percentage", MinEnergyPercentage, MaxEnergyPercentage);
                 }
             }
+        }
+
+        public override string ToString()
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.AppendLine($"Vehicle license Plate ID: {LicensePlateID}")
+              .AppendLine($"Vehicle model name: {ModelName}")
+              .AppendLine($"Vehicle energy percentage left: {EnergyPercentageLeft}%");
+
+            return stringBuilder.ToString();
         }
     }
 }
