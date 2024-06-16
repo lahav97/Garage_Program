@@ -18,7 +18,8 @@ namespace GarageLogic.Vehicles.Types
         float m_RemainingFuel;
 
         public eFuelTypes FuelType { get; set; }
-        public float MaxFuelTank {
+        public float MaxFuelTank 
+        {
             get { return m_MaxFuelTank;} 
             set {  m_MaxFuelTank = value;}
         }
@@ -54,7 +55,7 @@ namespace GarageLogic.Vehicles.Types
         {
             if (!FuelType.Equals(i_FuelType))
             {
-                throw new ArgumentException($"Invalid Fuel type for this licensed number :{VehicleInfo.LicensePlateID}");
+                throw new ArgumentException($"Invalid fuel type for this licensed number :{VehicleInfo.LicensePlateID}");
             }
 
         }

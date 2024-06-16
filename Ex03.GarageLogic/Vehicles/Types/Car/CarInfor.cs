@@ -25,12 +25,12 @@ namespace GarageLogic.Vehicles.Types.Car
 
         public eCarColors CarColor { get; private set; }
         public eNumberOfDoors NumberOfDoors { get; private set; }
-        public void setCarColor(eCarColors i_CarColor)
+        public void SetCarColor(eCarColors i_CarColor)
         {
             validateAndSetCarColor(i_CarColor);
         }
 
-        public void setNumberOfDoors(eNumberOfDoors i_NumberOfDoors)
+        public void SetNumberOfDoors(eNumberOfDoors i_NumberOfDoors)
         {
             validateAndSetNumberOfDoors(i_NumberOfDoors);
         }

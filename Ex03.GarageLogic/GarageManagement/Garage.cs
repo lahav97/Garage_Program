@@ -12,7 +12,7 @@ namespace VehicleGarage
     public class Garage
     {
         private readonly Dictionary<string, VehicleInformations> r_VehicleInformation = new Dictionary<string, VehicleInformations>();
-        private readonly List<Vehicle> r_Vehicles = new List<Vehicle>();
+        private readonly Dictionary<string, Vehicle> r_Vehicles = new Dictionary<string, Vehicle>();
 
         public class VehicleInformations
         {
@@ -41,11 +41,11 @@ namespace VehicleGarage
         public void EnterNewVehicleToGarage(Vehicle i_Vehicle, string i_OwnerName, string i_OwnerPhoneNumber) //GOOD
         {
             VehicleInformations vehicleInformations = new VehicleInformations();
-            vehicleInformations.OwnerPhoneNumber = i_OwnerName;
+            vehicleInformations.OwnerPhoneNumber = i_OwnerPhoneNumber;
             vehicleInformations.OwnerName = i_OwnerName;
             vehicleInformations.VehicleStatus = eVehicleStatus.InRepair;
 
-            r_Vehicles.Add(i_Vehicle);
+            r_Vehicles.Add(i_Vehicle.VehicleInfo.LicensePlateID, i_Vehicle);
             r_VehicleInformation.Add(i_Vehicle.VehicleInfo.LicensePlateID, vehicleInformations);
         }
 
@@ -56,33 +56,43 @@ namespace VehicleGarage
 
         public List<string> GetVehiclesLicensePlateListByStatus(eVehicleStatus? i_VehicleStatus = null)
         {
+            ValidateVehicleStatus(i_VehicleStatus);
+
             List<string> licensePlatesList;
 
-            if (i_VehicleStatus.HasValue)
+            if (i_VehicleStatus == null) //To return all of the license plate.
+            {
+                licensePlatesList = r_VehicleInformation.Keys.ToList();
+            }
+            else
             {
                 licensePlatesList = r_VehicleInformation
                     .Where(vehicleInfo => vehicleInfo.Value.eVehicleStatus == i_VehicleStatus.Value)
                     .Select(vehicleInfo => vehicleInfo.Key)
                     .ToList();
             }
-            else //To return all license plate in the garage
-            {
-                licensePlatesList = r_VehicleInformation.Keys.ToList();
-            }
 
             return licensePlatesList;
         }
 
+        private void ValidateVehicleStatus(eVehicleStatus? vehicleStatus)
+        {
+            if (vehicleStatus.HasValue && !Enum.IsDefined(typeof(eVehicleStatus), vehicleStatus.Value))
+            {
+                throw new ArgumentException($"Invalid vehicle status: {vehicleStatus}");
+            }
+        }
+
         public List<string> GetListOfAllVehiclesInTheGarage() //GOOD
         {
-            List<string> VhiecleList = new List<string>();
+            List<string> VehicleList = new List<string>();
 
             foreach (string licensePlate in r_VehicleInformation.Keys)
             {
-                VhiecleList.Add(licensePlate);
+                VehicleList.Add(licensePlate);
             }
 
-            return VhiecleList;
+            return VehicleList;
         }
 
         public void ChangeVehicleStatus(string i_LicensePlateID, eVehicleStatus i_VehicleStatusToChange) //GOOD
@@ -113,7 +123,7 @@ namespace VehicleGarage
             }
             else
             {
-                throw new ArgumentException("Expected a FuelVehicle but received an ElectricVehicle.");
+                throw new ArgumentException("Expected a fuel Vehicle but received an electric vehicle.");
             }
         }
 
@@ -131,7 +141,7 @@ namespace VehicleGarage
             }
         }
 
-        public string GetVehicleInformationstring(string i_LicensePlateID) //GOOD
+        public string GetVehicleInformation(string i_LicensePlateID) //GOOD
         {
             Vehicle vehicle = getVehicleFromSystem(i_LicensePlateID);
 
@@ -154,13 +164,9 @@ namespace VehicleGarage
 
             Vehicle resultVehicle = null;
 
-            foreach (Vehicle vehicle in r_Vehicles)
+            if(!r_Vehicles.TryGetValue(i_LicensePlateID, out resultVehicle))
             {
-                if (vehicle.VehicleInfo.LicensePlateID.Equals(i_LicensePlateID))
-                {
-                    resultVehicle = vehicle;
-                    break;
-                }
+                throw new ArgumentException($"Vehicle with license plate ID '{i_LicensePlateID}' not found.");
             }
 
             return resultVehicle;

@@ -14,6 +14,7 @@ namespace GarageLogic.Vehicles.Types.Motorcycle
             AA,
             B1
         }
+
         int m_EngineVolume;
 
         public int EngineVolume 
@@ -39,7 +40,7 @@ namespace GarageLogic.Vehicles.Types.Motorcycle
         {
             if (!Enum.IsDefined(typeof(eMotorcycleLicenseType), i_LicenseType))
             {
-                throw new ArgumentException("Invalid vehicle type!");
+                throw new ArgumentException("Invalid vehicle type !");
             }
             MotorcycleLicense =  i_LicenseType;
         }
