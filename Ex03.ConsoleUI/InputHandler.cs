@@ -77,11 +77,11 @@ namespace Ex03.ConsoleUI
             {
                 if (!firstTimeInLoop)
                 {
-                    Console.WriteLine($"The input You enterd is incurrect");
+                    Console.WriteLine($"The input You enterd is incorrect");
                 }
                 firstTimeInLoop = false;
 
-            } while (!float.TryParse(Console.ReadLine(), out inputNumberfloat) && inputNumberfloat > 0);
+            } while (!float.TryParse(Console.ReadLine(), out inputNumberfloat) || inputNumberfloat < 0);
 
             return inputNumberfloat;
         }

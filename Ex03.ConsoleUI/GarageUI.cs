@@ -296,7 +296,7 @@ Please choose which vehicles to show:
 
             if (usersChiceToShow == 4)
             {
-                leicencePlateList = m_Garage.GetListOfAllVehiclesInTheGarage();
+                leicencePlateList = m_Garage.GetAllLicensePlatesInGarage();
             }
             else
             {
