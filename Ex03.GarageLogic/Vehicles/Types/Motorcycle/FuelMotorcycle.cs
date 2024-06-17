@@ -1,8 +1,4 @@
-﻿using System;
-using GarageLogic.Exceptions;
-using static GarageLogic.Vehicles.Types.FuelVehicle;
-
-namespace GarageLogic.Vehicles.Types.Motorcycle
+﻿namespace GarageLogic.Vehicles.Types.Motorcycle
 {
     public class FuelMotorcycle : FuelVehicle
     {

@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
 using GarageLogic.Vehicles;
 using GarageLogic.Vehicles.Types;
-using GarageLogic.Exceptions;
 using GarageLogic.Vehicles.VehicleFactory;
 using System;
 using System.Linq;
 using System.Text;
-
 
 namespace VehicleGarage
 {

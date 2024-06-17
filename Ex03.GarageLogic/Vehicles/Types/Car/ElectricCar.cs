@@ -1,9 +1,4 @@
-﻿using System;
-using System.Text;
-using GarageLogic.Exceptions;
-using static GarageLogic.Vehicles.Types.FuelVehicle;
-
-namespace GarageLogic.Vehicles.Types.Car
+﻿namespace GarageLogic.Vehicles.Types.Car
 {
     public class ElectricCar : ElectricVehicle
     {

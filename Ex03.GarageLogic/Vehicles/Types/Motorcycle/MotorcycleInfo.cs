@@ -1,5 +1,4 @@
-﻿using GarageLogic.Vehicles.VehicleFactory;
-using GarageLogic.VehiclesInfo;
+﻿using GarageLogic.VehiclesInfo;
 using System;
 using System.Text;
 
