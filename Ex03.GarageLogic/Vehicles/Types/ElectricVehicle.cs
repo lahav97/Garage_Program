@@ -26,11 +26,11 @@ namespace GarageLogic.Vehicles.Types
 
         public void ChargeBattery(float i_ChargingTime)
         {
-            ValidateOutOfRange(i_ChargingTime);
+            validateOutOfRange(i_ChargingTime);
             VehicleInfo.EnergyPercentageLeft = (RemainingBatteryTime + i_ChargingTime) / 100;
         }
 
-        public void ValidateOutOfRange(float i_FuelToAdd)
+        private void validateOutOfRange(float i_FuelToAdd)
         {
             if (i_FuelToAdd + RemainingBatteryTime > m_MaxBatteryCapacity)
             {
