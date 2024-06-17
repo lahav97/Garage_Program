@@ -114,7 +114,7 @@ please write choice number: ");
             {
                 try
                 {
-                    eVehicleType vehicleType;
+                    eVehicleType vehicleType = new eVehicleType();
                     Vehicle newVehicle = CreateNewVehicle(out vehicleType);
                     newVehicle.VehicleInfo.LicensePlateID = i_leicensePlate;
                     EnterDataToVehicle(newVehicle, vehicleType);

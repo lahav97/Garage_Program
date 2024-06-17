@@ -1,5 +1,5 @@
 ﻿using System;
-using static GarageLogic.Vehicles.Types.Car.CarInfor;
+using static GarageLogic.Vehicles.Types.Car.CarInfo;
 using static GarageLogic.Vehicles.Types.Motorcycle.MotorcycleInfo;
 
 namespace Ex03.ConsoleUI

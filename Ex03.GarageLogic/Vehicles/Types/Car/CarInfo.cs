@@ -2,12 +2,12 @@
 using System.Text;
 using GarageLogic.Exceptions;
 using GarageLogic.VehiclesInfo;
-using static GarageLogic.Vehicles.Types.Car.CarInfor;
+using static GarageLogic.Vehicles.Types.Car.CarInfo;
 using static GarageLogic.Vehicles.Types.Motorcycle.MotorcycleInfo;
 
 namespace GarageLogic.Vehicles.Types.Car
 {
-    public class CarInfor : VehicleInformation
+    public class CarInfo : VehicleInformation
     {
         public enum eCarColors
         {
