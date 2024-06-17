@@ -13,6 +13,7 @@ using GarageLogic.Vehicles.Types.Car;
 using static GarageLogic.Vehicles.Types.Car.CarInfo;
 using GarageLogic.Vehicles.Types;
 
+
 namespace Ex03.ConsoleUI
 {
     internal class GarageUI
