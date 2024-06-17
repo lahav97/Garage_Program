@@ -59,7 +59,7 @@ namespace GarageLogic.Vehicles.Types.Car
 
             stringBuilder.AppendLine(base.ToString())
                 .AppendLine($"Car's color: {CarColor}")
-                .AppendLine($"Number of doors in car: {NumberOfDoors}");
+                .AppendLine($"Number of doors in car: {(int)NumberOfDoors}");
 
             return stringBuilder.ToString();
         }
