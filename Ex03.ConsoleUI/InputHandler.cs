@@ -48,6 +48,26 @@ namespace Ex03.ConsoleUI
             return inputName;
         }
 
+        internal static string GetPhoneNumberFromUser()
+        {
+            string inputPhoneNumber;
+            uint catchNumber;
+            bool firstTimeInLoop = true;
+
+            do
+            {
+                if (!firstTimeInLoop)
+                {
+                    Console.WriteLine("your input is not a valid phone number, please enter numeric phone number.");
+                }
+
+                firstTimeInLoop = false;
+                inputPhoneNumber = GetAStringFromUser("phone number");
+            } while (!uint.TryParse(inputPhoneNumber,out catchNumber));
+
+            return inputPhoneNumber;
+        }
+
         internal static int GetInputNumberFromUser(int i_minmumNumber, int i_maximumNumber)
         {
             string inputNumberString;
@@ -63,7 +83,7 @@ namespace Ex03.ConsoleUI
 
                 inputNumberString = Console.ReadLine();
                 firstTimeInLoop = false;
-            } while (!int.TryParse(inputNumberString, out inputNumberInt) && inputNumberInt >= i_minmumNumber && inputNumberInt <= i_maximumNumber);
+            } while (!int.TryParse(inputNumberString, out inputNumberInt) || inputNumberInt < i_minmumNumber || inputNumberInt > i_maximumNumber);
 
             return inputNumberInt;
         }
@@ -77,11 +97,11 @@ namespace Ex03.ConsoleUI
             {
                 if (!firstTimeInLoop)
                 {
-                    Console.WriteLine($"The input You enterd is incurrect");
+                    Console.WriteLine($"The input You enterd is incorrect");
                 }
                 firstTimeInLoop = false;
 
-            } while (!float.TryParse(Console.ReadLine(), out inputNumberfloat) && inputNumberfloat > 0);
+            } while (!float.TryParse(Console.ReadLine(), out inputNumberfloat) || inputNumberfloat < 0);
 
             return inputNumberfloat;
         }

@@ -83,7 +83,7 @@ namespace VehicleGarage
             }
         }
 
-        public List<string> GetListOfAllVehiclesInTheGarage() //GOOD
+        public List<string> GetAllLicensePlatesInGarage() //GOOD
         {
             List<string> VehicleList = new List<string>();
 
