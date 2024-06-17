@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using static GarageLogic.Vehicles.Types.FuelVehicle;
 using VehicleGarage;
+using System.Linq;
 
 namespace Ex03.ConsoleUI
 {
@@ -114,7 +115,7 @@ please write choice number: ");
             {
                 try
                 {
-                    eVehicleType vehicleType;
+                    eVehicleType vehicleType = new eVehicleType();
                     Vehicle newVehicle = CreateNewVehicle(out vehicleType);
                     newVehicle.VehicleInfo.LicensePlateID = i_leicensePlate;
                     EnterDataToVehicle(newVehicle, vehicleType);
@@ -145,7 +146,7 @@ Please enter Vehicle Type:
 3. Fueal Motorcycle,
 4. Electric Motorcycle,
 5. Fuel Truck");
-                io_vehicleType = (eVehicleType)InputHandler.GetInputNumberFromUser(r_MinumumSizeOfNumericInput, Marshal.SizeOf(typeof(eVehicleType)));
+                io_vehicleType = (eVehicleType)InputHandler.GetInputNumberFromUser(r_MinumumSizeOfNumericInput, (int)Enum.GetValues(typeof(eVehicleType)).Cast<eVehicleType>().Max());
                 try
                 {
                     return VehicleBuilder.BuildVehicle(io_vehicleType);
