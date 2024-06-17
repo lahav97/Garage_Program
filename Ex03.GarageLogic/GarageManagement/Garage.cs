@@ -60,14 +60,14 @@ namespace VehicleGarage
 
             List<string> licensePlatesList;
 
-            if (i_VehicleStatus == null) //To return all of the license plate.
+            if (i_VehicleStatus == null) // To return all of the license plates.
             {
                 licensePlatesList = r_VehicleInformation.Keys.ToList();
             }
             else
             {
                 licensePlatesList = r_VehicleInformation
-                    .Where(vehicleInfo => vehicleInfo.Value.eVehicleStatus == i_VehicleStatus.Value)
+                    .Where(vehicleInfo => vehicleInfo.Value.VehicleStatus == i_VehicleStatus.Value)
                     .Select(vehicleInfo => vehicleInfo.Key)
                     .ToList();
             }
