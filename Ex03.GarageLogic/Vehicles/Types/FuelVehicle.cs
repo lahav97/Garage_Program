@@ -28,15 +28,25 @@ namespace GarageLogic.Vehicles.Types
         {
             get 
             {
-                return m_MaxFuelTank * VehicleInfo.EnergyPercentageLeft / 100; 
+                return m_RemainingFuel; 
             } 
+            set
+            {
+                m_RemainingFuel = value;
+            }
+        }
+
+        public float GetRemainingTankCapacityToRefuel()
+        {
+            return MaxFuelTank - RemainingFuel;
         }
 
         public void Refuel(float i_FuelToAdd, eFuelTypes i_FuelType)
         {
             validateFuelType(i_FuelType);
             validateOutOfRange(i_FuelToAdd);
-            VehicleInfo.EnergyPercentageLeft = (RemainingFuel + i_FuelToAdd) / 100;
+            RemainingFuel += i_FuelToAdd;
+            VehicleInfo.EnergyPercentageLeft = RemainingFuel * 100 / MaxFuelTank;
         }
 
         private void validateOutOfRange(float i_FuelToAdd)

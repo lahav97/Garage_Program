@@ -1,6 +1,4 @@
-﻿using static GarageLogic.Vehicles.Types.Motorcycle.MotorcycleInfo;
-using System;
-using System.Text;
+﻿using System.Text;
 using GarageLogic.VehiclesInfo;
 
 namespace GarageLogic.Vehicles.Types.Truck

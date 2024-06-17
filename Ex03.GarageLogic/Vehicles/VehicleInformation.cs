@@ -8,12 +8,12 @@ namespace GarageLogic.VehiclesInfo
         string m_ModelName;
         protected string m_LicensePlateID;
         protected float m_EnergyPercentageLeft;
-        private float m_MaxEnergyPercentage = 100;
-        private float m_MinEnergyPercentage = 0;
+        private readonly float r_MaxEnergyPercentage = 100;
+        private readonly float r_MinEnergyPercentage = 0;
         
-        private float MaxEnergyPercentage {  get; }
+        private float MaxEnergyPercentage { get { return r_MaxEnergyPercentage; } }
 
-        private float MinEnergyPercentage { get; }
+        private float MinEnergyPercentage { get { return r_MinEnergyPercentage; } }
 
         public string ModelName
         {
@@ -48,7 +48,7 @@ namespace GarageLogic.VehiclesInfo
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.AppendLine($"Vehicle license Plate ID: {LicensePlateID}")
               .AppendLine($"Vehicle model name: {ModelName}")
-              .AppendLine($"Vehicle energy percentage left: {EnergyPercentageLeft}%");
+              .AppendLine($"Vehicle energy percentage left: {EnergyPercentageLeft:F2}%");
 
             return stringBuilder.ToString();
         }

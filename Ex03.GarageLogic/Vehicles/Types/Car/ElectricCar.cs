@@ -1,9 +1,4 @@
-﻿using System;
-using System.Text;
-using GarageLogic.Exceptions;
-using static GarageLogic.Vehicles.Types.FuelVehicle;
-
-namespace GarageLogic.Vehicles.Types.Car
+﻿namespace GarageLogic.Vehicles.Types.Car
 {
     public class ElectricCar : ElectricVehicle
     {
@@ -13,6 +8,7 @@ namespace GarageLogic.Vehicles.Types.Car
         {
             InstallWheels((int)eNumberOfWheels.Car, (float)eMaxWheelAirPressure.Car);
             InitializeMaxBatteryTime(3.5f);
+            VehicleInfo = new CarInfo();
         }
 
         public override string ToString()
