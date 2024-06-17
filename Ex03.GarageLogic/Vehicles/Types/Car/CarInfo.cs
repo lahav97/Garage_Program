@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using GarageLogic.Exceptions;
+using GarageLogic.Vehicles.Types.Motorcycle;
 using GarageLogic.VehiclesInfo;
 using static GarageLogic.Vehicles.Types.Car.CarInfo;
 using static GarageLogic.Vehicles.Types.Motorcycle.MotorcycleInfo;
