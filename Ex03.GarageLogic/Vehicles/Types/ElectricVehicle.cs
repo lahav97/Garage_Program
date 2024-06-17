@@ -20,14 +20,23 @@ namespace GarageLogic.Vehicles.Types
         {
             get
             {
-                return m_RemainingBatteryTime * VehicleInfo.EnergyPercentageLeft / 100;
+                return m_RemainingBatteryTime;
+            }
+            set
+            {
+                m_RemainingBatteryTime = value;
             }
         }
 
+        public float GetRemainingBatteryCapacityToCharge()
+        {
+            return MaxBatteryCapacity - RemainingBatteryTime;
+        }
         public void ChargeBattery(float i_ChargingTime)
         {
             validateOutOfRange(i_ChargingTime);
-            VehicleInfo.EnergyPercentageLeft = (RemainingBatteryTime + i_ChargingTime) / 100;
+            RemainingBatteryTime += i_ChargingTime;
+            VehicleInfo.EnergyPercentageLeft = (RemainingBatteryTime * 100) / MaxBatteryCapacity;
         }
 
         private void validateOutOfRange(float i_FuelToAdd)

@@ -25,7 +25,7 @@ namespace GarageLogic.Vehicles
         {
             foreach (Wheel wheel in Wheels)
             {
-                wheel.InflateWheels(wheel.MaxAirPressure);
+                wheel.InflateToMaximum();
             }
         }
 
@@ -38,7 +38,7 @@ namespace GarageLogic.Vehicles
 
             foreach (Wheel wheel in Wheels)
             {
-                vehicleData.AppendLine($"Weel #{Wheels.IndexOf(wheel) + 1}:")
+                vehicleData.AppendLine($"Wheel #{Wheels.IndexOf(wheel) + 1}:")
                 .AppendLine(wheel.ToString());
             }
 
