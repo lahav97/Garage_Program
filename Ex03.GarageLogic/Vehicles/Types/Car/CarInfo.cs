@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Text;
-using GarageLogic.Exceptions;
 using GarageLogic.VehiclesInfo;
-using static GarageLogic.Vehicles.Types.Car.CarInfor;
-using static GarageLogic.Vehicles.Types.Motorcycle.MotorcycleInfo;
 
 namespace GarageLogic.Vehicles.Types.Car
 {
-    public class CarInfor : VehicleInformation
+    public class CarInfo : VehicleInformation
     {
         public enum eCarColors
         {
@@ -30,26 +27,26 @@ namespace GarageLogic.Vehicles.Types.Car
         public eCarColors CarColor 
         { 
             get { return m_eCarColor;}
-            private set
+            set
             {
                 if (!Enum.IsDefined(typeof(eCarColors), value))
                 {
                     throw new ArgumentException("Invalid car color !");
                 }
-                CarColor = value;
+                m_eCarColor = value;
             }
         }
 
         public eNumberOfDoors NumberOfDoors 
         { 
             get { return m_NumberOfDoors;}
-            private set
+            set
             {
                 if (!Enum.IsDefined(typeof(eNumberOfDoors), value))
                 {
                     throw new ArgumentException("Invalid number of doors !");
                 }
-                NumberOfDoors = value;
+                m_NumberOfDoors = value;
             }
         }
 
@@ -59,7 +56,7 @@ namespace GarageLogic.Vehicles.Types.Car
 
             stringBuilder.AppendLine(base.ToString())
                 .AppendLine($"Car's color: {CarColor}")
-                .AppendLine($"Number of doors in car: {NumberOfDoors}");
+                .AppendLine($"Number of doors in car: {(int)NumberOfDoors}");
 
             return stringBuilder.ToString();
         }

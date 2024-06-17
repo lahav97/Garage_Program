@@ -8,6 +8,11 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using static GarageLogic.Vehicles.Types.FuelVehicle;
 using VehicleGarage;
+using System.Linq;
+using GarageLogic.Vehicles.Types.Car;
+using static GarageLogic.Vehicles.Types.Car.CarInfo;
+using GarageLogic.Vehicles.Types;
+
 
 namespace Ex03.ConsoleUI
 {
@@ -91,14 +96,13 @@ please write choice number: ");
         private void EnterVihacleToGarage()
         {
             string leicensePlate = InputHandler.GetLicensePlate();
-            if (m_Garage.IsVehicleInSystem(leicensePlate))
-            {
-                m_Garage.ReEnterVehicleToGarage(leicensePlate);
-            }
-            else
+
+            if (!m_Garage.IsVehicleInSystem(leicensePlate))
             {
                 EnterNewVehicleToSystem(leicensePlate);
             }
+
+            m_Garage.ChangeVehicleStatus(leicensePlate, eVehicleStatus.InRepair);
         }
 
         private void EnterNewVehicleToSystem(string i_leicensePlate)
@@ -114,7 +118,7 @@ please write choice number: ");
             {
                 try
                 {
-                    eVehicleType vehicleType;
+                    eVehicleType vehicleType = new eVehicleType();
                     Vehicle newVehicle = CreateNewVehicle(out vehicleType);
                     newVehicle.VehicleInfo.LicensePlateID = i_leicensePlate;
                     EnterDataToVehicle(newVehicle, vehicleType);
@@ -145,7 +149,7 @@ Please enter Vehicle Type:
 3. Fueal Motorcycle,
 4. Electric Motorcycle,
 5. Fuel Truck");
-                io_vehicleType = (eVehicleType)InputHandler.GetInputNumberFromUser(r_MinumumSizeOfNumericInput, Marshal.SizeOf(typeof(eVehicleType)));
+                io_vehicleType = (eVehicleType)InputHandler.GetInputNumberFromUser(r_MinumumSizeOfNumericInput, (int)Enum.GetValues(typeof(eVehicleType)).Cast<eVehicleType>().Max());
                 try
                 {
                     return VehicleBuilder.BuildVehicle(io_vehicleType);
@@ -160,11 +164,16 @@ Please enter Vehicle Type:
         private void EnterDataToVehicle(Vehicle io_vehicle, eVehicleType i_vehicleType)
         {
             Console.WriteLine("Please enter model name:");
-            string modelName = InputHandler.GetAStringFromUser("model name");
+            io_vehicle.VehicleInfo.ModelName = InputHandler.GetAStringFromUser("model name");
+            Console.WriteLine("Please enter energy Percentage left in vehicle:");
+            float energyPercentageInput;
 
-            Console.WriteLine("Please enter energy left in vehicle:");
-            float energyLeftInVehicle = InputHandler.GetFloatFromUser();
+            while ((energyPercentageInput = InputHandler.GetFloatFromUser()) > 100)
+            {
+                Console.WriteLine("Energy Percentage to high please enter again");
+            }
 
+            io_vehicle.VehicleInfo.EnergyPercentageLeft = energyPercentageInput;
             if (i_vehicleType == eVehicleType.ElectricMotorcycle || i_vehicleType == eVehicleType.FuealMotorcycle)
             {
                 GetInformationForMotorcycle(io_vehicle);
@@ -176,6 +185,15 @@ Please enter Vehicle Type:
             else
             {
                 GetInformationForCar(io_vehicle);
+            }
+
+            if (i_vehicleType == eVehicleType.ElectricMotorcycle || i_vehicleType == eVehicleType.ElectricCar)
+            {
+                ((ElectricVehicle)io_vehicle).RemainingBatteryTime = (energyPercentageInput * ((ElectricVehicle)io_vehicle).MaxBatteryCapacity) / 100;
+            }
+            else
+            {
+                ((FuelVehicle)io_vehicle).RemainingFuel = (energyPercentageInput * ((FuelVehicle)io_vehicle).MaxFuelTank) / 100;
             }
         }
 
@@ -220,7 +238,7 @@ Please enter Vehicle Type:
             {
                 try
                 {
-                    Console.WriteLine($"Please enter current Wheel air preasure, air preasure must be lower than{i_MaxWheelAirPreasure}:");
+                    Console.WriteLine($"Please enter current Wheel air preasure, air preasure must be lower than {(int)i_MaxWheelAirPreasure}:");
                     newWheel.CurrentAirPressure = InputHandler.GetFloatFromUser();
                     break;
                 }
@@ -235,11 +253,14 @@ Please enter Vehicle Type:
 
         private void GetInformationForCar(Vehicle io_vehicle)
         {
+            int minNumberOfDoors = (int)Enum.GetValues(typeof(eNumberOfDoors)).Cast<eNumberOfDoors>().Min();
+            int maxNumberOfDoors = (int)Enum.GetValues(typeof(eNumberOfDoors)).Cast<eNumberOfDoors>().Max();
+
             io_vehicle.Wheels = EnterWheelsInformationFromUser(eNumberOfWheels.Car, eMaxWheelAirPressure.Car);
             Console.WriteLine("What is the cars color?");
-            //((CarInfor)io_vehicle.VehicleInfo).CarColor = GetCarColors();
-            Console.WriteLine("how many doors does the car have (2-5)");
-            //((CarInfor)io_vehicle.VehicleInfo).NumberOfDoors = InputHandler.GetInputNumberFromUser(2, 5);
+            ((CarInfo)io_vehicle.VehicleInfo).CarColor = InputHandler.GetCarColors();
+            Console.WriteLine($"how many doors does the car have ({minNumberOfDoors}-{maxNumberOfDoors})");
+            ((CarInfo)io_vehicle.VehicleInfo).NumberOfDoors = (eNumberOfDoors)InputHandler.GetInputNumberFromUser(minNumberOfDoors, maxNumberOfDoors);
         }
 
         private void GetInformationForTruck(Vehicle io_vehicle)
@@ -255,7 +276,7 @@ Please enter Vehicle Type:
         {
             io_vehicle.Wheels = EnterWheelsInformationFromUser(eNumberOfWheels.MotorCycle, eMaxWheelAirPressure.Motorcycle);
             Console.WriteLine("Please enter motercycle leicense:");
-            //((MotorcycleInfo)io_vehicle.VehicleInfo).MotorcycleLicense = GetMotorcycleLicenseType();
+            ((MotorcycleInfo)io_vehicle.VehicleInfo).MotorcycleLicenseType = InputHandler.GetMotorcycleLicenseType();
 
             Console.WriteLine("Please enter motercycle Engine Volume:");
             ((MotorcycleInfo)io_vehicle.VehicleInfo).EngineVolume = InputHandler.GetInputNumberFromUser(r_MinumumSizeOfNumericInput, int.MaxValue);
@@ -275,11 +296,11 @@ Please choose which vehicles to show:
 
             if (usersChiceToShow == 4)
             {
-                //leicencePlateList = //get all leicnse plates
+                leicencePlateList = m_Garage.GetAllLicensePlatesInGarage();
             }
             else
             {
-                //leicencePlateList = get specific leicnse plates
+                leicencePlateList = m_Garage.GetVehiclesLicensePlateListByStatus((eVehicleStatus)usersChiceToShow);
             }
 
             if (leicencePlateList.Count == 0)
@@ -331,6 +352,10 @@ Please choose what Status to change Vehicle into:
                 {
                     m_Garage.InflateWheelsToMaximum(leicencePlateOfVihacleToInflate);
                     break;
+                }
+                catch (ArgumentOutOfRangeException exeption)
+                {
+                    Console.WriteLine(exeption.Message);
                 }
                 catch (ArgumentException exeption)
                 {
@@ -414,3 +439,4 @@ Please choose what Status to change Vehicle into:
         }
     }
 }
+

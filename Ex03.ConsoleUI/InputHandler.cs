@@ -1,5 +1,5 @@
 ﻿using System;
-using static GarageLogic.Vehicles.Types.Car.CarInfor;
+using static GarageLogic.Vehicles.Types.Car.CarInfo;
 using static GarageLogic.Vehicles.Types.Motorcycle.MotorcycleInfo;
 
 namespace Ex03.ConsoleUI
@@ -14,14 +14,16 @@ namespace Ex03.ConsoleUI
             return leicensePlate;
         }
 
-        internal static bool GetYesOrNoAnswer()
+
+        internal static bool GetYesOrNoAnswer() 
         {
             while (true)
             {
                 Console.WriteLine("Please answer y/n:");
                 string answer = Console.ReadLine();
-                if (answer == "y" || answer == "n")
-                {
+
+                if (answer == "y" || answer == "n") 
+                { 
                     return answer == "y";
                 }
 
@@ -77,19 +79,20 @@ namespace Ex03.ConsoleUI
             {
                 if (!firstTimeInLoop)
                 {
-                    Console.WriteLine($"The input You enterd is incurrect");
+                    Console.WriteLine($"The input You enterd is incorrect");
                 }
                 firstTimeInLoop = false;
 
-            } while (!float.TryParse(Console.ReadLine(), out inputNumberfloat) && inputNumberfloat > 0);
+            } while (!float.TryParse(Console.ReadLine(), out inputNumberfloat) || inputNumberfloat < 0);
 
             return inputNumberfloat;
         }
 
-        internal static eMotorcycleLicenseType GetMotorcycleLicenseType()
+
+        internal static eMotorcycleLicenseType GetMotorcycleLicenseType() 
         {
             Console.WriteLine("Please enter one of the following options:");
-            foreach (eMotorcycleLicenseType motorcycleLicenseType in Enum.GetValues(typeof(eMotorcycleLicenseType)))
+            foreach(eMotorcycleLicenseType motorcycleLicenseType in Enum.GetValues(typeof(eMotorcycleLicenseType)))
             {
                 Console.WriteLine($"{(int)motorcycleLicenseType}. {motorcycleLicenseType}");
             }

@@ -1,5 +1,4 @@
-﻿using GarageLogic.Vehicles.VehicleFactory;
-using GarageLogic.VehiclesInfo;
+﻿using GarageLogic.VehiclesInfo;
 using System;
 using System.Text;
 
@@ -16,7 +15,7 @@ namespace GarageLogic.Vehicles.Types.Motorcycle
         }
 
         int m_EngineVolume;
-        eMotorcycleLicenseType m_eMotorLicenseType;
+        eMotorcycleLicenseType m_eMotorcycleLicenseType;
 
         public int EngineVolume 
         {
@@ -30,16 +29,16 @@ namespace GarageLogic.Vehicles.Types.Motorcycle
             }
         }
 
-        public eMotorcycleLicenseType MotorcycleLicense
+        public eMotorcycleLicenseType MotorcycleLicenseType
         {
-            get { return m_eMotorLicenseType; }
-            private set
+            get { return m_eMotorcycleLicenseType; }
+            set
             {
                 if (!Enum.IsDefined(typeof(eMotorcycleLicenseType), value))
                 {
                     throw new ArgumentException("Invalid vehicle type !");
                 }
-                MotorcycleLicense = value;
+                m_eMotorcycleLicenseType = value;
             }
         }
 
@@ -48,7 +47,7 @@ namespace GarageLogic.Vehicles.Types.Motorcycle
             StringBuilder stringBuilder = new StringBuilder();
 
             stringBuilder.AppendLine(base.ToString())
-                .AppendLine($"Motorcycle's license type: {MotorcycleLicense}")
+                .AppendLine($"Motorcycle's license type: {MotorcycleLicenseType}")
                 .AppendLine($"Motorcycle's engine volume: {EngineVolume} cc");
 
             return stringBuilder.ToString();
