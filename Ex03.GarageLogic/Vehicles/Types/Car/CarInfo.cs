@@ -30,26 +30,26 @@ namespace GarageLogic.Vehicles.Types.Car
         public eCarColors CarColor 
         { 
             get { return m_eCarColor;}
-            private set
+            set
             {
                 if (!Enum.IsDefined(typeof(eCarColors), value))
                 {
                     throw new ArgumentException("Invalid car color !");
                 }
-                CarColor = value;
+                m_eCarColor = value;
             }
         }
 
         public eNumberOfDoors NumberOfDoors 
         { 
             get { return m_NumberOfDoors;}
-            private set
+            set
             {
                 if (!Enum.IsDefined(typeof(eNumberOfDoors), value))
                 {
                     throw new ArgumentException("Invalid number of doors !");
                 }
-                NumberOfDoors = value;
+                m_NumberOfDoors = value;
             }
         }
 

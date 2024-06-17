@@ -8,7 +8,7 @@ namespace GarageLogic.Exceptions
         public float m_MinValue { get; set; }
 
         public ValueOutOfRangeException(string i_ParamName, float i_MaxValue, float i_MinValue)
-            : base($"{i_ParamName} is out of range ! Value must be between {i_MaxValue} to {i_MinValue}")
+            : base($"{i_ParamName} is out of range ! Value must be between {i_MinValue} to {i_MaxValue}")
         {
             m_MaxValue = i_MaxValue;
             m_MinValue = i_MinValue;
