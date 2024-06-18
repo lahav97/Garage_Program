@@ -11,7 +11,7 @@ using System.Linq;
 using GarageLogic.Vehicles.Types.Car;
 using static GarageLogic.Vehicles.Types.Car.CarInfo;
 using GarageLogic.Vehicles.Types;
-
+using System.Linq.Expressions;
 
 namespace Ex03.ConsoleUI
 {
@@ -125,11 +125,11 @@ please write choice number: ");
                     m_Garage.EnterNewVehicleToGarage(newVehicle, ownerName, ownerPhoneNumber);
                     break;
                 }
-                catch (ArgumentException exception)
+                catch (ValueOutOfRangeException exception)
                 {
                     Console.WriteLine(exception.Message);
                 }
-                catch (ValueOutOfRangeException exception)
+                catch (ArgumentException exception)
                 {
                     Console.WriteLine(exception.Message);
                 }
@@ -167,12 +167,19 @@ Please enter Vehicle Type:
             Console.WriteLine("Please enter energy Percentage left in vehicle:");
             float energyPercentageInput;
 
-            while ((energyPercentageInput = InputHandler.GetFloatFromUser()) > 100)
+            while(true)
             {
-                Console.WriteLine("Energy Percentage to high please enter again");
+                try
+                {
+                    energyPercentageInput = InputHandler.GetFloatFromUser();
+                    io_vehicle.VehicleInfo.EnergyPercentageLeft = energyPercentageInput;
+                    break;
+                }
+                catch (ValueOutOfRangeException exeption)
+                {
+                    Console.WriteLine(exeption.Message);
+                }
             }
-
-            io_vehicle.VehicleInfo.EnergyPercentageLeft = energyPercentageInput;
 
             EnterWheelsInformationFromUser(io_vehicle);
             if (i_vehicleType == eVehicleType.ElectricMotorcycle || i_vehicleType == eVehicleType.FuealMotorcycle)
