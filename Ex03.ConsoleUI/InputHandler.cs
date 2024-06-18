@@ -6,24 +6,41 @@ namespace Ex03.ConsoleUI
 {
     internal class InputHandler
     {
+        internal readonly static string r_ExitInput = "-1";
         internal static string GetLicensePlate()
         {
-            Console.WriteLine("Please Enter Vihacle leicense plate:");
-            string leicensePlate = Console.ReadLine();
+            string leicensePlate;
+            bool firstTimeInLoop = true;
+
+            do
+            {
+                if (!firstTimeInLoop)
+                {
+                    Console.WriteLine($"the input you enterd is wrong, leicense plate has to contain letters and/or numbers");
+                }
+
+                firstTimeInLoop = false;
+                Console.WriteLine("Please Enter Vihacle leicense plate:");
+                leicensePlate = Console.ReadLine();
+                leicensePlate = leicensePlate.Trim();
+            } while (leicensePlate.Length == 0);
 
             return leicensePlate;
         }
 
+        internal static bool isExitStatment(string i_UserInput)
+        {
+            return i_UserInput == r_ExitInput;
+        }
 
-        internal static bool GetYesOrNoAnswer() 
+        internal static bool GetYesOrNoAnswer()
         {
             while (true)
             {
                 Console.WriteLine("Please answer y/n:");
                 string answer = Console.ReadLine();
-
-                if (answer == "y" || answer == "n") 
-                { 
+                if (answer == "y" || answer == "n")
+                {
                     return answer == "y";
                 }
 
@@ -50,6 +67,26 @@ namespace Ex03.ConsoleUI
             return inputName;
         }
 
+        internal static string GetPhoneNumberFromUser()
+        {
+            string inputPhoneNumber;
+            uint catchNumber;
+            bool firstTimeInLoop = true;
+
+            do
+            {
+                if (!firstTimeInLoop)
+                {
+                    Console.WriteLine("your input is not a valid phone number, please enter numeric phone number.");
+                }
+
+                firstTimeInLoop = false;
+                inputPhoneNumber = GetAStringFromUser("phone number");
+            } while (!uint.TryParse(inputPhoneNumber, out catchNumber));
+
+            return inputPhoneNumber;
+        }
+
         internal static int GetInputNumberFromUser(int i_minmumNumber, int i_maximumNumber)
         {
             string inputNumberString;
@@ -65,7 +102,7 @@ namespace Ex03.ConsoleUI
 
                 inputNumberString = Console.ReadLine();
                 firstTimeInLoop = false;
-            } while (!int.TryParse(inputNumberString, out inputNumberInt) && inputNumberInt >= i_minmumNumber && inputNumberInt <= i_maximumNumber);
+            } while (!int.TryParse(inputNumberString, out inputNumberInt) || inputNumberInt < i_minmumNumber || inputNumberInt > i_maximumNumber);
 
             return inputNumberInt;
         }
@@ -88,11 +125,10 @@ namespace Ex03.ConsoleUI
             return inputNumberfloat;
         }
 
-
-        internal static eMotorcycleLicenseType GetMotorcycleLicenseType() 
+        internal static eMotorcycleLicenseType GetMotorcycleLicenseType()
         {
             Console.WriteLine("Please enter one of the following options:");
-            foreach(eMotorcycleLicenseType motorcycleLicenseType in Enum.GetValues(typeof(eMotorcycleLicenseType)))
+            foreach (eMotorcycleLicenseType motorcycleLicenseType in Enum.GetValues(typeof(eMotorcycleLicenseType)))
             {
                 Console.WriteLine($"{(int)motorcycleLicenseType}. {motorcycleLicenseType}");
             }
