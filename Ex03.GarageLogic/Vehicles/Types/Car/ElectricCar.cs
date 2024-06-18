@@ -2,7 +2,7 @@
 {
     public class ElectricCar : ElectricVehicle
     {
-        public CarInfor MotorcycleInfo { get; } = new CarInfor();
+        public CarInfo MotorcycleInfo { get; } = new CarInfo();
 
         public ElectricCar()
         {
