@@ -8,10 +8,7 @@ using System.Collections.Generic;
 using static GarageLogic.Vehicles.Types.FuelVehicle;
 using VehicleGarage;
 using System.Linq;
-using GarageLogic.Vehicles.Types.Car;
-using static GarageLogic.Vehicles.Types.Car.CarInfo;
-using GarageLogic.Vehicles.Types;
-
+using System.Runtime.InteropServices;
 
 namespace Ex03.ConsoleUI
 {
@@ -108,50 +105,64 @@ please write choice number: ");
         {
             Console.WriteLine("You are entering a new Vehicle to the m_Garage, please provide the following information:");
             Console.WriteLine("Please enter Vehicle owner name:");
-            string ownerName = InputHandler.GetAStringFromUser("car owner name");
+            string ownerName = InputHandler.GetAStringFromUser();
 
             Console.WriteLine("Please enter Vehicle owner Phone number:");
             string ownerPhoneNumber = InputHandler.GetPhoneNumberFromUser();
 
-            while (true)
+            Vehicle newVehicle = CreateNewVehicle();
+            EnterDataToVehicle(newVehicle, i_leicensePlate);
+            m_Garage.EnterNewVehicleToGarage(newVehicle, ownerName, ownerPhoneNumber);
+        }
+
+        private void EnterDataToVehicle(Vehicle io_vehicle, string i_leicenseID)
+        {
+            while(true)
             {
                 try
                 {
-                    eVehicleType vehicleType = new eVehicleType();
-                    Vehicle newVehicle = CreateNewVehicle(out vehicleType);
-                    newVehicle.VehicleInfo.LicensePlateID = i_leicensePlate;
-                    EnterDataToVehicle(newVehicle, vehicleType);
+                    List<string> promtsToShowUser = io_vehicle.OutputPromptsList();
+                    List<string> listOfInformationOnVehicle = new List<string>();
 
-                    m_Garage.EnterNewVehicleToGarage(newVehicle, ownerName, ownerPhoneNumber);
+                    for (int i = 0; i < promtsToShowUser.Count; i++)
+                    {
+                        Console.WriteLine($"Please enter {promtsToShowUser[i]}:");
+                        listOfInformationOnVehicle.Add(InputHandler.GetAStringFromUser());
+                    }
+
+                    io_vehicle.GatherInformationForVehicle(listOfInformationOnVehicle, i_leicenseID);
+                    EnterWheelsInformationFromUser(io_vehicle);
                     break;
                 }
-                catch (ArgumentException exception)
+                catch(ValueOutOfRangeException exeption)
                 {
-                    Console.WriteLine(exception.Message);
+                    Console.WriteLine(exeption.Message);
                 }
-                catch (ValueOutOfRangeException exception)
+                catch(ArgumentException exeption)
                 {
-                    Console.WriteLine(exception.Message);
+                    Console.WriteLine(exeption.Message);
                 }
             }
         }
 
-        private Vehicle CreateNewVehicle(out eVehicleType io_vehicleType)
+        private Vehicle CreateNewVehicle()
         {
+            List<string> PromtsToShowUser = m_Garage.GetListOfVehicleTypesInGarage();
+            int vehicleType;
+
             while (true)
             {
-                Console.WriteLine(@"
-Please enter Vehicle Type:
+                Console.WriteLine("Please Enter Type Of Vehicle");
 
-1. Fuel Car
-2. Electric Car,
-3. Fueal Motorcycle,
-4. Electric Motorcycle,
-5. Fuel Truck");
-                io_vehicleType = (eVehicleType)InputHandler.GetInputNumberFromUser(r_MinumumSizeOfNumericInput, (int)Enum.GetValues(typeof(eVehicleType)).Cast<eVehicleType>().Max());
+                for (int i = 0; i < PromtsToShowUser.Count; i++)
+                {
+                    Console.WriteLine($"{i + 1}. {PromtsToShowUser[i]}");
+                }
+
                 try
                 {
-                    return VehicleBuilder.BuildVehicle(io_vehicleType);
+                    vehicleType = InputHandler.GetInputNumberFromUser(r_MinumumSizeOfNumericInput, PromtsToShowUser.Count);
+                    return VehicleBuilder.BuildVehicle(vehicleType);
                 }
                 catch (ArgumentException exeption)
                 {
@@ -160,109 +171,57 @@ Please enter Vehicle Type:
             }
         }
 
-        private void EnterDataToVehicle(Vehicle io_vehicle, eVehicleType i_vehicleType)
-        {
-            Console.WriteLine("Please enter model name:");
-            io_vehicle.VehicleInfo.ModelName = InputHandler.GetAStringFromUser("model name");
-            Console.WriteLine("Please enter energy Percentage left in vehicle:");
-            float energyPercentageInput;
-
-            while ((energyPercentageInput = InputHandler.GetFloatFromUser()) > 100)
-            {
-                Console.WriteLine("Energy Percentage to high please enter again");
-            }
-
-            io_vehicle.VehicleInfo.EnergyPercentageLeft = energyPercentageInput;
-
-            EnterWheelsInformationFromUser(io_vehicle);
-            if (i_vehicleType == eVehicleType.ElectricMotorcycle || i_vehicleType == eVehicleType.FuealMotorcycle)
-            {
-                GetInformationForMotorcycle(io_vehicle);
-            }
-            else if (i_vehicleType == eVehicleType.FuelTruck)
-            {
-                GetInformationForTruck(io_vehicle);
-            }
-            else
-            {
-                GetInformationForCar(io_vehicle);
-            }
-
-            if (i_vehicleType == eVehicleType.ElectricMotorcycle || i_vehicleType == eVehicleType.ElectricCar)
-            {
-                ((ElectricVehicle)io_vehicle).RemainingBatteryTime = (energyPercentageInput * ((ElectricVehicle)io_vehicle).MaxBatteryCapacity) / 100;
-            }
-            else
-            {
-                ((FuelVehicle)io_vehicle).RemainingFuel = (energyPercentageInput * ((FuelVehicle)io_vehicle).MaxFuelTank) / 100;
-            }
-        }
-
         private void EnterWheelsInformationFromUser(Vehicle io_vehicle)
         {
             Console.WriteLine("Please choose 1. to enter all wheels information at once or 2. to enter each wheel separetly:");
             bool enterWheelsAtOnce = InputHandler.GetInputNumberFromUser(r_MinumumSizeOfNumericInput, 2) == 1;
-            bool firstTimeInLoop = true;
-            float AirPressureToFill = 0;
-            string ManufactureName = "";
+            int numberOfWheels;
 
-            foreach (Wheel wheel in io_vehicle.Wheels)
+            while (true)
             {
-                while (true)
-                {
-                    try
-                    {
-                        if (firstTimeInLoop || !enterWheelsAtOnce)
-                        {
-                            firstTimeInLoop = false;
-                            GetInformationForAWheel(out AirPressureToFill, out ManufactureName, wheel.MaxAirPressure);
-                        }
+                List<string> WheelsPrompts = io_vehicle.OutputPromptListForWheel(out numberOfWheels);
+                List<string> WheelsInformationToInsert = new List<string>();
+                List<string> duplicateString = new List<string>();
+                bool firstTimeInLoop = true;
 
-                        wheel.CurrentAirPressure = AirPressureToFill;
-                        wheel.ManufactureName = ManufactureName;
-                        break;
-                    }
-                    catch (ValueOutOfRangeException exeption)
+                for (int i = 0; i < numberOfWheels; i++)
+                {
+                    if (enterWheelsAtOnce)
                     {
-                        Console.WriteLine(exeption.Message);
+                        if(firstTimeInLoop)
+                        {
+                            foreach (string promt in WheelsPrompts)
+                            {
+                                Console.WriteLine($"Please enter {promt}:");
+                                duplicateString.Add((InputHandler.GetAStringFromUser()));
+                            }
+                            firstTimeInLoop = false;
+                        }
+                        WheelsInformationToInsert = WheelsInformationToInsert.Concat(duplicateString).ToList();
+                    }
+                    else
+                    {
+                        foreach (string promt in WheelsPrompts)
+                        {
+                            Console.WriteLine($"Please enter {promt}:");
+                            WheelsInformationToInsert.Add((InputHandler.GetAStringFromUser()));
+                        }
                     }
                 }
+                try
+                {
+                    io_vehicle.EnterWheelsInformation(WheelsInformationToInsert);
+                    break;
+                }
+                catch (ValueOutOfRangeException exeption)
+                {
+                    Console.WriteLine(exeption.Message);
+                }
+                catch(ArgumentException exeption)
+                {
+                    Console.WriteLine(exeption.Message);
+                }
             }
-        }
-
-        private void GetInformationForAWheel(out float o_AirPressureToFill, out string i_ManufactureName, float i_MaxWheelAirPreasure)
-        {
-            Console.WriteLine("Please enter Wheel manufacture name:");
-            i_ManufactureName = InputHandler.GetAStringFromUser("manufacture name");
-            Console.WriteLine($"Please enter current Wheel air preasure, air preasure must be up to {i_MaxWheelAirPreasure}:");
-            o_AirPressureToFill = InputHandler.GetFloatFromUser();
-        }
-
-        private void GetInformationForCar(Vehicle io_vehicle)
-        {
-            int minNumberOfDoors = (int)Enum.GetValues(typeof(eNumberOfDoors)).Cast<eNumberOfDoors>().Min();
-            int maxNumberOfDoors = (int)Enum.GetValues(typeof(eNumberOfDoors)).Cast<eNumberOfDoors>().Max();
-
-            Console.WriteLine("What is the cars color?");
-            ((CarInfo)io_vehicle.VehicleInfo).CarColor = InputHandler.GetCarColors();
-            Console.WriteLine($"how many doors does the car have ({minNumberOfDoors}-{maxNumberOfDoors})");
-            ((CarInfo)io_vehicle.VehicleInfo).NumberOfDoors = (eNumberOfDoors)InputHandler.GetInputNumberFromUser(minNumberOfDoors, maxNumberOfDoors);
-        }
-
-        private void GetInformationForTruck(Vehicle io_vehicle)
-        {
-            Console.WriteLine("Does the truck transport hazardous materials?");
-            ((TruckInfo)io_vehicle.VehicleInfo).TransportsHazardousMaterials = InputHandler.GetYesOrNoAnswer();
-            Console.WriteLine("What is the truck's cargo volume?");
-            ((TruckInfo)io_vehicle.VehicleInfo).CargoVolume = InputHandler.GetFloatFromUser();
-        }
-
-        private void GetInformationForMotorcycle(Vehicle io_vehicle)
-        {
-            Console.WriteLine("Please enter motercycle leicense:");
-            ((MotorcycleInfo)io_vehicle.VehicleInfo).MotorcycleLicenseType = InputHandler.GetMotorcycleLicenseType();
-            Console.WriteLine("Please enter motercycle Engine Volume:");
-            ((MotorcycleInfo)io_vehicle.VehicleInfo).EngineVolume = InputHandler.GetInputNumberFromUser(r_MinumumSizeOfNumericInput, int.MaxValue);
         }
 
         private void showVehicels()

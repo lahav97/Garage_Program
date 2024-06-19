@@ -14,6 +14,80 @@ namespace VehicleGarage
         private readonly Dictionary<string, VehicleInformations> r_VehicleInformation = new Dictionary<string, VehicleInformations>();
         private readonly Dictionary<string, Vehicle> r_Vehicles = new Dictionary<string, Vehicle>();
 
+        public class VehicleInformations
+        {
+            public string m_OwnerName;
+            public string m_OwnerPhoneNumber;
+            public eVehicleStatus eVehicleStatus;
+
+            public eVehicleStatus VehicleStatus {  get;  set; }
+           
+            public string OwnerName
+            {
+                get { return m_OwnerName; } 
+                set { m_OwnerName = value; }
+            }
+
+            public string OwnerPhoneNumber
+            {
+                get { return m_OwnerPhoneNumber; }
+                set
+                {
+                    m_OwnerPhoneNumber = value;
+                }
+            }
+
+            public override string ToString()
+            {
+                StringBuilder stringBuilder = new StringBuilder();
+
+                stringBuilder.AppendLine($"Owner name: {OwnerName}")
+                             .AppendLine($"Owner's phone number: {OwnerPhoneNumber}")
+                             .AppendLine($"Vehicle status: {GetFormattedStatus()}");
+
+                return stringBuilder.ToString();
+            }
+
+            private string GetFormattedStatus()
+            {
+                switch (VehicleStatus)
+                {
+                    case eVehicleStatus.InRepair:
+                        return "In repair";
+                    case eVehicleStatus.WasRepaired:
+                        return "Fixed";
+                    case eVehicleStatus.WasPaidFor:
+                        return "Paid";
+                    default:
+                        throw new InvalidOperationException($"Unknown vehicle status: {VehicleStatus}");
+                }
+            }
+        }
+
+        public List<string> GetListOfVehicleTypesInGarage()
+        {
+            List<string> ListOfPromptsToSend = new List<string>();
+
+            foreach (eVehicleType vehicleType in Enum.GetValues(typeof(eVehicleType)))
+            {
+                string enumvehicleTypeName = vehicleType.ToString();
+                string vehicleTypeName = string.Empty;
+
+                for (int i = 0; i < enumvehicleTypeName.Length; i++)
+                {
+                    if (i > 0 && char.IsUpper(enumvehicleTypeName[i]) && !char.IsUpper(enumvehicleTypeName[i - 1]))
+                    {
+                        vehicleTypeName += " ";
+                    }
+                    vehicleTypeName += enumvehicleTypeName[i];
+                }
+
+                ListOfPromptsToSend.Add(vehicleTypeName);
+            }
+
+            return ListOfPromptsToSend;
+        }
+
         public void EnterNewVehicleToGarage(Vehicle i_Vehicle, string i_OwnerName, string i_OwnerPhoneNumber)
         {
             VehicleInformations vehicleInformations = new VehicleInformations();

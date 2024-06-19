@@ -1,4 +1,6 @@
 ﻿using GarageLogic.Exceptions;
+using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace GarageLogic.VehiclesInfo
@@ -10,7 +12,43 @@ namespace GarageLogic.VehiclesInfo
         protected float m_EnergyPercentageLeft;
         private readonly float r_MaxEnergyPercentage = 100;
         private readonly float r_MinEnergyPercentage = 0;
-        
+
+        public List<string> AllInformationNeededForVehiclePrompts()
+        {
+            List<string> outputPromptsList = new List<string>
+            {
+                "model name",
+                "energy percentage left in vehicle"
+            };
+
+            foreach(string prompt in PromptsOfInformationNeeded())
+            {
+                outputPromptsList.Add(prompt);
+            }    
+
+            return outputPromptsList;
+        }
+
+        public abstract List<string> PromptsOfInformationNeeded();
+
+        public void FillVehicleInformation(List<string> i_ListOfInformationToFill, string leicensePlateID)
+        {
+            LicensePlateID = leicensePlateID;
+            ModelName = i_ListOfInformationToFill[0];
+
+            if (!float.TryParse(i_ListOfInformationToFill[1], out float inputEnergyPercentageLeft))
+            {
+                throw new ArgumentException("Input for Energy Percentage must be a number!");
+            }
+
+            EnergyPercentageLeft = inputEnergyPercentageLeft;
+
+            i_ListOfInformationToFill.RemoveRange(0, 2);
+            VehicleInformationLeftToFill(i_ListOfInformationToFill);
+        }
+
+        public abstract void VehicleInformationLeftToFill(List<string> values);
+
         private float MaxEnergyPercentage { get { return r_MaxEnergyPercentage; } }
 
         private float MinEnergyPercentage { get { return r_MinEnergyPercentage; } }

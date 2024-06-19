@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
 
 namespace GarageLogic.Vehicles
 {
@@ -19,6 +20,15 @@ namespace GarageLogic.Vehicles
         {
             get { return m_ManufactureName; }
             set { m_ManufactureName = value; }
+        }
+
+        internal static List<string> ListOfInformationNeededForWheels()
+        {
+            return new List<string>
+            {
+                "manufacture name",
+                "current air pressure"
+            };
         }
 
         public float CurrentAirPressure
