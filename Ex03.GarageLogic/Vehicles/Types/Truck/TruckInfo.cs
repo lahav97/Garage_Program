@@ -54,7 +54,7 @@ namespace GarageLogic.Vehicles.Types.Truck
             {
                 TransportsHazardousMaterials = true;
             }
-            if (i_ListOfInformationToFill[0] == "No")
+            else if (i_ListOfInformationToFill[0] == "No")
             {
                 TransportsHazardousMaterials = false;
             }
