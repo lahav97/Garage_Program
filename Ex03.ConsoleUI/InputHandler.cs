@@ -1,6 +1,4 @@
 ﻿using System;
-using static GarageLogic.Vehicles.Types.Car.CarInfo;
-using static GarageLogic.Vehicles.Types.Motorcycle.MotorcycleInfo;
 
 namespace Ex03.ConsoleUI
 {
@@ -31,21 +29,6 @@ namespace Ex03.ConsoleUI
         internal static bool isExitStatment(string i_UserInput)
         {
             return i_UserInput == r_ExitInput;
-        }
-
-        internal static bool GetYesOrNoAnswer()
-        {
-            while (true)
-            {
-                Console.WriteLine("Please answer y/n:");
-                string answer = Console.ReadLine();
-                if (answer == "y" || answer == "n")
-                {
-                    return answer == "y";
-                }
-
-                Console.WriteLine("You entered the wrong input.");
-            }
         }
 
         internal static string GetAStringFromUser()
@@ -123,61 +106,6 @@ namespace Ex03.ConsoleUI
             } while (!float.TryParse(Console.ReadLine(), out inputNumberfloat) || inputNumberfloat < 0);
 
             return inputNumberfloat;
-        }
-
-        internal static eMotorcycleLicenseType GetMotorcycleLicenseType()
-        {
-            Console.WriteLine("Please enter one of the following options:");
-            foreach (eMotorcycleLicenseType motorcycleLicenseType in Enum.GetValues(typeof(eMotorcycleLicenseType)))
-            {
-                Console.WriteLine($"{(int)motorcycleLicenseType}. {motorcycleLicenseType}");
-            }
-
-            while (true)
-            {
-                if (int.TryParse(Console.ReadLine(), out int inputNumber))
-                {
-                    if (Enum.IsDefined(typeof(eMotorcycleLicenseType), inputNumber))
-                    {
-                        return (eMotorcycleLicenseType)inputNumber;
-                    }
-                    else
-                    {
-                        Console.WriteLine("Invalid choice, please try again");
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Invalid input. Please enter a numeric value.");
-                }
-            }
-        }
-
-        internal static eCarColors GetCarColors()
-        {
-            Console.WriteLine("Please enter one of the following options:");
-            foreach (eCarColors motorcycleLicenseType in Enum.GetValues(typeof(eCarColors)))
-            {
-                Console.WriteLine($"{(int)motorcycleLicenseType}. {motorcycleLicenseType}");
-            }
-            while (true)
-            {
-                if (int.TryParse(Console.ReadLine(), out int inputNumber))
-                {
-                    if (Enum.IsDefined(typeof(eCarColors), inputNumber))
-                    {
-                        return (eCarColors)inputNumber;
-                    }
-                    else
-                    {
-                        Console.WriteLine("Invalid choice, please try again");
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Invalid input. Please enter a numeric value.");
-                }
-            }
         }
     }
 }

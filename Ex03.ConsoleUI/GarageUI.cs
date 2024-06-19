@@ -1,14 +1,10 @@
 ﻿using GarageLogic.Exceptions;
-using GarageLogic.Vehicles.Types.Motorcycle;
-using GarageLogic.Vehicles.Types.Truck;
 using GarageLogic.Vehicles.VehicleFactory;
 using GarageLogic.Vehicles;
 using System;
 using System.Collections.Generic;
-using static GarageLogic.Vehicles.Types.FuelVehicle;
 using VehicleGarage;
 using System.Linq;
-using System.Runtime.InteropServices;
 
 namespace Ex03.ConsoleUI
 {
@@ -332,8 +328,9 @@ if you want to go back to menu press {InputHandler.r_ExitInput}");
                 {
                     if (!InputHandler.isExitStatment(leicencePlateOfVihacleToRefuel))
                     {
-                        eFuelTypes GasTypeToFill = getGasTypeFromUser();
-                        Console.WriteLine(@"Please choose amount of gas to fill in Litters " +
+                        Console.WriteLine(@"Please enter Vehicle fuel Type:");
+                        string GasTypeToFill = InputHandler.GetAStringFromUser();
+                        Console.WriteLine(@"Please choose amount of fuel to fill in Litters " +
                             $"(there are {m_Garage.GetEnergyLeftToBeFilled(leicencePlateOfVihacleToRefuel)} litters left to fill):");
                         m_Garage.RefuelVehicle(leicencePlateOfVihacleToRefuel, GasTypeToFill, InputHandler.GetFloatFromUser());
                         Console.WriteLine("Vehicle was refeuld successfully:");
@@ -346,17 +343,6 @@ if you want to go back to menu press {InputHandler.r_ExitInput}");
                     Console.WriteLine(exeption.Message);
                 }
             }
-        }
-
-        private eFuelTypes getGasTypeFromUser()
-        {
-            Console.WriteLine(@"Please enter Vehicle Gas Type:");
-            foreach (eFuelTypes gasType in Enum.GetValues(typeof(eFuelTypes)))
-            {
-                Console.WriteLine($"{(int)gasType}. {gasType}");
-            }
-
-            return (eFuelTypes)(InputHandler.GetInputNumberFromUser(r_MinumumSizeOfNumericInput, 4));
         }
 
         private void chargeElectricVehicle()

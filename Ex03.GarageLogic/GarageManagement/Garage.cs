@@ -6,6 +6,8 @@ using System;
 using System.Linq;
 using System.Text;
 using GarageLogic.GarageManagement;
+using static GarageLogic.Vehicles.Types.Motorcycle.MotorcycleInfo;
+using static GarageLogic.Vehicles.Types.FuelVehicle;
 
 namespace VehicleGarage
 {
@@ -158,13 +160,18 @@ namespace VehicleGarage
             currentVehicle.InflateAllWheelsToMaximum();
         }
 
-        public void RefuelVehicle(string i_LicensePlateID, FuelVehicle.eFuelTypes i_FuelType, float i_AmountToRefuel)
+        public void RefuelVehicle(string i_LicensePlateID, string i_FuelType, float i_AmountToRefuel)
         {
             Vehicle currentVehicle = getVehicleFromSystem(i_LicensePlateID);
+            eFuelTypes fuelTypeToEnter;
 
+            if (!Enum.TryParse(i_FuelType, true, out fuelTypeToEnter))
+            {
+                throw new ArgumentException("Input for Fuel type was wrong!");
+            }
             if (currentVehicle is FuelVehicle currentFuelVehicle)
             {
-                currentFuelVehicle.Refuel(i_AmountToRefuel, i_FuelType);
+                currentFuelVehicle.Refuel(i_AmountToRefuel, fuelTypeToEnter);
             }
             else
             {
