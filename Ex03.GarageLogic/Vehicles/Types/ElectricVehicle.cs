@@ -1,6 +1,5 @@
 ﻿using GarageLogic.Exceptions;
 using System;
-using static GarageLogic.Vehicles.Types.FuelVehicle;
 using System.Text;
 
 namespace GarageLogic.Vehicles.Types
@@ -26,6 +25,11 @@ namespace GarageLogic.Vehicles.Types
             {
                 m_RemainingBatteryTime = value;
             }
+        }
+
+        internal void SetRemainingBatteryFromEnergyPercentageLeft(float i_EnergyPercentageLeft)
+        {
+            RemainingBatteryTime = i_EnergyPercentageLeft * MaxBatteryCapacity / 100;
         }
 
         public float GetRemainingBatteryCapacityToCharge()
@@ -61,8 +65,8 @@ namespace GarageLogic.Vehicles.Types
             StringBuilder stringBuilder = new StringBuilder();
 
             stringBuilder.AppendLine(base.ToString())
-              .AppendLine($"Max battery capacity: {MaxBatteryCapacity}")
-              .AppendLine($"Remaining battery time: {RemainingBatteryTime}");
+              .AppendLine($"Max battery capacity: {MaxBatteryCapacity} hours")
+              .AppendLine($"Remaining battery time: {RemainingBatteryTime} hours");
 
             return stringBuilder.ToString();
         }

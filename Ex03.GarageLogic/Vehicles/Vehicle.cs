@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using GarageLogic.Vehicles.Types;
 using GarageLogic.VehiclesInfo;
 
 namespace GarageLogic.Vehicles
@@ -26,6 +27,14 @@ namespace GarageLogic.Vehicles
         public void GatherInformationForVehicle(List<string> i_ListOfInformationToFill, string i_LeicensePlate)
         {
             VehicleInfo.FillVehicleInformation(i_ListOfInformationToFill, i_LeicensePlate);
+            if(this is FuelVehicle fuelVehicle)
+            {
+                fuelVehicle.SetRemainingFuelFromEnergyPercentageLeft(this.VehicleInfo.EnergyPercentageLeft);
+            }
+            if(this is ElectricVehicle electricVehicle) 
+            {
+                electricVehicle.SetRemainingBatteryFromEnergyPercentageLeft(this.VehicleInfo.EnergyPercentageLeft);
+            }
         }
 
         protected void InstallWheels(int i_NumberOfWheels, float i_MaxAirPressure)

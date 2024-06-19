@@ -70,6 +70,11 @@ namespace GarageLogic.Vehicles.Types
 
         }
 
+        internal void SetRemainingFuelFromEnergyPercentageLeft(float i_EnergyPercentageLeft)
+        {
+            RemainingFuel = i_EnergyPercentageLeft * MaxFuelTank / 100;
+        }
+
         public void InitializeFuelTank(eFuelTypes i_FuelType, float i_MaxFuelTank)
         {
             FuelType = i_FuelType;
@@ -82,8 +87,8 @@ namespace GarageLogic.Vehicles.Types
 
             stringBuilder.AppendLine(base.ToString())
                .AppendLine($"Fuel type: {FuelType}")
-              .AppendLine($"Max fuel tank: {MaxFuelTank}")
-              .AppendLine($"Remaining fuel: {RemainingFuel}");
+              .AppendLine($"Max fuel tank: {MaxFuelTank} liters")
+              .AppendLine($"Remaining fuel: {RemainingFuel} liters");
 
             return stringBuilder.ToString();
         }

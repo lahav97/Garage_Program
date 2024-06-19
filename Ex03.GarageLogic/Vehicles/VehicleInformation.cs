@@ -42,6 +42,7 @@ namespace GarageLogic.VehiclesInfo
             }
 
             EnergyPercentageLeft = inputEnergyPercentageLeft;
+            
 
             i_ListOfInformationToFill.RemoveRange(0, 2);
             VehicleInformationLeftToFill(i_ListOfInformationToFill);
