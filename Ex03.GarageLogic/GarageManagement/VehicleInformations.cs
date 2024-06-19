@@ -11,7 +11,6 @@ namespace GarageLogic.GarageManagement
     {
         public string m_OwnerName;
         public string m_OwnerPhoneNumber;
-        public eVehicleStatus eVehicleStatus;
 
         public eVehicleStatus VehicleStatus { get; set; }
 
