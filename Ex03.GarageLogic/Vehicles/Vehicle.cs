@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using GarageLogic.VehiclesInfo;
 
@@ -10,6 +11,23 @@ namespace GarageLogic.Vehicles
 
         public List<Wheel> Wheels { get; set; }
 
+        public List<string> OutputPromptsList()
+        {
+            return VehicleInfo.AllInformationNeededForVehiclePrompts();
+        }
+
+        public List<string> OutputPromptListForWheel(out int o_numberOfWheels)
+        {
+            o_numberOfWheels = Wheels.Count;
+
+            return Wheel.ListOfInformationNeededForWheels();
+        }
+
+        public void GatherInformationForVehicle(List<string> i_ListOfInformationToFill, string i_LeicensePlate)
+        {
+            VehicleInfo.FillVehicleInformation(i_ListOfInformationToFill, i_LeicensePlate);
+        }
+
         protected void InstallWheels(int i_NumberOfWheels, float i_MaxAirPressure)
         {
             Wheels = new List<Wheel>(i_NumberOfWheels);
@@ -18,6 +36,23 @@ namespace GarageLogic.Vehicles
             {
                 Wheel wheel = new Wheel(i_MaxAirPressure);
                 Wheels.Add(wheel);
+            }
+        }
+
+        public void EnterWheelsInformation(List<string> i_WheelsInformationList)
+        {
+            float airPressure;
+            for (int i = 0; i < Wheels.Count; i++)
+            {
+                Wheels[i].ManufactureName = i_WheelsInformationList[i];
+                if (float.TryParse(i_WheelsInformationList[i +1],out airPressure))
+                {
+                    Wheels[i].CurrentAirPressure = airPressure;
+                }
+                else
+                {
+                    throw new ArgumentException("Input of air Presure must be a number");
+                }
             }
         }
 

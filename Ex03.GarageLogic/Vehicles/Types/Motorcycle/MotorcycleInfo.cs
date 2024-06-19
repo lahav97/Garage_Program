@@ -1,5 +1,6 @@
 ﻿using GarageLogic.VehiclesInfo;
 using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace GarageLogic.Vehicles.Types.Motorcycle
@@ -26,6 +27,10 @@ namespace GarageLogic.Vehicles.Types.Motorcycle
                 {
                     m_EngineVolume = value;
                 }
+                else
+                {
+                    throw new ArgumentException("Engine Volume must be higher than 0!");
+                }
             }
         }
 
@@ -34,10 +39,6 @@ namespace GarageLogic.Vehicles.Types.Motorcycle
             get { return m_eMotorcycleLicenseType; }
             set
             {
-                if (!Enum.IsDefined(typeof(eMotorcycleLicenseType), value))
-                {
-                    throw new ArgumentException("Invalid vehicle type !");
-                }
                 m_eMotorcycleLicenseType = value;
             }
         }
@@ -51,6 +52,29 @@ namespace GarageLogic.Vehicles.Types.Motorcycle
                 .AppendLine($"Motorcycle's engine volume: {EngineVolume} cc");
 
             return stringBuilder.ToString();
+        }
+
+        public override List<string> PromptsOfInformationNeeded()
+        {
+            return new List<string>
+            {
+                "motorcycle's engine volume in cc",
+                "motorcycle's license type (A, A1, AA, B1)"
+            };
+
+        }
+
+        public override void VehicleInformationLeftToFill(List<string> i_ListOfInformationToFill)
+        {
+            if (!int.TryParse(i_ListOfInformationToFill[0], out m_EngineVolume) || m_EngineVolume < 0)
+            {
+                throw new ArgumentException("Input for engine volume was wrong!");
+            }
+
+            if (!Enum.TryParse(i_ListOfInformationToFill[1], true, out m_eMotorcycleLicenseType))
+            {
+                throw new ArgumentException("Invalid license type!");
+            }
         }
     }
 }

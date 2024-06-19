@@ -63,6 +63,30 @@ namespace VehicleGarage
             }
         }
 
+        public List<string> GetListOfVehicleTypesInGarage()
+        {
+            List<string> ListOfPromptsToSend = new List<string>();
+
+            foreach (eVehicleType vehicleType in Enum.GetValues(typeof(eVehicleType)))
+            {
+                string enumvehicleTypeName = vehicleType.ToString();
+                string vehicleTypeName = string.Empty;
+
+                for (int i = 0; i < enumvehicleTypeName.Length; i++)
+                {
+                    if (i > 0 && char.IsUpper(enumvehicleTypeName[i]) && !char.IsUpper(enumvehicleTypeName[i - 1]))
+                    {
+                        vehicleTypeName += " ";
+                    }
+                    vehicleTypeName += enumvehicleTypeName[i];
+                }
+
+                ListOfPromptsToSend.Add(vehicleTypeName);
+            }
+
+            return ListOfPromptsToSend;
+        }
+
         public void EnterNewVehicleToGarage(Vehicle i_Vehicle, string i_OwnerName, string i_OwnerPhoneNumber)
         {
             VehicleInformations vehicleInformations = new VehicleInformations();

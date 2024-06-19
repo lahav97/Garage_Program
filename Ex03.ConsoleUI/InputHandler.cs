@@ -48,7 +48,7 @@ namespace Ex03.ConsoleUI
             }
         }
 
-        internal static string GetAStringFromUser(string i_wantedFormat)
+        internal static string GetAStringFromUser()
         {
             string inputName;
             bool firstTimeInLoop = true;
@@ -57,7 +57,7 @@ namespace Ex03.ConsoleUI
             {
                 if (!firstTimeInLoop)
                 {
-                    Console.WriteLine($"The {i_wantedFormat} You enterd is incorect, please enter again:");
+                    Console.WriteLine($"The input You enterd is incorect, please enter again:");
                 }
 
                 inputName = Console.ReadLine();
@@ -81,7 +81,7 @@ namespace Ex03.ConsoleUI
                 }
 
                 firstTimeInLoop = false;
-                inputPhoneNumber = GetAStringFromUser("phone number");
+                inputPhoneNumber = GetAStringFromUser();
             } while (!uint.TryParse(inputPhoneNumber, out catchNumber));
 
             return inputPhoneNumber;
