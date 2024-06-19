@@ -8,7 +8,7 @@
         {
             InstallWheels((int)eNumberOfWheels.Car, (float)eMaxWheelAirPressure.Car);
             InitializeMaxBatteryTime(3.5f);
-            VehicleInfo = new CarInfo();
+            m_VehicleInfo = new CarInfo();
         }
 
         public override string ToString()

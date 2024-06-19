@@ -31,9 +31,9 @@ namespace GarageLogic.VehiclesInfo
 
         public abstract List<string> PromptsOfInformationNeeded();
 
-        public void FillVehicleInformation(List<string> i_ListOfInformationToFill, string leicensePlateID)
+        public void FillVehicleInformation(List<string> i_ListOfInformationToFill, string i_LeicensePlateID)
         {
-            LicensePlateID = leicensePlateID;
+            LicensePlateID = i_LeicensePlateID;
             ModelName = i_ListOfInformationToFill[0];
 
             if (!float.TryParse(i_ListOfInformationToFill[1], out float inputEnergyPercentageLeft))
@@ -48,11 +48,11 @@ namespace GarageLogic.VehiclesInfo
             VehicleInformationLeftToFill(i_ListOfInformationToFill);
         }
 
-        public abstract void VehicleInformationLeftToFill(List<string> values);
+        public abstract void VehicleInformationLeftToFill(List<string> i_ListOfInformationToFill);
 
-        private float MaxEnergyPercentage { get { return r_MaxEnergyPercentage; } }
+        private float maxEnergyPercentage { get { return r_MaxEnergyPercentage; } }
 
-        private float MinEnergyPercentage { get { return r_MinEnergyPercentage; } }
+        private float minEnergyPercentage { get { return r_MinEnergyPercentage; } }
 
         public string ModelName
         {
@@ -71,13 +71,13 @@ namespace GarageLogic.VehiclesInfo
             get { return m_EnergyPercentageLeft; }
             set
             {
-                if(value >= MinEnergyPercentage && value <= MaxEnergyPercentage)
+                if(value >= minEnergyPercentage && value <= maxEnergyPercentage)
                 {
                     m_EnergyPercentageLeft = value;
                 }
                 else
                 {
-                    throw new ValueOutOfRangeException("Energy Percentage", MinEnergyPercentage, MaxEnergyPercentage);
+                    throw new ValueOutOfRangeException("Energy Percentage", minEnergyPercentage, maxEnergyPercentage);
                 }
             }
         }
@@ -85,6 +85,7 @@ namespace GarageLogic.VehiclesInfo
         public override string ToString()
         {
             StringBuilder stringBuilder = new StringBuilder();
+
             stringBuilder.AppendLine($"Vehicle license Plate ID: {LicensePlateID}")
               .AppendLine($"Vehicle model name: {ModelName}")
               .AppendLine($"Vehicle energy percentage left: {EnergyPercentageLeft:F2}%");

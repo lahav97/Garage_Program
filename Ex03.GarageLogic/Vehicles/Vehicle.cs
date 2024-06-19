@@ -8,55 +8,55 @@ namespace GarageLogic.Vehicles
 {
     public abstract class Vehicle
     {
-        public VehicleInformation VehicleInfo { get; set; }
-
-        public List<Wheel> Wheels { get; set; }
+        public VehicleInformation m_VehicleInfo { get; set; }
+        public List<Wheel> m_Wheels { get; set; }
 
         public List<string> OutputPromptsList()
         {
-            return VehicleInfo.AllInformationNeededForVehiclePrompts();
+            return m_VehicleInfo.AllInformationNeededForVehiclePrompts();
         }
 
-        public List<string> OutputPromptListForWheel(out int o_numberOfWheels)
+        public List<string> OutputPromptListForWheel(out int o_NumberOfWheels)
         {
-            o_numberOfWheels = Wheels.Count;
+            o_NumberOfWheels = m_Wheels.Count;
 
             return Wheel.ListOfInformationNeededForWheels();
         }
 
         public void GatherInformationForVehicle(List<string> i_ListOfInformationToFill, string i_LeicensePlate)
         {
-            VehicleInfo.FillVehicleInformation(i_ListOfInformationToFill, i_LeicensePlate);
+            m_VehicleInfo.FillVehicleInformation(i_ListOfInformationToFill, i_LeicensePlate);
             if(this is FuelVehicle fuelVehicle)
             {
-                fuelVehicle.SetRemainingFuelFromEnergyPercentageLeft(this.VehicleInfo.EnergyPercentageLeft);
+                fuelVehicle.SetRemainingFuelFromEnergyPercentageLeft(this.m_VehicleInfo.EnergyPercentageLeft);
             }
+
             if(this is ElectricVehicle electricVehicle) 
             {
-                electricVehicle.SetRemainingBatteryFromEnergyPercentageLeft(this.VehicleInfo.EnergyPercentageLeft);
+                electricVehicle.SetRemainingBatteryFromEnergyPercentageLeft(this.m_VehicleInfo.EnergyPercentageLeft);
             }
         }
 
         protected void InstallWheels(int i_NumberOfWheels, float i_MaxAirPressure)
         {
-            Wheels = new List<Wheel>(i_NumberOfWheels);
+            m_Wheels = new List<Wheel>(i_NumberOfWheels);
 
             for(int i = 0; i < i_NumberOfWheels; i++)
             {
                 Wheel wheel = new Wheel(i_MaxAirPressure);
-                Wheels.Add(wheel);
+                m_Wheels.Add(wheel);
             }
         }
 
         public void EnterWheelsInformation(List<string> i_WheelsInformationList)
         {
             float airPressure;
-            for (int i = 0; i < Wheels.Count; i++)
+            for (int i = 0; i < m_Wheels.Count; i++)
             {
-                Wheels[i].ManufactureName = i_WheelsInformationList[i];
+                m_Wheels[i].ManufactureName = i_WheelsInformationList[i];
                 if (float.TryParse(i_WheelsInformationList[i +1],out airPressure))
                 {
-                    Wheels[i].CurrentAirPressure = airPressure;
+                    m_Wheels[i].CurrentAirPressure = airPressure;
                 }
                 else
                 {
@@ -65,9 +65,9 @@ namespace GarageLogic.Vehicles
             }
         }
 
-        public void InflateAllWheelsToMaximum()
+        internal void InflateAllWheelsToMaximum()
         {
-            foreach (Wheel wheel in Wheels)
+            foreach (Wheel wheel in m_Wheels)
             {
                 wheel.InflateToMaximum();
             }
@@ -77,12 +77,12 @@ namespace GarageLogic.Vehicles
         {
             StringBuilder vehicleData = new StringBuilder();
 
-            vehicleData.AppendLine(VehicleInfo.ToString())
-              .AppendLine("Wheels Information:");
+            vehicleData.AppendLine(m_VehicleInfo.ToString())
+              .AppendLine("m_Wheels Information:");
 
-            foreach (Wheel wheel in Wheels)
+            foreach (Wheel wheel in m_Wheels)
             {
-                vehicleData.AppendLine($"Wheel #{Wheels.IndexOf(wheel) + 1}:")
+                vehicleData.AppendLine($"Wheel #{m_Wheels.IndexOf(wheel) + 1}:")
                 .AppendLine(wheel.ToString());
             }
 

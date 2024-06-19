@@ -5,6 +5,7 @@ namespace Ex03.ConsoleUI
     internal class InputHandler
     {
         internal readonly static string r_ExitInput = "-1";
+
         internal static string GetLicensePlate()
         {
             string leicensePlate;
@@ -26,7 +27,7 @@ namespace Ex03.ConsoleUI
             return leicensePlate;
         }
 
-        internal static bool isExitStatment(string i_UserInput)
+        internal static bool IsExitStatment(string i_UserInput)
         {
             return i_UserInput == r_ExitInput;
         }
@@ -65,7 +66,7 @@ namespace Ex03.ConsoleUI
 
                 firstTimeInLoop = false;
                 inputPhoneNumber = GetAStringFromUser();
-            } while (!uint.TryParse(inputPhoneNumber, out catchNumber));
+            }while (!uint.TryParse(inputPhoneNumber, out catchNumber));
 
             return inputPhoneNumber;
         }
@@ -85,7 +86,7 @@ namespace Ex03.ConsoleUI
 
                 inputNumberString = Console.ReadLine();
                 firstTimeInLoop = false;
-            } while (!int.TryParse(inputNumberString, out inputNumberInt) || inputNumberInt < i_minmumNumber || inputNumberInt > i_maximumNumber);
+            }while (!int.TryParse(inputNumberString, out inputNumberInt) || inputNumberInt < i_minmumNumber || inputNumberInt > i_maximumNumber);
 
             return inputNumberInt;
         }
@@ -103,7 +104,7 @@ namespace Ex03.ConsoleUI
                 }
                 firstTimeInLoop = false;
 
-            } while (!float.TryParse(Console.ReadLine(), out inputNumberfloat) || inputNumberfloat < 0);
+            }while (!float.TryParse(Console.ReadLine(), out inputNumberfloat) || inputNumberfloat < 0);
 
             return inputNumberfloat;
         }

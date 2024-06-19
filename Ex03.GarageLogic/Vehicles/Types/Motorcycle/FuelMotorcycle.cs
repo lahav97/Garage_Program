@@ -10,7 +10,7 @@ namespace GarageLogic.Vehicles.Types.Motorcycle
         {
             InstallWheels((int)eNumberOfWheels.MotorCycle, (float)eMaxWheelAirPressure.Motorcycle);
             InitializeFuelTank(eFuelTypes.Octan98, 5.5f);
-            VehicleInfo = new MotorcycleInfo();
+            m_VehicleInfo = new MotorcycleInfo();
         }
 
         public override string ToString()

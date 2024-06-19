@@ -10,7 +10,7 @@
         {
             InstallWheels((int)eNumberOfWheels.Truck, (float)eMaxWheelAirPressure.Truck);
             InitializeFuelTank(eFuelTypes.Soler, 120f);
-            VehicleInfo = new TruckInfo();
+            m_VehicleInfo = new TruckInfo();
         }
         
         public override string ToString()

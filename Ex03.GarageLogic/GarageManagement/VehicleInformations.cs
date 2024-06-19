@@ -11,9 +11,9 @@ namespace GarageLogic.GarageManagement
     {
         public string m_OwnerName;
         public string m_OwnerPhoneNumber;
-        public eVehicleStatus eVehicleStatus;
+        public eVehicleStatus m_VehicleStatus;
 
-        public eVehicleStatus VehicleStatus { get; set; }
+        public eVehicleStatus VehicleStatus { get; set; };
 
         public string OwnerName
         {
@@ -36,14 +36,14 @@ namespace GarageLogic.GarageManagement
 
             stringBuilder.AppendLine($"Owner name: {OwnerName}")
                          .AppendLine($"Owner's phone number: {OwnerPhoneNumber}")
-                         .AppendLine($"Vehicle status: {GetFormattedStatus()}");
+                         .AppendLine($"Vehicle status: {getFormattedStatus()}");
 
             return stringBuilder.ToString();
         }
 
-        private string GetFormattedStatus()
+        private string getFormattedStatus()
         {
-            switch (VehicleStatus)
+            switch (m_VehicleStatus)
             {
                 case eVehicleStatus.InRepair:
                     return "In repair";
@@ -52,7 +52,7 @@ namespace GarageLogic.GarageManagement
                 case eVehicleStatus.WasPaidFor:
                     return "Paid";
                 default:
-                    throw new InvalidOperationException($"Unknown vehicle status: {VehicleStatus}");
+                    throw new InvalidOperationException($"Unknown vehicle status: {m_VehicleStatus}");
             }
         }
     }

@@ -23,19 +23,20 @@ namespace GarageLogic.Vehicles.Types.Car
             FiveDoor = 5
         }
 
-        eCarColors m_eCarColor;
+        eCarColors m_CarColor;
         eNumberOfDoors m_NumberOfDoors;
 
         public eCarColors CarColor 
         { 
-            get { return m_eCarColor;}
+            get { return m_CarColor;}
             set
             {
                 if (!Enum.IsDefined(typeof(eCarColors), value))
                 {
                     throw new ArgumentException("Invalid car color !");
                 }
-                m_eCarColor = value;
+
+                m_CarColor = value;
             }
         }
 
@@ -48,6 +49,7 @@ namespace GarageLogic.Vehicles.Types.Car
                 {
                     throw new ArgumentException("Invalid number of doors !");
                 }
+
                 m_NumberOfDoors = value;
             }
         }
@@ -74,7 +76,7 @@ namespace GarageLogic.Vehicles.Types.Car
 
         public override void VehicleInformationLeftToFill(List<string> i_ListOfInformationToFill)
         {
-            if (!Enum.TryParse(i_ListOfInformationToFill[0], true, out m_eCarColor))
+            if (!Enum.TryParse(i_ListOfInformationToFill[0], true, out m_CarColor))
             {
                 throw new ArgumentException("Invalid car color!");
             }

@@ -12,7 +12,7 @@ namespace GarageLogic.Vehicles.Types.Motorcycle
         {
             InstallWheels((int)eNumberOfWheels.MotorCycle, (float)eNumberOfWheels.MotorCycle);
             InitializeMaxBatteryTime(2.5f);
-            VehicleInfo = new MotorcycleInfo();
+            m_VehicleInfo = new MotorcycleInfo();
         }
 
         public override string ToString()

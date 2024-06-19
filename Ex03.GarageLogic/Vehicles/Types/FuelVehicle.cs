@@ -18,6 +18,7 @@ namespace GarageLogic.Vehicles.Types
         float m_RemainingFuel;
 
         public eFuelTypes FuelType { get; set; }
+
         public float MaxFuelTank 
         {
             get { return m_MaxFuelTank;} 
@@ -46,7 +47,7 @@ namespace GarageLogic.Vehicles.Types
             validateFuelType(i_FuelType);
             validateOutOfRange(i_FuelToAdd);
             RemainingFuel += i_FuelToAdd;
-            VehicleInfo.EnergyPercentageLeft = RemainingFuel * 100 / MaxFuelTank;
+            m_VehicleInfo.EnergyPercentageLeft = RemainingFuel * 100 / MaxFuelTank;
         }
 
         private void validateOutOfRange(float i_FuelToAdd)
@@ -65,7 +66,7 @@ namespace GarageLogic.Vehicles.Types
         {
             if (!FuelType.Equals(i_FuelType))
             {
-                throw new ArgumentException($"Invalid fuel type for this licensed number :{VehicleInfo.LicensePlateID}");
+                throw new ArgumentException($"Invalid fuel type for this licensed number :{m_VehicleInfo.LicensePlateID}");
             }
 
         }

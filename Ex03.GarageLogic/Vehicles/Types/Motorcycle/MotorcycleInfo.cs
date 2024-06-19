@@ -16,7 +16,7 @@ namespace GarageLogic.Vehicles.Types.Motorcycle
         }
 
         int m_EngineVolume;
-        eMotorcycleLicenseType m_eMotorcycleLicenseType;
+        eMotorcycleLicenseType m_MotorcycleLicenseType;
 
         public int EngineVolume 
         {
@@ -36,10 +36,10 @@ namespace GarageLogic.Vehicles.Types.Motorcycle
 
         public eMotorcycleLicenseType MotorcycleLicenseType
         {
-            get { return m_eMotorcycleLicenseType; }
+            get { return m_MotorcycleLicenseType; }
             set
             {
-                m_eMotorcycleLicenseType = value;
+                m_MotorcycleLicenseType = value;
             }
         }
 
@@ -71,7 +71,7 @@ namespace GarageLogic.Vehicles.Types.Motorcycle
                 throw new ArgumentException("Input for engine volume was wrong!");
             }
 
-            if (!Enum.TryParse(i_ListOfInformationToFill[1], true, out m_eMotorcycleLicenseType))
+            if (!Enum.TryParse(i_ListOfInformationToFill[1], true, out m_MotorcycleLicenseType))
             {
                 throw new ArgumentException("Invalid license type!");
             }
