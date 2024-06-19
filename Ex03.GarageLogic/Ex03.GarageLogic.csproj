@@ -43,6 +43,7 @@
     <Compile Include="Exceptions\ValueOutOfRangeException .cs" />
     <Compile Include="Exceptions\VehicleAlreadyExistsException .cs" />
     <Compile Include="GarageManagement\Garage.cs" />
+    <Compile Include="GarageManagement\VehicleInformations.cs" />
     <Compile Include="Vehicles\Types\Car\CarInfo.cs" />
     <Compile Include="Vehicles\Types\Car\ElectricCar.cs" />
     <Compile Include="Vehicles\Types\Car\FuelCar.cs" />

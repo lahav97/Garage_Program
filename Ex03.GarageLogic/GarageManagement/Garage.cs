@@ -5,6 +5,7 @@ using GarageLogic.Vehicles.VehicleFactory;
 using System;
 using System.Linq;
 using System.Text;
+using GarageLogic.GarageManagement;
 
 namespace VehicleGarage
 {
