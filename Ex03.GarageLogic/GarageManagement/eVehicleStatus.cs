@@ -1,6 +1,6 @@
 ﻿namespace GarageLogic.Vehicles.VehicleFactory
 {
-    public enum eVehicleStatus
+    internal enum eVehicleStatus
     {
         InRepair = 1,
         WasRepaired,

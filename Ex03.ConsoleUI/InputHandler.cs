@@ -2,7 +2,7 @@
 
 namespace Ex03.ConsoleUI
 {
-    internal class InputHandler
+    static internal class InputHandler
     {
         internal readonly static string r_ExitInput = "-1";
 

@@ -45,11 +45,14 @@
     <Compile Include="GarageManagement\Garage.cs" />
     <Compile Include="GarageManagement\VehicleInformations.cs" />
     <Compile Include="Vehicles\Types\Car\CarInfo.cs" />
+    <Compile Include="Vehicles\Types\Car\eCarColors.cs" />
     <Compile Include="Vehicles\Types\Car\ElectricCar.cs" />
+    <Compile Include="Vehicles\Types\Car\eNumberOfDoors.cs" />
     <Compile Include="Vehicles\Types\Car\FuelCar.cs" />
     <Compile Include="Vehicles\Types\ElectricVehicle.cs" />
     <Compile Include="Vehicles\Types\FuelVehicle.cs" />
     <Compile Include="Vehicles\Types\Motorcycle\ElectricMotorcycle.cs" />
+    <Compile Include="Vehicles\Types\Motorcycle\eMotorcycleLicenseType.cs" />
     <Compile Include="Vehicles\Types\Motorcycle\FuelMotorcycle.cs" />
     <Compile Include="Vehicles\Types\Motorcycle\MotorcycleInfo.cs" />
     <Compile Include="Vehicles\Types\Truck\FuelTruck.cs" />

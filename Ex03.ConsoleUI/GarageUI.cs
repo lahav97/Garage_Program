@@ -13,6 +13,7 @@ namespace Ex03.ConsoleUI
         Garage m_Garage = new Garage();
         readonly int r_MinumumSizeOfNumericInput = 1;
         readonly int r_ProgramOptionsSize = Enum.GetValues(typeof(eProgramChoices)).Length;
+
         private enum eProgramChoices
         {
             EnterVihacleToGarage = 1,
@@ -291,6 +292,7 @@ Please choose what Status to change Vehicle into:
                         m_Garage.ChangeVehicleStatus(leicencePlateOfVihacleToChnge, (eVehicleStatus)userStatusChoice);
                         Console.WriteLine($"Vehicle {leicencePlateOfVihacleToChnge} Status was changed succecfully");
                     }
+
                     break;
                 }
                 catch (ArgumentException exeption)

@@ -21,7 +21,6 @@ namespace VehicleGarage
             public string m_OwnerPhoneNumber;
             public eVehicleStatus m_VehicleStatus;
 
-
             public eVehicleStatus VehicleStatus {  get;  set; }
            
             public string OwnerName
@@ -72,13 +71,13 @@ namespace VehicleGarage
 
             foreach (eVehicleType vehicleType in Enum.GetValues(typeof(eVehicleType)))
             {
-                ListOfPromptsToSend.Add(SeparateWordsByUpperCase(vehicleType.ToString()));
+                ListOfPromptsToSend.Add(separateWordsByUpperCase(vehicleType.ToString()));
             }
 
             return ListOfPromptsToSend;
         }
 
-        private string SeparateWordsByUpperCase(string i_SentenceToSeperate)
+        private string separateWordsByUpperCase(string i_SentenceToSeperate)
         {
             string vehicleTypeName = string.Empty;
 
@@ -108,15 +107,16 @@ namespace VehicleGarage
 
         public List<string> GetVehicleStatusPrompt()
         {
-            List<string> ListOfPromptsToSend = new List<string>();
+            List<string> listOfPromptsToSend = new List<string>();
 
             foreach (eVehicleStatus vehicleStatus in Enum.GetValues(typeof(eVehicleStatus)))
             {
-                ListOfPromptsToSend.Add(SeparateWordsByUpperCase(vehicleStatus.ToString()));
+                listOfPromptsToSend.Add(separateWordsByUpperCase(vehicleStatus.ToString()));
             }
-            ListOfPromptsToSend.Add("All vehicles");
 
-            return ListOfPromptsToSend;
+            listOfPromptsToSend.Add("All vehicles");
+
+            return listOfPromptsToSend;
         }
 
         public List<string> GetVehiclesLicensePlateListByStatus(string i_VehicleStatus)
@@ -143,18 +143,6 @@ namespace VehicleGarage
             }
 
             return licensePlatesList;
-        }
-
-        public List<string> GetAllLicensePlatesInGarage() 
-        {
-            List<string> VehicleList = new List<string>();
-
-            foreach (string licensePlate in r_VehicleInformation.Keys)
-            {
-                VehicleList.Add(licensePlate);
-            }
-
-            return VehicleList;
         }
 
         public void ChangeVehicleStatus(string i_LicensePlateID, eVehicleStatus i_VehicleStatusToChange)

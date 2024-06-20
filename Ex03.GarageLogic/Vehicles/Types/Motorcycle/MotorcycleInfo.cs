@@ -1,4 +1,5 @@
-﻿using GarageLogic.VehiclesInfo;
+﻿using Ex03.GarageLogic.Vehicles.Types.Motorcycle;
+using GarageLogic.VehiclesInfo;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,16 +8,8 @@ namespace GarageLogic.Vehicles.Types.Motorcycle
 {
     public class MotorcycleInfo : VehicleInformation
     {
-        public enum eMotorcycleLicenseType
-        {
-            A = 1,
-            A1,
-            AA,
-            B1
-        }
-
         int m_EngineVolume;
-        eMotorcycleLicenseType m_MotorcycleLicenseType;
+        eMotorcycleLicenseType m_MotorcycleLicenseType = new eMotorcycleLicenseType;
 
         public int EngineVolume 
         {

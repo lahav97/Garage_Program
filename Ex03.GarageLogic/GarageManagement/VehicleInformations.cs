@@ -1,9 +1,6 @@
 ﻿using GarageLogic.Vehicles.VehicleFactory;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace GarageLogic.GarageManagement
 {
@@ -13,7 +10,7 @@ namespace GarageLogic.GarageManagement
         public string m_OwnerPhoneNumber;
         public eVehicleStatus m_VehicleStatus;
 
-        public eVehicleStatus VehicleStatus { get; set; };
+        public eVehicleStatus VehicleStatus { get; set; }
 
         public string OwnerName
         {

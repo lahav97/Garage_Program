@@ -1,30 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Ex03.GarageLogic.Vehicles.Types.Car;
 using GarageLogic.VehiclesInfo;
-using static GarageLogic.Vehicles.Types.Motorcycle.MotorcycleInfo;
 
 namespace GarageLogic.Vehicles.Types.Car
 {
     public class CarInfo : VehicleInformation
     {
-        public enum eCarColors
-        {
-            Yellow = 1,
-            White,
-            Red,
-            Black
-        }
-        public enum eNumberOfDoors : uint
-        {
-            TwoDoor = 2,
-            ThreeDoor = 3,
-            FourDoor = 4,
-            FiveDoor = 5
-        }
-
-        eCarColors m_CarColor;
-        eNumberOfDoors m_NumberOfDoors;
+        eCarColors m_CarColor = new eCarColors();
+        eNumberOfDoors m_NumberOfDoors = new eNumberOfDoors();
 
         public eCarColors CarColor 
         { 

@@ -51,17 +51,23 @@ namespace GarageLogic.Vehicles
         public void EnterWheelsInformation(List<string> i_WheelsInformationList)
         {
             float airPressure;
-            for (int i = 0; i < m_Wheels.Count; i++)
-            {
-                m_Wheels[i].ManufactureName = i_WheelsInformationList[i];
-                if (float.TryParse(i_WheelsInformationList[i +1],out airPressure))
+            int i = 0;
+
+            foreach (Wheel wheel in m_Wheels) 
+            { 
+                wheel.ManufactureName = i_WheelsInformationList[i];
+                i++;
+
+                if (float.TryParse(i_WheelsInformationList[i], out airPressure))
                 {
-                    m_Wheels[i].CurrentAirPressure = airPressure;
+                    wheel.CurrentAirPressure = airPressure;
                 }
                 else
                 {
                     throw new ArgumentException("Input of air Presure must be a number");
                 }
+
+                i++;
             }
         }
 
