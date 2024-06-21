@@ -7,12 +7,12 @@ namespace GarageLogic.Vehicles.VehicleFactory
 {
     public class VehicleBuilder
     {
-        static public Vehicle BuildVehicle(eVehicleType i_VehicleType)
+        static public Vehicle BuildVehicle(int i_VehicleType)
         {
             Vehicle resultVehicle;
-            validateVehicleType(i_VehicleType);
 
-            switch (i_VehicleType)
+            validateVehicleType(i_VehicleType);
+            switch ((eVehicleType)i_VehicleType)
             {
                 case eVehicleType.FuelCar:
                     resultVehicle = new FuelCar();
@@ -32,10 +32,11 @@ namespace GarageLogic.Vehicles.VehicleFactory
                 default:
                     throw new ArgumentException("Invalid vehicle type!");
             }
+
             return resultVehicle;
         }
 
-        static private void validateVehicleType(eVehicleType i_VehicleType)
+        static private void validateVehicleType(int i_VehicleType)
         {
             if (!Enum.IsDefined(typeof(eVehicleType), i_VehicleType))
             {

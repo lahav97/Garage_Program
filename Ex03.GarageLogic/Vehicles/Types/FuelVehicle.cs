@@ -6,18 +6,11 @@ namespace GarageLogic.Vehicles.Types
 {
     public abstract class FuelVehicle : Vehicle
     {
-        public enum eFuelTypes
-        {
-            Soler = 1,
-            Octan95,
-            Octan96,
-            Octan98
-        }
+        private float m_MaxFuelTank;
+        private float m_RemainingFuel;
 
-        float m_MaxFuelTank;
-        float m_RemainingFuel;
+        internal eFuelTypes FuelType { get; set; }
 
-        public eFuelTypes FuelType { get; set; }
         public float MaxFuelTank 
         {
             get { return m_MaxFuelTank;} 
@@ -36,17 +29,17 @@ namespace GarageLogic.Vehicles.Types
             }
         }
 
-        public float GetRemainingTankCapacityToRefuel()
+        internal float GetRemainingTankCapacityToRefuel()
         {
             return MaxFuelTank - RemainingFuel;
         }
 
-        public void Refuel(float i_FuelToAdd, eFuelTypes i_FuelType)
+        internal void Refuel(float i_FuelToAdd, eFuelTypes i_FuelType)
         {
             validateFuelType(i_FuelType);
             validateOutOfRange(i_FuelToAdd);
             RemainingFuel += i_FuelToAdd;
-            VehicleInfo.EnergyPercentageLeft = RemainingFuel * 100 / MaxFuelTank;
+            m_VehicleInfo.EnergyPercentageLeft = RemainingFuel * 100 / MaxFuelTank;
         }
 
         private void validateOutOfRange(float i_FuelToAdd)
@@ -65,12 +58,17 @@ namespace GarageLogic.Vehicles.Types
         {
             if (!FuelType.Equals(i_FuelType))
             {
-                throw new ArgumentException($"Invalid fuel type for this licensed number :{VehicleInfo.LicensePlateID}");
+                throw new ArgumentException($"Invalid fuel type for this licensed number :{m_VehicleInfo.LicensePlateID}");
             }
 
         }
 
-        public void InitializeFuelTank(eFuelTypes i_FuelType, float i_MaxFuelTank)
+        internal void SetRemainingFuelFromEnergyPercentageLeft(float i_EnergyPercentageLeft)
+        {
+            RemainingFuel = i_EnergyPercentageLeft * MaxFuelTank / 100;
+        }
+
+        internal void InitializeFuelTank(eFuelTypes i_FuelType, float i_MaxFuelTank)
         {
             FuelType = i_FuelType;
             MaxFuelTank = i_MaxFuelTank;
@@ -82,8 +80,8 @@ namespace GarageLogic.Vehicles.Types
 
             stringBuilder.AppendLine(base.ToString())
                .AppendLine($"Fuel type: {FuelType}")
-              .AppendLine($"Max fuel tank: {MaxFuelTank}")
-              .AppendLine($"Remaining fuel: {RemainingFuel}");
+              .AppendLine($"Max fuel tank: {MaxFuelTank} liters")
+              .AppendLine($"Remaining fuel: {RemainingFuel} liters");
 
             return stringBuilder.ToString();
         }

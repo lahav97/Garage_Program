@@ -1,43 +1,31 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
+using Ex03.GarageLogic.Vehicles.Types.Car;
 using GarageLogic.VehiclesInfo;
 
 namespace GarageLogic.Vehicles.Types.Car
 {
     public class CarInfo : VehicleInformation
     {
-        public enum eCarColors
-        {
-            Yellow = 1,
-            White,
-            Red,
-            Black
-        }
-        public enum eNumberOfDoors : uint
-        {
-            TwoDoor = 2,
-            ThreeDoor = 3,
-            FourDoor = 4,
-            FiveDoor = 5
-        }
+        private eCarColors m_CarColor;
+        private eNumberOfDoors m_NumberOfDoors;
 
-        eCarColors m_eCarColor;
-        eNumberOfDoors m_NumberOfDoors;
-
-        public eCarColors CarColor 
+        internal eCarColors CarColor 
         { 
-            get { return m_eCarColor;}
+            get { return m_CarColor;}
             set
             {
                 if (!Enum.IsDefined(typeof(eCarColors), value))
                 {
                     throw new ArgumentException("Invalid car color !");
                 }
-                m_eCarColor = value;
+
+                m_CarColor = value;
             }
         }
 
-        public eNumberOfDoors NumberOfDoors 
+        internal eNumberOfDoors NumberOfDoors 
         { 
             get { return m_NumberOfDoors;}
             set
@@ -46,6 +34,7 @@ namespace GarageLogic.Vehicles.Types.Car
                 {
                     throw new ArgumentException("Invalid number of doors !");
                 }
+
                 m_NumberOfDoors = value;
             }
         }
@@ -59,6 +48,28 @@ namespace GarageLogic.Vehicles.Types.Car
                 .AppendLine($"Number of doors in car: {(int)NumberOfDoors}");
 
             return stringBuilder.ToString();
+        }
+
+        public override List<string> PromptsOfInformationNeeded()
+        {
+            return new List<string>
+            {
+                "car color (Yellow, White, Red, Black)",
+                "number of doors (2, 3, 4, 5)"
+            };
+        }
+
+        public override void VehicleInformationLeftToFill(List<string> i_ListOfInformationToFill)
+        {
+            if (!Enum.TryParse(i_ListOfInformationToFill[0], true, out m_CarColor))
+            {
+                throw new ArgumentException("Invalid car color !");
+            }
+
+            if (!Enum.TryParse(i_ListOfInformationToFill[1], true, out m_NumberOfDoors))
+            {
+                throw new ArgumentException("Invalid number of doors !");
+            }
         }
     }
 }

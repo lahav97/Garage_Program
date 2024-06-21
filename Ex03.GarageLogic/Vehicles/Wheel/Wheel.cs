@@ -1,19 +1,24 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
 
 namespace GarageLogic.Vehicles
 {
     public class Wheel
     {
-        public string m_ManufactureName;
+        private string m_ManufactureName;
         private float m_CurrentAirPressure;
-        public float m_MaxAirPressure;
+        private float m_MaxAirPressure;
 
         public Wheel(float i_MaxAirPressure)
         {
             MaxAirPressure = i_MaxAirPressure;
         }
-        
-        public float MaxAirPressure { get; set; }
+
+        private float MaxAirPressure 
+        { 
+            get {  return m_MaxAirPressure; } 
+            set { m_MaxAirPressure = value; }
+        }
 
         public string ManufactureName
         {
@@ -26,7 +31,7 @@ namespace GarageLogic.Vehicles
             get { return m_CurrentAirPressure; }
             set
             {
-                if (value >=0f  && value <= MaxAirPressure)
+                if (value >= 0f && value <= MaxAirPressure)
                 {
                     m_CurrentAirPressure = value;
                 }
@@ -35,6 +40,15 @@ namespace GarageLogic.Vehicles
                     throw new GarageLogic.Exceptions.ValueOutOfRangeException(value.ToString(), MaxAirPressure, 0f);
                 }
             }
+        }
+
+        internal static List<string> ListOfInformationNeededForWheels()
+        {
+            return new List<string>
+            {
+                "manufacture name",
+                "current air pressure"
+            };
         }
 
         public void InflateWheels(float i_AirPressureToAdd)

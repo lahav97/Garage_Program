@@ -1,12 +1,11 @@
 ﻿using System;
-using static GarageLogic.Vehicles.Types.Car.CarInfo;
-using static GarageLogic.Vehicles.Types.Motorcycle.MotorcycleInfo;
 
-namespace Ex03.ConsoleUI
+namespace ConsoleUI
 {
-    internal class InputHandler
+    static internal class InputHandler
     {
         internal readonly static string r_ExitInput = "-1";
+
         internal static string GetLicensePlate()
         {
             string leicensePlate;
@@ -16,11 +15,11 @@ namespace Ex03.ConsoleUI
             {
                 if (!firstTimeInLoop)
                 {
-                    Console.WriteLine($"the input you enterd is wrong, leicense plate has to contain letters and/or numbers");
+                    Console.WriteLine($"The input you enterd is wrong, leicense plate has to contain letters and/or numbers.");
                 }
 
                 firstTimeInLoop = false;
-                Console.WriteLine("Please Enter Vihacle leicense plate:");
+                Console.WriteLine("Please enter vihacle leicense plate:");
                 leicensePlate = Console.ReadLine();
                 leicensePlate = leicensePlate.Trim();
             } while (leicensePlate.Length == 0);
@@ -28,27 +27,12 @@ namespace Ex03.ConsoleUI
             return leicensePlate;
         }
 
-        internal static bool isExitStatment(string i_UserInput)
+        internal static bool IsExitStatment(string i_UserInput)
         {
             return i_UserInput == r_ExitInput;
         }
 
-        internal static bool GetYesOrNoAnswer()
-        {
-            while (true)
-            {
-                Console.WriteLine("Please answer y/n:");
-                string answer = Console.ReadLine();
-                if (answer == "y" || answer == "n")
-                {
-                    return answer == "y";
-                }
-
-                Console.WriteLine("You entered the wrong input.");
-            }
-        }
-
-        internal static string GetAStringFromUser(string i_wantedFormat)
+        internal static string GetAStringFromUser()
         {
             string inputName;
             bool firstTimeInLoop = true;
@@ -57,12 +41,12 @@ namespace Ex03.ConsoleUI
             {
                 if (!firstTimeInLoop)
                 {
-                    Console.WriteLine($"The {i_wantedFormat} You enterd is incorect, please enter again:");
+                    Console.WriteLine($"The input you enterd is incorect, please enter again:");
                 }
 
                 inputName = Console.ReadLine();
                 firstTimeInLoop = false;
-            } while (string.IsNullOrEmpty(inputName));
+            } while (string.IsNullOrWhiteSpace(inputName));
 
             return inputName;
         }
@@ -77,12 +61,12 @@ namespace Ex03.ConsoleUI
             {
                 if (!firstTimeInLoop)
                 {
-                    Console.WriteLine("your input is not a valid phone number, please enter numeric phone number.");
+                    Console.WriteLine("Your input is not a valid phone number, please enter numeric phone number.");
                 }
 
                 firstTimeInLoop = false;
-                inputPhoneNumber = GetAStringFromUser("phone number");
-            } while (!uint.TryParse(inputPhoneNumber, out catchNumber));
+                inputPhoneNumber = GetAStringFromUser();
+            }while (!uint.TryParse(inputPhoneNumber, out catchNumber));
 
             return inputPhoneNumber;
         }
@@ -102,7 +86,7 @@ namespace Ex03.ConsoleUI
 
                 inputNumberString = Console.ReadLine();
                 firstTimeInLoop = false;
-            } while (!int.TryParse(inputNumberString, out inputNumberInt) || inputNumberInt < i_minmumNumber || inputNumberInt > i_maximumNumber);
+            }while (!int.TryParse(inputNumberString, out inputNumberInt) || inputNumberInt < i_minmumNumber || inputNumberInt > i_maximumNumber);
 
             return inputNumberInt;
         }
@@ -116,68 +100,13 @@ namespace Ex03.ConsoleUI
             {
                 if (!firstTimeInLoop)
                 {
-                    Console.WriteLine($"The input You enterd is incorrect");
+                    Console.WriteLine($"The input You enterd is incorrect.");
                 }
                 firstTimeInLoop = false;
 
-            } while (!float.TryParse(Console.ReadLine(), out inputNumberfloat) || inputNumberfloat < 0);
+            }while (!float.TryParse(Console.ReadLine(), out inputNumberfloat) || inputNumberfloat < 0);
 
             return inputNumberfloat;
-        }
-
-        internal static eMotorcycleLicenseType GetMotorcycleLicenseType()
-        {
-            Console.WriteLine("Please enter one of the following options:");
-            foreach (eMotorcycleLicenseType motorcycleLicenseType in Enum.GetValues(typeof(eMotorcycleLicenseType)))
-            {
-                Console.WriteLine($"{(int)motorcycleLicenseType}. {motorcycleLicenseType}");
-            }
-
-            while (true)
-            {
-                if (int.TryParse(Console.ReadLine(), out int inputNumber))
-                {
-                    if (Enum.IsDefined(typeof(eMotorcycleLicenseType), inputNumber))
-                    {
-                        return (eMotorcycleLicenseType)inputNumber;
-                    }
-                    else
-                    {
-                        Console.WriteLine("Invalid choice, please try again");
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Invalid input. Please enter a numeric value.");
-                }
-            }
-        }
-
-        internal static eCarColors GetCarColors()
-        {
-            Console.WriteLine("Please enter one of the following options:");
-            foreach (eCarColors motorcycleLicenseType in Enum.GetValues(typeof(eCarColors)))
-            {
-                Console.WriteLine($"{(int)motorcycleLicenseType}. {motorcycleLicenseType}");
-            }
-            while (true)
-            {
-                if (int.TryParse(Console.ReadLine(), out int inputNumber))
-                {
-                    if (Enum.IsDefined(typeof(eCarColors), inputNumber))
-                    {
-                        return (eCarColors)inputNumber;
-                    }
-                    else
-                    {
-                        Console.WriteLine("Invalid choice, please try again");
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Invalid input. Please enter a numeric value.");
-                }
-            }
         }
     }
 }
