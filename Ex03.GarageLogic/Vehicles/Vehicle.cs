@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using GarageLogic.Vehicles.Types;
@@ -64,7 +64,7 @@ namespace GarageLogic.Vehicles
                 }
                 else
                 {
-                    throw new ArgumentException("Air presure must be a number");
+                    throw new FormatException("Air presure must be a number");
                 }
 
                 i++;
