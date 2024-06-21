@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using GarageLogic.Vehicles;
 using GarageLogic.Vehicles.Types;
 using GarageLogic.Vehicles.VehicleFactory;
@@ -84,7 +84,7 @@ namespace VehicleGarage
             {
                 if (!Enum.TryParse(i_VehicleStatus, true, out vehicleStatus) || !Enum.IsDefined(typeof(eVehicleStatus), vehicleStatus))
                 {
-                    throw new ArgumentException("Invalid vehicle status!");
+                    throw new FormatException("Invalid vehicle status!");
                 }
 
                 licensePlatesList = m_VehicleInformation
@@ -121,7 +121,7 @@ namespace VehicleGarage
 
             if (!Enum.TryParse(i_FuelType, true, out fuelTypeToEnter))
             {
-                throw new ArgumentException("Input for fuel type was wrong!");
+                throw new FormatException("Input for fuel type was wrong!");
             }
             if (currentVehicle is FuelVehicle currentFuelVehicle)
             {
