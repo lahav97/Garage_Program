@@ -1,4 +1,4 @@
-﻿using GarageLogic.Exceptions;
+using GarageLogic.Exceptions;
 using GarageLogic.Vehicles.VehicleFactory;
 using GarageLogic.Vehicles;
 using System;
@@ -125,7 +125,11 @@ Please write choice number: ");
                 {
                     Console.WriteLine(exception.Message);
                 }
-                catch(ArgumentException exception)
+                catch(FormatException exception)
+                {
+                    Console.WriteLine(exception.Message);
+                }
+                catch (ArgumentException exception)
                 {
                     Console.WriteLine(exception.Message);
                 }
@@ -208,7 +212,11 @@ Please write choice number: ");
                 {
                     Console.WriteLine(exception.Message);
                 }
-                catch(ArgumentException exception)
+                catch (FormatException exception)
+                {
+                    Console.WriteLine(exception.Message);
+                }
+                catch (ArgumentException exception)
                 {
                     Console.WriteLine(exception.Message);
                 }
@@ -237,7 +245,7 @@ Please write choice number: ");
                     leicencePlateList = m_Garage.GetVehiclesLicensePlateListByStatus(usersChiceToShow);
                     break;
                 }
-                catch(ArgumentException exception)
+                catch(FormatException exception)
                 {
                     Console.WriteLine(exception.Message);
                 }
@@ -352,6 +360,10 @@ If you want to go back to menu press {InputHandler.r_ExitInput}.");
                     }
                 }
                 catch (ValueOutOfRangeException exception)
+                {
+                    Console.WriteLine(exception.Message);
+                }
+                catch (FormatException exception)
                 {
                     Console.WriteLine(exception.Message);
                 }
