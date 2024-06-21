@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Ex03.GarageLogic.Vehicles.Types.Car;
@@ -63,12 +63,12 @@ namespace GarageLogic.Vehicles.Types.Car
         {
             if (!Enum.TryParse(i_ListOfInformationToFill[0], true, out m_CarColor))
             {
-                throw new ArgumentException("Invalid car color !");
+                throw new FormatException("Invalid car color !");
             }
 
             if (!Enum.TryParse(i_ListOfInformationToFill[1], true, out m_NumberOfDoors))
             {
-                throw new ArgumentException("Invalid number of doors !");
+                throw new FormatException("Invalid number of doors !");
             }
         }
     }
