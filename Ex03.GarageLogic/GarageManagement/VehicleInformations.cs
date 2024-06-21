@@ -1,4 +1,5 @@
-﻿using GarageLogic.Vehicles.VehicleFactory;
+﻿using GarageLogic.Vehicles.Types.Car;
+using GarageLogic.Vehicles.VehicleFactory;
 using System;
 using System.Text;
 
@@ -6,10 +7,22 @@ namespace GarageLogic.GarageManagement
 {
     internal class VehicleInformations
     {
-        public string m_OwnerName;
-        public string m_OwnerPhoneNumber;
-      
-        public eVehicleStatus VehicleStatus { get; set; }
+        private string m_OwnerName;
+        private string m_OwnerPhoneNumber;
+        private eVehicleStatus m_VehicleStatus;
+        public eVehicleStatus VehicleStatus
+        {
+            get { return m_VehicleStatus; }
+            set
+            {
+                if (!Enum.IsDefined(typeof(eVehicleStatus), value))
+                {
+                    throw new ArgumentException("Invalid vehicle status !");
+                }
+
+                m_VehicleStatus = value;
+            }
+        }
 
         public string OwnerName
         {
@@ -26,17 +39,6 @@ namespace GarageLogic.GarageManagement
             }
         }
 
-        public override string ToString()
-        {
-            StringBuilder stringBuilder = new StringBuilder();
-
-            stringBuilder.AppendLine($"Owner's name: {OwnerName}")
-                         .AppendLine($"Owner's phone number: {OwnerPhoneNumber}")
-                         .AppendLine($"Vehicle status: {getFormattedStatus()}");
-
-            return stringBuilder.ToString();
-        }
-
         private string getFormattedStatus()
         {
             switch (VehicleStatus)
@@ -50,6 +52,17 @@ namespace GarageLogic.GarageManagement
                 default:
                     throw new InvalidOperationException($"Unknown vehicle status: {VehicleStatus}");
             }
+        }
+
+        public override string ToString()
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+
+            stringBuilder.AppendLine($"Owner's name: {OwnerName}")
+                         .AppendLine($"Owner's phone number: {OwnerPhoneNumber}")
+                         .AppendLine($"Vehicle status: {getFormattedStatus()}");
+
+            return stringBuilder.ToString();
         }
     }
 }

@@ -7,8 +7,8 @@ namespace GarageLogic.Vehicles.Types.Motorcycle
 {
     public class MotorcycleInfo : VehicleInformation
     {
-        int m_EngineVolume;
-        eMotorcycleLicenseType m_MotorcycleLicenseType;
+        private int m_EngineVolume;
+        private eMotorcycleLicenseType m_MotorcycleLicenseType;
 
         public int EngineVolume 
         {
@@ -35,17 +35,6 @@ namespace GarageLogic.Vehicles.Types.Motorcycle
             }
         }
 
-        public override string ToString()
-        {
-            StringBuilder stringBuilder = new StringBuilder();
-
-            stringBuilder.AppendLine(base.ToString())
-                .AppendLine($"Motorcycle's license type: {MotorcycleLicenseType}")
-                .AppendLine($"Motorcycle's engine volume: {EngineVolume} cc");
-
-            return stringBuilder.ToString();
-        }
-
         public override List<string> PromptsOfInformationNeeded()
         {
             return new List<string>
@@ -67,6 +56,17 @@ namespace GarageLogic.Vehicles.Types.Motorcycle
             {
                 throw new ArgumentException("Invalid license type !");
             }
+        }
+
+        public override string ToString()
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+
+            stringBuilder.AppendLine(base.ToString())
+                .AppendLine($"Motorcycle's license type: {MotorcycleLicenseType}")
+                .AppendLine($"Motorcycle's engine volume: {EngineVolume} cc");
+
+            return stringBuilder.ToString();
         }
     }
 }

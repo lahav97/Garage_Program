@@ -79,6 +79,7 @@ Please write choice number: ");
         {
             string leicensePlate = InputHandler.GetLicensePlate();
             int inRepair = 1;
+
             if (!m_Garage.IsVehicleInSystem(leicensePlate))
             {
                 enterNewVehicleToSystem(leicensePlate);
@@ -95,8 +96,8 @@ Please write choice number: ");
 
             Console.WriteLine("Please enter vehicle owner phone number:");
             string ownerPhoneNumber = InputHandler.GetPhoneNumberFromUser();
-
             Vehicle newVehicle = createNewVehicle();
+
             enterDataToVehicle(newVehicle, i_LeicensePlate);
             m_Garage.EnterNewVehicleToGarage(newVehicle, ownerName, ownerPhoneNumber);
         }
@@ -120,13 +121,13 @@ Please write choice number: ");
                     enterWheelsInformationFromUser(io_Vehicle);
                     break;
                 }
-                catch(ValueOutOfRangeException exeption)
+                catch(ValueOutOfRangeException exception)
                 {
-                    Console.WriteLine(exeption.Message);
+                    Console.WriteLine(exception.Message);
                 }
-                catch(ArgumentException exeption)
+                catch(ArgumentException exception)
                 {
-                    Console.WriteLine(exeption.Message);
+                    Console.WriteLine(exception.Message);
                 }
             }
         }
@@ -151,9 +152,9 @@ Please write choice number: ");
 
                     return VehicleBuilder.BuildVehicle(vehicleType);
                 }
-                catch (ArgumentException exeption)
+                catch (ArgumentException exception)
                 {
-                    Console.WriteLine(exeption.Message);
+                    Console.WriteLine(exception.Message);
                 }
             }
         }
@@ -203,13 +204,13 @@ Please write choice number: ");
                     io_Vehicle.EnterWheelsInformation(wheelsInformationToInsert);
                     break;
                 }
-                catch (ValueOutOfRangeException exeption)
+                catch (ValueOutOfRangeException exception)
                 {
-                    Console.WriteLine(exeption.Message);
+                    Console.WriteLine(exception.Message);
                 }
-                catch(ArgumentException exeption)
+                catch(ArgumentException exception)
                 {
-                    Console.WriteLine(exeption.Message);
+                    Console.WriteLine(exception.Message);
                 }
             }
         }
@@ -236,9 +237,9 @@ Please write choice number: ");
                     leicencePlateList = m_Garage.GetVehiclesLicensePlateListByStatus(usersChiceToShow);
                     break;
                 }
-                catch(ArgumentException exeption)
+                catch(ArgumentException exception)
                 {
-                    Console.WriteLine(exeption.Message);
+                    Console.WriteLine(exception.Message);
                 }
             }
 
@@ -286,9 +287,9 @@ Please choose what status to change vehicle into:
 
                     break;
                 }
-                catch (ArgumentException exeption)
+                catch (ArgumentException exception)
                 {
-                    Console.WriteLine(exeption.Message);
+                    Console.WriteLine(exception.Message);
                 }
             }
         }
@@ -312,13 +313,13 @@ If you want to go back to menu press {InputHandler.r_ExitInput}");
 
                     break;
                 }
-                catch (ArgumentOutOfRangeException exeption)
+                catch (ArgumentOutOfRangeException exception)
                 {
-                    Console.WriteLine(exeption.Message);
+                    Console.WriteLine(exception.Message);
                 }
-                catch (ArgumentException exeption)
+                catch (ArgumentException exception)
                 {
-                    Console.WriteLine(exeption.Message);
+                    Console.WriteLine(exception.Message);
                 }
             }
         }
@@ -331,9 +332,10 @@ If you want to go back to menu press {InputHandler.r_ExitInput}");
 Please choose which vehicle to refuel.
 If you want to go back to menu press {InputHandler.r_ExitInput}.");
                 string leicencePlateOfVihacleToRefuel = InputHandler.GetLicensePlate();
-                if(!InputHandler.IsExitStatment(leicencePlateOfVihacleToRefuel) && !m_Garage.IsElectricVehicle(leicencePlateOfVihacleToRefuel))
+
+                try
                 {
-                    try
+                    if (!InputHandler.IsExitStatment(leicencePlateOfVihacleToRefuel) && !m_Garage.IsElectricVehicle(leicencePlateOfVihacleToRefuel))
                     {
                         Console.WriteLine(@"Please enter vehicle fuel Type:");
                         string gasTypeToFill = InputHandler.GetAStringFromUser();
@@ -344,14 +346,18 @@ If you want to go back to menu press {InputHandler.r_ExitInput}.");
                         Console.WriteLine("Vehicle was refeuld successfully.");
                         break;
                     }
-                    catch (ArgumentException exeption)
+                    else
                     {
-                        Console.WriteLine(exeption.Message);
+                        Console.WriteLine("This is not a fuel vehicle !");
                     }
                 }
-                else
+                catch (ValueOutOfRangeException exception)
                 {
-                    Console.WriteLine("This is not a fuel vehicle !");
+                    Console.WriteLine(exception.Message);
+                }
+                catch (ArgumentException exception)
+                {
+                    Console.WriteLine(exception.Message);
                 }
             }
         }
@@ -365,27 +371,28 @@ Please choose which vehicle to charge.
 If you want to go back to menu press {InputHandler.r_ExitInput}.");
                 string leicencePlateOfVihacleToCharge = InputHandler.GetLicensePlate();
 
-                if (!InputHandler.IsExitStatment(leicencePlateOfVihacleToCharge) && m_Garage.IsElectricVehicle(leicencePlateOfVihacleToCharge))
+                try
                 {
-                    try
+                    if (!InputHandler.IsExitStatment(leicencePlateOfVihacleToCharge) && m_Garage.IsElectricVehicle(leicencePlateOfVihacleToCharge))
                     {
-                        if (!InputHandler.IsExitStatment(leicencePlateOfVihacleToCharge))
-                        {
-                            Console.WriteLine($"Please choose how long to charge the car in minutes " +
-                                $"((there are {m_Garage.GetEnergyLeftToBeFilled(leicencePlateOfVihacleToCharge) * 60} minutes left to charge):");
-                            m_Garage.ChargeVehicle(leicencePlateOfVihacleToCharge, (InputHandler.GetInputNumberFromUser(r_MinumumSizeOfNumericInput, int.MaxValue)) / 60);
-                            Console.WriteLine($"Vehicle was charged successfully.");
-                        }
+                        Console.WriteLine($"Please choose how long to charge the car in minutes " +
+                            $"((there are {m_Garage.GetEnergyLeftToBeFilled(leicencePlateOfVihacleToCharge) * 60} minutes left to charge):");
+                        m_Garage.ChargeVehicle(leicencePlateOfVihacleToCharge, (InputHandler.GetInputNumberFromUser(r_MinumumSizeOfNumericInput, int.MaxValue)) / 60);
+                        Console.WriteLine($"Vehicle was charged successfully.");
                         break;
                     }
-                    catch (ArgumentException exeption)
+                    else
                     {
-                        Console.WriteLine(exeption.Message);
+                        Console.WriteLine("This is not an electric vehicle !");
                     }
                 }
-                else
+                catch (ValueOutOfRangeException exception)
                 {
-                    Console.WriteLine("This is not a electric vehicle !");
+                    Console.WriteLine(exception.Message);
+                }
+                catch (ArgumentException exception)
+                {
+                    Console.WriteLine(exception.Message);
                 }
             }
         }
@@ -408,9 +415,9 @@ If you want to go back to menu press {InputHandler.r_ExitInput}");
 
                     break;
                 }
-                catch (ArgumentException exeption)
+                catch (ArgumentException exception)
                 {
-                    Console.WriteLine(exeption.Message);
+                    Console.WriteLine(exception.Message);
                 }
             }
         }

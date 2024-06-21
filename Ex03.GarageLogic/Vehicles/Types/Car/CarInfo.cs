@@ -8,8 +8,8 @@ namespace GarageLogic.Vehicles.Types.Car
 {
     public class CarInfo : VehicleInformation
     {
-        eCarColors m_CarColor;
-        eNumberOfDoors m_NumberOfDoors;
+        private eCarColors m_CarColor;
+        private eNumberOfDoors m_NumberOfDoors;
 
         internal eCarColors CarColor 
         { 

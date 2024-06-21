@@ -11,8 +11,8 @@ namespace VehicleGarage
 {
     public class Garage
     {
-        private readonly Dictionary<string, VehicleInformations> r_VehicleInformation = new Dictionary<string, VehicleInformations>();
-        private readonly Dictionary<string, Vehicle> r_Vehicles = new Dictionary<string, Vehicle>();
+        private Dictionary<string, VehicleInformations> m_VehicleInformation = new Dictionary<string, VehicleInformations>();
+        private Dictionary<string, Vehicle> m_Vehicles = new Dictionary<string, Vehicle>();
         public readonly int r_MaxSizeOfVehicleStatus = Enum.GetValues(typeof(eVehicleStatus)).Cast<int>().Max();
 
         public List<string> GetListOfVehicleTypesInGarage()
@@ -51,8 +51,8 @@ namespace VehicleGarage
             vehicleInformations.OwnerPhoneNumber = i_OwnerPhoneNumber;
             vehicleInformations.OwnerName = i_OwnerName;
             vehicleInformations.VehicleStatus = eVehicleStatus.InRepair;
-            r_Vehicles.Add(i_Vehicle.m_VehicleInfo.LicensePlateID, i_Vehicle);
-            r_VehicleInformation.Add(i_Vehicle.m_VehicleInfo.LicensePlateID, vehicleInformations);
+            m_Vehicles.Add(i_Vehicle.m_VehicleInfo.LicensePlateID, i_Vehicle);
+            m_VehicleInformation.Add(i_Vehicle.m_VehicleInfo.LicensePlateID, vehicleInformations);
         }
 
         public List<string> GetVehicleStatusPrompt()
@@ -78,7 +78,7 @@ namespace VehicleGarage
 
             if (getAllVehile) // To return all of the license plates.
             {
-                licensePlatesList = r_VehicleInformation.Keys.ToList();
+                licensePlatesList = m_VehicleInformation.Keys.ToList();
             }
             else
             {
@@ -87,7 +87,7 @@ namespace VehicleGarage
                     throw new ArgumentException("Invalid vehicle status!");
                 }
 
-                licensePlatesList = r_VehicleInformation
+                licensePlatesList = m_VehicleInformation
                     .Where(vehicleInfo => vehicleInfo.Value.VehicleStatus == vehicleStatus)
                     .Select(vehicleInfo => vehicleInfo.Key)
                     .ToList();
@@ -98,7 +98,7 @@ namespace VehicleGarage
 
         public void ChangeVehicleStatus(string i_LicensePlateID, int i_VehicleStatusToChange)
         {
-            if (r_VehicleInformation.TryGetValue(i_LicensePlateID, out VehicleInformations vehicleInfo))
+            if (m_VehicleInformation.TryGetValue(i_LicensePlateID, out VehicleInformations vehicleInfo))
             {
                 vehicleInfo.VehicleStatus = (eVehicleStatus)i_VehicleStatusToChange;
             }
@@ -154,8 +154,8 @@ namespace VehicleGarage
                 throw new ArgumentException($"Vehicle with license plate ID '{i_LicensePlateID}' does not exist in the system.");
             }
 
-            Vehicle vehicle = r_Vehicles[i_LicensePlateID];
-            VehicleInformations vehicleInfo = r_VehicleInformation[i_LicensePlateID];
+            Vehicle vehicle = m_Vehicles[i_LicensePlateID];
+            VehicleInformations vehicleInfo = m_VehicleInformation[i_LicensePlateID];
             StringBuilder stringBuilder = new StringBuilder();
 
             stringBuilder.AppendLine("Owner's Information:");
@@ -176,7 +176,7 @@ namespace VehicleGarage
                 throw new ArgumentException($"Vehicle with license plate ID '{i_LicensePlateID}' does not exist in the system.");
             }
 
-            if(!r_Vehicles.TryGetValue(i_LicensePlateID, out resultVehicle))
+            if(!m_Vehicles.TryGetValue(i_LicensePlateID, out resultVehicle))
             {
                 throw new ArgumentException($"Vehicle with license plate ID '{i_LicensePlateID}' not found.");
             }
@@ -186,7 +186,7 @@ namespace VehicleGarage
 
         public bool IsVehicleInSystem(string i_LicensePlateID)
         {
-            return r_VehicleInformation.ContainsKey(i_LicensePlateID);
+            return m_VehicleInformation.ContainsKey(i_LicensePlateID);
         }
 
         public float GetEnergyLeftToBeFilled(string i_LicensePlateID)

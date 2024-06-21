@@ -7,10 +7,14 @@ namespace GarageLogic.Vehicles.Types.Truck
 {
     public class TruckInfo : VehicleInformation
     {
-        public bool m_TransportsHazardousMaterials;
-        public float m_CargoVolume;
+        private bool m_TransportsHazardousMaterials;
+        private float m_CargoVolume;
 
-        public bool TransportsHazardousMaterials { get; set; }
+        public bool TransportsHazardousMaterials 
+        {
+            get { return m_TransportsHazardousMaterials; }
+            set { m_TransportsHazardousMaterials = value; }
+        }
 
         public float CargoVolume 
         {  get { return m_CargoVolume; }
@@ -25,17 +29,6 @@ namespace GarageLogic.Vehicles.Types.Truck
                     throw new ArgumentException("Cargo volume must be higher than 0 !");
                 }
             }
-        }
-
-        public override string ToString()
-        {
-            StringBuilder stringBuilder = new StringBuilder();
-
-            stringBuilder.AppendLine(base.ToString())
-                .AppendLine($"does truck transports hazardous materials? {(TransportsHazardousMaterials ? "Yes" : "No")} ")
-                .AppendLine($"Truck's cargo volume: {CargoVolume} cubic meters");
-
-            return stringBuilder.ToString();
         }
 
         public override List<string> PromptsOfInformationNeeded()
@@ -66,6 +59,17 @@ namespace GarageLogic.Vehicles.Types.Truck
             {
                 throw new ArgumentException("Input for cargo volume was wrong !");
             }
+        }
+
+        public override string ToString()
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+
+            stringBuilder.AppendLine(base.ToString())
+                .AppendLine($"does truck transports hazardous materials? {(TransportsHazardousMaterials ? "Yes" : "No")} ")
+                .AppendLine($"Truck's cargo volume: {CargoVolume} cubic meters");
+
+            return stringBuilder.ToString();
         }
     }
 }

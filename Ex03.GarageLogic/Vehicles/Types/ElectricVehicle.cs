@@ -6,8 +6,8 @@ namespace GarageLogic.Vehicles.Types
 {
     public abstract class ElectricVehicle : Vehicle
     {
-        float m_MaxBatteryCapacity;
-        float m_RemainingBatteryTime;
+        private float m_MaxBatteryCapacity;
+        private float m_RemainingBatteryTime;
 
         public float MaxBatteryCapacity
         {
@@ -32,12 +32,12 @@ namespace GarageLogic.Vehicles.Types
             RemainingBatteryTime = i_EnergyPercentageLeft * MaxBatteryCapacity / 100;
         }
 
-        public float GetRemainingBatteryCapacityToCharge()
+        internal float GetRemainingBatteryCapacityToCharge()
         {
             return MaxBatteryCapacity - RemainingBatteryTime;
         }
 
-        public void ChargeBattery(float i_ChargingTime)
+        internal void ChargeBattery(float i_ChargingTime)
         {
             validateOutOfRange(i_ChargingTime);
             RemainingBatteryTime += i_ChargingTime;
@@ -55,8 +55,8 @@ namespace GarageLogic.Vehicles.Types
                 throw new ArgumentException("Can't add non-positive amount of charging time to the battery");
             }
         }
-        
-        public void InitializeMaxBatteryTime(float i_MaxBatteryCapacity)
+
+        internal void InitializeMaxBatteryTime(float i_MaxBatteryCapacity)
         {
             MaxBatteryCapacity = i_MaxBatteryCapacity;
         }

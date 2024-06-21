@@ -6,8 +6,8 @@ namespace GarageLogic.Vehicles.Types
 {
     public abstract class FuelVehicle : Vehicle
     {
-        float m_MaxFuelTank;
-        float m_RemainingFuel;
+        private float m_MaxFuelTank;
+        private float m_RemainingFuel;
 
         internal eFuelTypes FuelType { get; set; }
 
@@ -29,12 +29,12 @@ namespace GarageLogic.Vehicles.Types
             }
         }
 
-        public float GetRemainingTankCapacityToRefuel()
+        internal float GetRemainingTankCapacityToRefuel()
         {
             return MaxFuelTank - RemainingFuel;
         }
 
-        public void Refuel(float i_FuelToAdd, eFuelTypes i_FuelType)
+        internal void Refuel(float i_FuelToAdd, eFuelTypes i_FuelType)
         {
             validateFuelType(i_FuelType);
             validateOutOfRange(i_FuelToAdd);
@@ -68,7 +68,7 @@ namespace GarageLogic.Vehicles.Types
             RemainingFuel = i_EnergyPercentageLeft * MaxFuelTank / 100;
         }
 
-        public void InitializeFuelTank(eFuelTypes i_FuelType, float i_MaxFuelTank)
+        internal void InitializeFuelTank(eFuelTypes i_FuelType, float i_MaxFuelTank)
         {
             FuelType = i_FuelType;
             MaxFuelTank = i_MaxFuelTank;
