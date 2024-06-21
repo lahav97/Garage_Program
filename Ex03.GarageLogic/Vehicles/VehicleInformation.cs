@@ -1,4 +1,4 @@
-﻿using GarageLogic.Exceptions;
+using GarageLogic.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -72,7 +72,7 @@ namespace GarageLogic.VehiclesInfo
 
             if (!float.TryParse(i_ListOfInformationToFill[1], out float inputEnergyPercentageLeft))
             {
-                throw new ArgumentException("Energy percentage must be a number !");
+                throw new FormatException("Energy percentage must be a number !");
             }
 
             EnergyPercentageLeft = inputEnergyPercentageLeft;
