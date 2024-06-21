@@ -1,4 +1,4 @@
-﻿using GarageLogic.VehiclesInfo;
+using GarageLogic.VehiclesInfo;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -49,12 +49,12 @@ namespace GarageLogic.Vehicles.Types.Motorcycle
         {
             if (!int.TryParse(i_ListOfInformationToFill[0], out m_EngineVolume) || m_EngineVolume < 0)
             {
-                throw new ArgumentException("Input for engine volume was wrong !");
+                throw new FormatException("Input for engine volume was wrong !");
             }
 
             if (!Enum.TryParse(i_ListOfInformationToFill[1], true, out m_MotorcycleLicenseType))
             {
-                throw new ArgumentException("Invalid license type !");
+                throw new FormatException("Invalid license type !");
             }
         }
 
