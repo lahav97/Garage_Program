@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ex03.ConsoleUI
+namespace ConsoleUI
 {
     static internal class InputHandler
     {
@@ -15,11 +15,11 @@ namespace Ex03.ConsoleUI
             {
                 if (!firstTimeInLoop)
                 {
-                    Console.WriteLine($"the input you enterd is wrong, leicense plate has to contain letters and/or numbers");
+                    Console.WriteLine($"The input you enterd is wrong, leicense plate has to contain letters and/or numbers.");
                 }
 
                 firstTimeInLoop = false;
-                Console.WriteLine("Please Enter Vihacle leicense plate:");
+                Console.WriteLine("Please enter vihacle leicense plate:");
                 leicensePlate = Console.ReadLine();
                 leicensePlate = leicensePlate.Trim();
             } while (leicensePlate.Length == 0);
@@ -41,12 +41,12 @@ namespace Ex03.ConsoleUI
             {
                 if (!firstTimeInLoop)
                 {
-                    Console.WriteLine($"The input You enterd is incorect, please enter again:");
+                    Console.WriteLine($"The input you enterd is incorect, please enter again:");
                 }
 
                 inputName = Console.ReadLine();
                 firstTimeInLoop = false;
-            } while (string.IsNullOrEmpty(inputName));
+            } while (string.IsNullOrWhiteSpace(inputName));
 
             return inputName;
         }
@@ -61,7 +61,7 @@ namespace Ex03.ConsoleUI
             {
                 if (!firstTimeInLoop)
                 {
-                    Console.WriteLine("your input is not a valid phone number, please enter numeric phone number.");
+                    Console.WriteLine("Your input is not a valid phone number, please enter numeric phone number.");
                 }
 
                 firstTimeInLoop = false;
@@ -100,7 +100,7 @@ namespace Ex03.ConsoleUI
             {
                 if (!firstTimeInLoop)
                 {
-                    Console.WriteLine($"The input You enterd is incorrect");
+                    Console.WriteLine($"The input You enterd is incorrect.");
                 }
                 firstTimeInLoop = false;
 

@@ -1,5 +1,4 @@
-﻿using Ex03.GarageLogic.Vehicles.Types.Motorcycle;
-using GarageLogic.VehiclesInfo;
+﻿using GarageLogic.VehiclesInfo;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,7 +8,7 @@ namespace GarageLogic.Vehicles.Types.Motorcycle
     public class MotorcycleInfo : VehicleInformation
     {
         int m_EngineVolume;
-        eMotorcycleLicenseType m_MotorcycleLicenseType = new eMotorcycleLicenseType;
+        eMotorcycleLicenseType m_MotorcycleLicenseType;
 
         public int EngineVolume 
         {
@@ -27,7 +26,7 @@ namespace GarageLogic.Vehicles.Types.Motorcycle
             }
         }
 
-        public eMotorcycleLicenseType MotorcycleLicenseType
+        internal eMotorcycleLicenseType MotorcycleLicenseType
         {
             get { return m_MotorcycleLicenseType; }
             set
@@ -61,12 +60,12 @@ namespace GarageLogic.Vehicles.Types.Motorcycle
         {
             if (!int.TryParse(i_ListOfInformationToFill[0], out m_EngineVolume) || m_EngineVolume < 0)
             {
-                throw new ArgumentException("Input for engine volume was wrong!");
+                throw new ArgumentException("Input for engine volume was wrong !");
             }
 
             if (!Enum.TryParse(i_ListOfInformationToFill[1], true, out m_MotorcycleLicenseType))
             {
-                throw new ArgumentException("Invalid license type!");
+                throw new ArgumentException("Invalid license type !");
             }
         }
     }

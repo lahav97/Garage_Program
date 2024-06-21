@@ -1,4 +1,4 @@
-﻿namespace Ex03.GarageLogic.Vehicles.Types.Car
+﻿namespace GarageLogic.Vehicles.Types.Car
 {
     internal enum eNumberOfDoors : uint
     {

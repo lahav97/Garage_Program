@@ -6,18 +6,10 @@ namespace GarageLogic.Vehicles.Types
 {
     public abstract class FuelVehicle : Vehicle
     {
-        public enum eFuelTypes
-        {
-            Soler = 1,
-            Octan95,
-            Octan96,
-            Octan98
-        }
-
         float m_MaxFuelTank;
         float m_RemainingFuel;
 
-        public eFuelTypes FuelType { get; set; }
+        internal eFuelTypes FuelType { get; set; }
 
         public float MaxFuelTank 
         {

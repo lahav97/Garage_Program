@@ -64,7 +64,7 @@ namespace GarageLogic.Vehicles
                 }
                 else
                 {
-                    throw new ArgumentException("Input of air Presure must be a number");
+                    throw new ArgumentException("Air presure must be a number");
                 }
 
                 i++;
@@ -84,7 +84,7 @@ namespace GarageLogic.Vehicles
             StringBuilder vehicleData = new StringBuilder();
 
             vehicleData.AppendLine(m_VehicleInfo.ToString())
-              .AppendLine("m_Wheels Information:");
+              .AppendLine("Wheels Information:");
 
             foreach (Wheel wheel in m_Wheels)
             {

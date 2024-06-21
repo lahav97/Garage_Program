@@ -1,13 +1,7 @@
-﻿using GarageLogic.Vehicles.Types.Truck;
-
-namespace GarageLogic.Vehicles.Types.Motorcycle
+﻿namespace GarageLogic.Vehicles.Types.Motorcycle
 {
     public class ElectricMotorcycle : ElectricVehicle
     {
-        public MotorcycleInfo m_MotorcycleInfo;
-
-        public MotorcycleInfo MotorcycleInfo { get; set; }
-
         public ElectricMotorcycle()
         {
             InstallWheels((int)eNumberOfWheels.MotorCycle, (float)eNumberOfWheels.MotorCycle);

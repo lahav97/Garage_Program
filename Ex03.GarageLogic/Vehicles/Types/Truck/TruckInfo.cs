@@ -16,13 +16,13 @@ namespace GarageLogic.Vehicles.Types.Truck
         {  get { return m_CargoVolume; }
            set
            {
-                if(value > 0)
+                if(value > 0f)
                 {
                     m_CargoVolume = value;
                 }
                 else
                 {
-                    throw new ArgumentException("Cargo Volume must be higher than 0!");
+                    throw new ArgumentException("Cargo volume must be higher than 0 !");
                 }
             }
         }
@@ -32,7 +32,7 @@ namespace GarageLogic.Vehicles.Types.Truck
             StringBuilder stringBuilder = new StringBuilder();
 
             stringBuilder.AppendLine(base.ToString())
-                .AppendLine($"Does truck transports hazardous materials? {(TransportsHazardousMaterials ? "Yes" : "No")} ")
+                .AppendLine($"does truck transports hazardous materials? {(TransportsHazardousMaterials ? "Yes" : "No")} ")
                 .AppendLine($"Truck's cargo volume: {CargoVolume} cubic meters");
 
             return stringBuilder.ToString();
@@ -42,7 +42,7 @@ namespace GarageLogic.Vehicles.Types.Truck
         {
             return new List<string>
             {
-                "if the truck transport hazardous materials? (Yes/No)",
+                "Does the truck transport hazardous materials? (Yes/No)",
                 "truck's cargo volume in cubic meters"
             };
         }
@@ -59,12 +59,12 @@ namespace GarageLogic.Vehicles.Types.Truck
             }
             else
             {
-                throw new ArgumentException("Input for Hazrdus materials was wrong!");
+                throw new ArgumentException("Input for hazrdus materials was wrong !");
             }
 
             if (!float.TryParse(i_ListOfInformationToFill[1],out m_CargoVolume) || m_CargoVolume < 0)
             {
-                throw new ArgumentException("Input for cargo volume was wrong!");
+                throw new ArgumentException("Input for cargo volume was wrong !");
             }
         }
     }

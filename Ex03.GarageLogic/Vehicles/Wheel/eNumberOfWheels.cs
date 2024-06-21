@@ -1,6 +1,6 @@
 ﻿namespace GarageLogic.Vehicles
 {
-    internal enum eNumberOfWheels
+    public enum eNumberOfWheels
     {
         MotorCycle = 2,
         Car = 5,

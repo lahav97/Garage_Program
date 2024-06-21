@@ -5,7 +5,7 @@ using GarageLogic.Vehicles.VehicleFactory;
 using System;
 using System.Linq;
 using System.Text;
-using static GarageLogic.Vehicles.Types.FuelVehicle;
+using GarageLogic.GarageManagement;
 
 namespace VehicleGarage
 {
@@ -43,7 +43,7 @@ namespace VehicleGarage
 
             return vehicleTypeName;
         }
-
+        
         public void EnterNewVehicleToGarage(Vehicle i_Vehicle, string i_OwnerName, string i_OwnerPhoneNumber)
         {
             VehicleInformations vehicleInformations = new VehicleInformations();
@@ -72,20 +72,21 @@ namespace VehicleGarage
         public List<string> GetVehiclesLicensePlateListByStatus(string i_VehicleStatus)
         {
             eVehicleStatus vehicleStatus;
-
-            if (!Enum.TryParse(i_VehicleStatus, true, out vehicleStatus))
-            {
-                throw new ArgumentException("Invalid vehicle status!");
-            }
-
             List<string> licensePlatesList;
 
-            if (i_VehicleStatus == $"{r_MaxSizeOfVehicleStatus + 1}") // To return all of the license plates.
+            bool getAllVehile = i_VehicleStatus == $"{r_MaxSizeOfVehicleStatus + 1}";
+
+            if (getAllVehile) // To return all of the license plates.
             {
                 licensePlatesList = r_VehicleInformation.Keys.ToList();
             }
             else
             {
+                if (!Enum.TryParse(i_VehicleStatus, true, out vehicleStatus) || !Enum.IsDefined(typeof(eVehicleStatus), vehicleStatus))
+                {
+                    throw new ArgumentException("Invalid vehicle status!");
+                }
+
                 licensePlatesList = r_VehicleInformation
                     .Where(vehicleInfo => vehicleInfo.Value.VehicleStatus == vehicleStatus)
                     .Select(vehicleInfo => vehicleInfo.Key)
@@ -95,11 +96,11 @@ namespace VehicleGarage
             return licensePlatesList;
         }
 
-        public void ChangeVehicleStatus(string i_LicensePlateID, eVehicleStatus i_VehicleStatusToChange)
+        public void ChangeVehicleStatus(string i_LicensePlateID, int i_VehicleStatusToChange)
         {
             if (r_VehicleInformation.TryGetValue(i_LicensePlateID, out VehicleInformations vehicleInfo))
             {
-                vehicleInfo.VehicleStatus = i_VehicleStatusToChange;
+                vehicleInfo.VehicleStatus = (eVehicleStatus)i_VehicleStatusToChange;
             }
             else
             {
@@ -120,7 +121,7 @@ namespace VehicleGarage
 
             if (!Enum.TryParse(i_FuelType, true, out fuelTypeToEnter))
             {
-                throw new ArgumentException("Input for Fuel type was wrong!");
+                throw new ArgumentException("Input for fuel type was wrong!");
             }
             if (currentVehicle is FuelVehicle currentFuelVehicle)
             {
@@ -128,7 +129,7 @@ namespace VehicleGarage
             }
             else
             {
-                throw new ArgumentException("Expected a fuel Vehicle but received an electric vehicle.");
+                throw new ArgumentException("Expected a fuel vehicle but received an electric vehicle.");
             }
         }
 
@@ -157,7 +158,7 @@ namespace VehicleGarage
             VehicleInformations vehicleInfo = r_VehicleInformation[i_LicensePlateID];
             StringBuilder stringBuilder = new StringBuilder();
 
-            stringBuilder.AppendLine("Owner Information:");
+            stringBuilder.AppendLine("Owner's Information:");
             stringBuilder.AppendLine(vehicleInfo.ToString());
             stringBuilder.AppendLine("Vehicle Information:");
             stringBuilder.AppendLine(vehicle.ToString());
@@ -203,6 +204,11 @@ namespace VehicleGarage
             }
 
             return remainingCapacity;
+        }
+
+        public bool IsElectricVehicle(string i_LicensePlateID)
+        {
+            return getVehicleFromSystem(i_LicensePlateID) is ElectricVehicle;
         }
     }
 }

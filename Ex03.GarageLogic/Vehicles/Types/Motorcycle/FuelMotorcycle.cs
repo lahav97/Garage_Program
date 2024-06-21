@@ -1,11 +1,7 @@
 namespace GarageLogic.Vehicles.Types.Motorcycle
 {
     public class FuelMotorcycle : FuelVehicle
-    {
-        public MotorcycleInfo m_MotorcycleInfo;
-
-        public MotorcycleInfo MotorcycleInfo { get; set; }
-
+    { 
         public FuelMotorcycle()
         {
             InstallWheels((int)eNumberOfWheels.MotorCycle, (float)eMaxWheelAirPressure.Motorcycle);

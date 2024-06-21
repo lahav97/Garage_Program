@@ -8,10 +8,10 @@ namespace GarageLogic.Vehicles.Types.Car
 {
     public class CarInfo : VehicleInformation
     {
-        eCarColors m_CarColor = new eCarColors();
-        eNumberOfDoors m_NumberOfDoors = new eNumberOfDoors();
+        eCarColors m_CarColor;
+        eNumberOfDoors m_NumberOfDoors;
 
-        public eCarColors CarColor 
+        internal eCarColors CarColor 
         { 
             get { return m_CarColor;}
             set
@@ -25,7 +25,7 @@ namespace GarageLogic.Vehicles.Types.Car
             }
         }
 
-        public eNumberOfDoors NumberOfDoors 
+        internal eNumberOfDoors NumberOfDoors 
         { 
             get { return m_NumberOfDoors;}
             set
@@ -63,12 +63,12 @@ namespace GarageLogic.Vehicles.Types.Car
         {
             if (!Enum.TryParse(i_ListOfInformationToFill[0], true, out m_CarColor))
             {
-                throw new ArgumentException("Invalid car color!");
+                throw new ArgumentException("Invalid car color !");
             }
 
             if (!Enum.TryParse(i_ListOfInformationToFill[1], true, out m_NumberOfDoors))
             {
-                throw new ArgumentException("Invalid number of doors!");
+                throw new ArgumentException("Invalid number of doors !");
             }
         }
     }

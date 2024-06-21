@@ -48,14 +48,14 @@ namespace GarageLogic.Vehicles.Types
         {
             if (i_FuelToAdd + RemainingBatteryTime > m_MaxBatteryCapacity)
             {
-                throw new ValueOutOfRangeException("charging time", m_MaxBatteryCapacity, 0f);
+                throw new ValueOutOfRangeException("Charging time", m_MaxBatteryCapacity, 0f);
             }
             else if (i_FuelToAdd <= 0)
             {
                 throw new ArgumentException("Can't add non-positive amount of charging time to the battery");
             }
         }
-
+        
         public void InitializeMaxBatteryTime(float i_MaxBatteryCapacity)
         {
             MaxBatteryCapacity = i_MaxBatteryCapacity;

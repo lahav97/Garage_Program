@@ -30,7 +30,7 @@ namespace GarageLogic.GarageManagement
         {
             StringBuilder stringBuilder = new StringBuilder();
 
-            stringBuilder.AppendLine($"Owner name: {OwnerName}")
+            stringBuilder.AppendLine($"Owner's name: {OwnerName}")
                          .AppendLine($"Owner's phone number: {OwnerPhoneNumber}")
                          .AppendLine($"Vehicle status: {getFormattedStatus()}");
 
@@ -39,7 +39,7 @@ namespace GarageLogic.GarageManagement
 
         private string getFormattedStatus()
         {
-            switch (m_VehicleStatus)
+            switch (VehicleStatus)
             {
                 case eVehicleStatus.InRepair:
                     return "In repair";
@@ -48,7 +48,7 @@ namespace GarageLogic.GarageManagement
                 case eVehicleStatus.WasPaidFor:
                     return "Paid";
                 default:
-                    throw new InvalidOperationException($"Unknown vehicle status: {m_VehicleStatus}");
+                    throw new InvalidOperationException($"Unknown vehicle status: {VehicleStatus}");
             }
         }
     }

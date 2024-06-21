@@ -1,4 +1,4 @@
-﻿namespace Ex03.GarageLogic.Vehicles.Types.Motorcycle
+﻿namespace GarageLogic.Vehicles.Types.Motorcycle
 {
     internal enum eMotorcycleLicenseType
     {

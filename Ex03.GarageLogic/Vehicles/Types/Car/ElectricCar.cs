@@ -2,8 +2,6 @@
 {
     public class ElectricCar : ElectricVehicle
     {
-        public CarInfo MotorcycleInfo { get; } = new CarInfo();
-
         public ElectricCar()
         {
             InstallWheels((int)eNumberOfWheels.Car, (float)eMaxWheelAirPressure.Car);
