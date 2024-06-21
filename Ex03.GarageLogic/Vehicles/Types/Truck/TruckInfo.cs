@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using GarageLogic.VehiclesInfo;
@@ -52,12 +52,12 @@ namespace GarageLogic.Vehicles.Types.Truck
             }
             else
             {
-                throw new ArgumentException("Input for hazrdus materials was wrong !");
+                throw new FormatException("Input for hazrdus materials was wrong !");
             }
 
             if (!float.TryParse(i_ListOfInformationToFill[1],out m_CargoVolume) || m_CargoVolume < 0)
             {
-                throw new ArgumentException("Input for cargo volume was wrong !");
+                throw new FormatException("Input for cargo volume was wrong !");
             }
         }
 
