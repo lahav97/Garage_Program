@@ -1,14 +1,10 @@
 ﻿using GarageLogic.Exceptions;
-using GarageLogic.Vehicles.Types.Motorcycle;
-using GarageLogic.Vehicles.Types.Truck;
 using GarageLogic.Vehicles.VehicleFactory;
 using GarageLogic.Vehicles;
 using System;
 using System.Collections.Generic;
-using static GarageLogic.Vehicles.Types.FuelVehicle;
 using VehicleGarage;
 using System.Linq;
-using System.Runtime.InteropServices;
 
 namespace Ex03.ConsoleUI
 {
@@ -17,6 +13,7 @@ namespace Ex03.ConsoleUI
         Garage m_Garage = new Garage();
         readonly int r_MinumumSizeOfNumericInput = 1;
         readonly int r_ProgramOptionsSize = Enum.GetValues(typeof(eProgramChoices)).Length;
+
         private enum eProgramChoices
         {
             EnterVihacleToGarage = 1,
@@ -39,33 +36,33 @@ namespace Ex03.ConsoleUI
             }
         }
 
-        private void playChoice(int i_userChoice)
+        private void playChoice(int i_UserChoice)
         {
-            if (i_userChoice == (int)eProgramChoices.EnterVihacleToGarage)
+            if (i_UserChoice == (int)eProgramChoices.EnterVihacleToGarage)
             {
-                EnterVihacleToGarage();
+                enterVihacleToGarage();
             }
-            else if (i_userChoice == (int)eProgramChoices.ShowVehicels)
+            else if (i_UserChoice == (int)eProgramChoices.ShowVehicels)
             {
                 showVehicels();
             }
-            else if (i_userChoice == (int)eProgramChoices.ChangeVehicleSituation)
+            else if (i_UserChoice == (int)eProgramChoices.ChangeVehicleSituation)
             {
                 changeVehicleSituation();
             }
-            else if (i_userChoice == (int)eProgramChoices.InflateVehicleWheels)
+            else if (i_UserChoice == (int)eProgramChoices.InflateVehicleWheels)
             {
                 inflateVehicleWheelsToMax();
             }
-            else if (i_userChoice == (int)eProgramChoices.FeuelGasVehicle)
+            else if (i_UserChoice == (int)eProgramChoices.FeuelGasVehicle)
             {
                 refeuelVehicle();
             }
-            else if (i_userChoice == (int)eProgramChoices.ChargeElectricVehicle)
+            else if (i_UserChoice == (int)eProgramChoices.ChargeElectricVehicle)
             {
                 chargeElectricVehicle();
             }
-            else if (i_userChoice == (int)eProgramChoices.ShowAllInformationForAVehicle)
+            else if (i_UserChoice == (int)eProgramChoices.ShowAllInformationForAVehicle)
             {
                 showAllInformationForAVehicle();
             }
@@ -89,19 +86,19 @@ please write choice number: ");
             return InputHandler.GetInputNumberFromUser(r_MinumumSizeOfNumericInput, r_ProgramOptionsSize);
         }
 
-        private void EnterVihacleToGarage()
+        private void enterVihacleToGarage()
         {
             string leicensePlate = InputHandler.GetLicensePlate();
 
             if (!m_Garage.IsVehicleInSystem(leicensePlate))
             {
-                EnterNewVehicleToSystem(leicensePlate);
+                enterNewVehicleToSystem(leicensePlate);
             }
 
             m_Garage.ChangeVehicleStatus(leicensePlate, eVehicleStatus.InRepair);
         }
 
-        private void EnterNewVehicleToSystem(string i_leicensePlate)
+        private void enterNewVehicleToSystem(string i_LeicensePlate)
         {
             Console.WriteLine("You are entering a new Vehicle to the m_Garage, please provide the following information:");
             Console.WriteLine("Please enter Vehicle owner name:");
@@ -111,17 +108,17 @@ please write choice number: ");
             string ownerPhoneNumber = InputHandler.GetPhoneNumberFromUser();
 
             Vehicle newVehicle = CreateNewVehicle();
-            EnterDataToVehicle(newVehicle, i_leicensePlate);
+            EnterDataToVehicle(newVehicle, i_LeicensePlate);
             m_Garage.EnterNewVehicleToGarage(newVehicle, ownerName, ownerPhoneNumber);
         }
 
-        private void EnterDataToVehicle(Vehicle io_vehicle, string i_leicenseID)
+        private void EnterDataToVehicle(Vehicle io_Vehicle, string i_LeicenseID)
         {
             while(true)
             {
                 try
                 {
-                    List<string> promtsToShowUser = io_vehicle.OutputPromptsList();
+                    List<string> promtsToShowUser = io_Vehicle.OutputPromptsList();
                     List<string> listOfInformationOnVehicle = new List<string>();
 
                     for (int i = 0; i < promtsToShowUser.Count; i++)
@@ -130,8 +127,8 @@ please write choice number: ");
                         listOfInformationOnVehicle.Add(InputHandler.GetAStringFromUser());
                     }
 
-                    io_vehicle.GatherInformationForVehicle(listOfInformationOnVehicle, i_leicenseID);
-                    EnterWheelsInformationFromUser(io_vehicle);
+                    io_Vehicle.GatherInformationForVehicle(listOfInformationOnVehicle, i_LeicenseID);
+                    EnterWheelsInformationFromUser(io_Vehicle);
                     break;
                 }
                 catch(ValueOutOfRangeException exeption)
@@ -147,21 +144,22 @@ please write choice number: ");
 
         private Vehicle CreateNewVehicle()
         {
-            List<string> PromtsToShowUser = m_Garage.GetListOfVehicleTypesInGarage();
+            List<string> promtsToShowUser = m_Garage.GetListOfVehicleTypesInGarage();
             int vehicleType;
 
             while (true)
             {
                 Console.WriteLine("Please Enter Type Of Vehicle");
 
-                for (int i = 0; i < PromtsToShowUser.Count; i++)
+                for (int i = 0; i < promtsToShowUser.Count; i++)
                 {
-                    Console.WriteLine($"{i + 1}. {PromtsToShowUser[i]}");
+                    Console.WriteLine($"{i + 1}. {promtsToShowUser[i]}");
                 }
 
                 try
                 {
-                    vehicleType = InputHandler.GetInputNumberFromUser(r_MinumumSizeOfNumericInput, PromtsToShowUser.Count);
+                    vehicleType = InputHandler.GetInputNumberFromUser(r_MinumumSizeOfNumericInput, promtsToShowUser.Count);
+
                     return VehicleBuilder.BuildVehicle(vehicleType);
                 }
                 catch (ArgumentException exeption)
@@ -171,7 +169,7 @@ please write choice number: ");
             }
         }
 
-        private void EnterWheelsInformationFromUser(Vehicle io_vehicle)
+        private void EnterWheelsInformationFromUser(Vehicle io_Vehicle)
         {
             Console.WriteLine("Please choose 1. to enter all wheels information at once or 2. to enter each wheel separetly:");
             bool enterWheelsAtOnce = InputHandler.GetInputNumberFromUser(r_MinumumSizeOfNumericInput, 2) == 1;
@@ -179,7 +177,7 @@ please write choice number: ");
 
             while (true)
             {
-                List<string> WheelsPrompts = io_vehicle.OutputPromptListForWheel(out numberOfWheels);
+                List<string> WheelsPrompts = io_Vehicle.OutputPromptListForWheel(out numberOfWheels);
                 List<string> WheelsInformationToInsert = new List<string>();
                 List<string> duplicateString = new List<string>();
                 bool firstTimeInLoop = true;
@@ -197,6 +195,7 @@ please write choice number: ");
                             }
                             firstTimeInLoop = false;
                         }
+
                         WheelsInformationToInsert = WheelsInformationToInsert.Concat(duplicateString).ToList();
                     }
                     else
@@ -210,7 +209,7 @@ please write choice number: ");
                 }
                 try
                 {
-                    io_vehicle.EnterWheelsInformation(WheelsInformationToInsert);
+                    io_Vehicle.EnterWheelsInformation(WheelsInformationToInsert);
                     break;
                 }
                 catch (ValueOutOfRangeException exeption)
@@ -226,32 +225,44 @@ please write choice number: ");
 
         private void showVehicels()
         {
-            Console.WriteLine(@"
-Please choose which vehicles to show:
-1. All vehicles being repaird.
-2. All repaired vehicles.
-3. All vehicles that where paid for.
-4. All vehicles in m_Garage.");
+            List<string> leicencePlateList;
 
-            int usersChiceToShow = InputHandler.GetInputNumberFromUser(r_MinumumSizeOfNumericInput, 4);
-            List<string> leicencePlateList = new List<string>();
-
-            if (usersChiceToShow == 4)
+            while (true)
             {
-                leicencePlateList = m_Garage.GetAllLicensePlatesInGarage();
-            }
-            else
-            {
-                leicencePlateList = m_Garage.GetVehiclesLicensePlateListByStatus((eVehicleStatus)usersChiceToShow);
+                Console.WriteLine("Please choose which vehicle status to show:");
+                int numerOfPrompt = 1;
+
+                foreach(string prompt in m_Garage.GetVehicleStatusPrompt())
+                {
+                    Console.WriteLine($"{numerOfPrompt}. {prompt}");
+                    numerOfPrompt++;
+                }
+
+                string usersChiceToShow = InputHandler.GetAStringFromUser();
+
+                try
+                {
+                    leicencePlateList = m_Garage.GetVehiclesLicensePlateListByStatus(usersChiceToShow);
+                    break;
+                }
+                catch(ArgumentException exeption)
+                {
+                    Console.WriteLine(exeption.Message);
+                }
             }
 
-            if (leicencePlateList.Count == 0)
+            printAllVehiclesList(leicencePlateList);
+        }
+
+        private void printAllVehiclesList(List<string> i_VehiclesLeicencePlateList)
+        {
+            if (i_VehiclesLeicencePlateList.Count == 0)
             {
                 Console.WriteLine("There are no Vehicles to show in this category");
             }
             else
             {
-                foreach (string leicencePlate in leicencePlateList)
+                foreach (string leicencePlate in i_VehiclesLeicencePlateList)
                 {
                     Console.WriteLine(leicencePlate);
                 }
@@ -269,7 +280,7 @@ if you want to go back to menu press {InputHandler.r_ExitInput}");
 
                 try
                 {
-                    if (!InputHandler.isExitStatment(leicencePlateOfVihacleToChnge))
+                    if (!InputHandler.IsExitStatment(leicencePlateOfVihacleToChnge))
                     {
                         Console.WriteLine(@"
 Please choose what Status to change Vehicle into:
@@ -281,6 +292,7 @@ Please choose what Status to change Vehicle into:
                         m_Garage.ChangeVehicleStatus(leicencePlateOfVihacleToChnge, (eVehicleStatus)userStatusChoice);
                         Console.WriteLine($"Vehicle {leicencePlateOfVihacleToChnge} Status was changed succecfully");
                     }
+
                     break;
                 }
                 catch (ArgumentException exeption)
@@ -298,12 +310,13 @@ Please choose what Status to change Vehicle into:
 Please choose which vehicle to inflate its wheels
 if you want to go back to menu press {InputHandler.r_ExitInput}");
                 string leicencePlateOfVihacleToInflate = InputHandler.GetLicensePlate();
+
                 try
                 {
-                    if (!InputHandler.isExitStatment(leicencePlateOfVihacleToInflate))
+                    if (!InputHandler.IsExitStatment(leicencePlateOfVihacleToInflate))
                     {
                         m_Garage.InflateWheelsToMaximum(leicencePlateOfVihacleToInflate);
-                        Console.WriteLine("Wheels where inflated succecfully to Maximum");
+                        Console.WriteLine("m_Wheels where inflated succecfully to Maximum");
                     }
 
                     break;
@@ -330,12 +343,14 @@ if you want to go back to menu press {InputHandler.r_ExitInput}");
 
                 try
                 {
-                    if (!InputHandler.isExitStatment(leicencePlateOfVihacleToRefuel))
+                    if (!InputHandler.IsExitStatment(leicencePlateOfVihacleToRefuel))
                     {
-                        eFuelTypes GasTypeToFill = getGasTypeFromUser();
-                        Console.WriteLine(@"Please choose amount of gas to fill in Litters " +
+                        Console.WriteLine(@"Please enter Vehicle fuel Type:");
+                        string gasTypeToFill = InputHandler.GetAStringFromUser();
+
+                        Console.WriteLine(@"Please choose amount of fuel to fill in Litters " +
                             $"(there are {m_Garage.GetEnergyLeftToBeFilled(leicencePlateOfVihacleToRefuel)} litters left to fill):");
-                        m_Garage.RefuelVehicle(leicencePlateOfVihacleToRefuel, GasTypeToFill, InputHandler.GetFloatFromUser());
+                        m_Garage.RefuelVehicle(leicencePlateOfVihacleToRefuel, gasTypeToFill, InputHandler.GetFloatFromUser());
                         Console.WriteLine("Vehicle was refeuld successfully:");
                     }
 
@@ -346,17 +361,6 @@ if you want to go back to menu press {InputHandler.r_ExitInput}");
                     Console.WriteLine(exeption.Message);
                 }
             }
-        }
-
-        private eFuelTypes getGasTypeFromUser()
-        {
-            Console.WriteLine(@"Please enter Vehicle Gas Type:");
-            foreach (eFuelTypes gasType in Enum.GetValues(typeof(eFuelTypes)))
-            {
-                Console.WriteLine($"{(int)gasType}. {gasType}");
-            }
-
-            return (eFuelTypes)(InputHandler.GetInputNumberFromUser(r_MinumumSizeOfNumericInput, 4));
         }
 
         private void chargeElectricVehicle()
@@ -370,7 +374,7 @@ if you want to go back to menu press {InputHandler.r_ExitInput}");
 
                 try
                 {
-                    if (!InputHandler.isExitStatment(leicencePlateOfVihacleToCharge))
+                    if (!InputHandler.IsExitStatment(leicencePlateOfVihacleToCharge))
                     {
                         Console.WriteLine($"Please choose how long to charge the car in minutes " +
                             $"((there are {m_Garage.GetEnergyLeftToBeFilled(leicencePlateOfVihacleToCharge) * 60} minutes left to charge):");
@@ -396,11 +400,11 @@ Please choose which vehicle to show
 if you want to go back to menu press {InputHandler.r_ExitInput}");
                 try
                 {
-                    string LeicensePlateToShow = InputHandler.GetLicensePlate();
+                    string leicensePlateToShow = InputHandler.GetLicensePlate();
 
-                    if (!InputHandler.isExitStatment(LeicensePlateToShow))
+                    if (!InputHandler.IsExitStatment(leicensePlateToShow))
                     {
-                        Console.WriteLine(m_Garage.GetVehicleInformation(LeicensePlateToShow));
+                        Console.WriteLine(m_Garage.GetVehicleInformation(leicensePlateToShow));
                     }
 
                     break;

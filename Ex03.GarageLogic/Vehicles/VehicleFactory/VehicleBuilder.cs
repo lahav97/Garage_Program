@@ -10,8 +10,8 @@ namespace GarageLogic.Vehicles.VehicleFactory
         static public Vehicle BuildVehicle(int i_VehicleType)
         {
             Vehicle resultVehicle;
-            validateVehicleType(i_VehicleType);
 
+            validateVehicleType(i_VehicleType);
             switch ((eVehicleType)i_VehicleType)
             {
                 case eVehicleType.FuelCar:
@@ -32,6 +32,7 @@ namespace GarageLogic.Vehicles.VehicleFactory
                 default:
                     throw new ArgumentException("Invalid vehicle type!");
             }
+
             return resultVehicle;
         }
 

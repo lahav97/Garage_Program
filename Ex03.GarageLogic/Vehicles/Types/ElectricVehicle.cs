@@ -1,6 +1,5 @@
 ﻿using GarageLogic.Exceptions;
 using System;
-using static GarageLogic.Vehicles.Types.FuelVehicle;
 using System.Text;
 
 namespace GarageLogic.Vehicles.Types
@@ -28,15 +27,21 @@ namespace GarageLogic.Vehicles.Types
             }
         }
 
+        internal void SetRemainingBatteryFromEnergyPercentageLeft(float i_EnergyPercentageLeft)
+        {
+            RemainingBatteryTime = i_EnergyPercentageLeft * MaxBatteryCapacity / 100;
+        }
+
         public float GetRemainingBatteryCapacityToCharge()
         {
             return MaxBatteryCapacity - RemainingBatteryTime;
         }
+
         public void ChargeBattery(float i_ChargingTime)
         {
             validateOutOfRange(i_ChargingTime);
             RemainingBatteryTime += i_ChargingTime;
-            VehicleInfo.EnergyPercentageLeft = (RemainingBatteryTime * 100) / MaxBatteryCapacity;
+            m_VehicleInfo.EnergyPercentageLeft = (RemainingBatteryTime * 100) / MaxBatteryCapacity;
         }
 
         private void validateOutOfRange(float i_FuelToAdd)
@@ -61,8 +66,8 @@ namespace GarageLogic.Vehicles.Types
             StringBuilder stringBuilder = new StringBuilder();
 
             stringBuilder.AppendLine(base.ToString())
-              .AppendLine($"Max battery capacity: {MaxBatteryCapacity}")
-              .AppendLine($"Remaining battery time: {RemainingBatteryTime}");
+              .AppendLine($"Max battery capacity: {MaxBatteryCapacity} hours")
+              .AppendLine($"Remaining battery time: {RemainingBatteryTime} hours");
 
             return stringBuilder.ToString();
         }

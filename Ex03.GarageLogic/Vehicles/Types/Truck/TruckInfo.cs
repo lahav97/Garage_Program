@@ -10,7 +10,6 @@ namespace GarageLogic.Vehicles.Types.Truck
         public bool m_TransportsHazardousMaterials;
         public float m_CargoVolume;
 
-
         public bool TransportsHazardousMaterials { get; set; }
 
         public float CargoVolume 
@@ -54,7 +53,7 @@ namespace GarageLogic.Vehicles.Types.Truck
             {
                 TransportsHazardousMaterials = true;
             }
-            if (i_ListOfInformationToFill[0] == "No")
+            else if (i_ListOfInformationToFill[0] == "No")
             {
                 TransportsHazardousMaterials = false;
             }

@@ -1,41 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Ex03.GarageLogic.Vehicles.Types.Car;
 using GarageLogic.VehiclesInfo;
-using static GarageLogic.Vehicles.Types.Motorcycle.MotorcycleInfo;
 
 namespace GarageLogic.Vehicles.Types.Car
 {
     public class CarInfo : VehicleInformation
     {
-        public enum eCarColors
-        {
-            Yellow = 1,
-            White,
-            Red,
-            Black
-        }
-        public enum eNumberOfDoors : uint
-        {
-            TwoDoor = 2,
-            ThreeDoor = 3,
-            FourDoor = 4,
-            FiveDoor = 5
-        }
-
-        eCarColors m_eCarColor;
-        eNumberOfDoors m_NumberOfDoors;
+        eCarColors m_CarColor = new eCarColors();
+        eNumberOfDoors m_NumberOfDoors = new eNumberOfDoors();
 
         public eCarColors CarColor 
         { 
-            get { return m_eCarColor;}
+            get { return m_CarColor;}
             set
             {
                 if (!Enum.IsDefined(typeof(eCarColors), value))
                 {
                     throw new ArgumentException("Invalid car color !");
                 }
-                m_eCarColor = value;
+
+                m_CarColor = value;
             }
         }
 
@@ -48,6 +34,7 @@ namespace GarageLogic.Vehicles.Types.Car
                 {
                     throw new ArgumentException("Invalid number of doors !");
                 }
+
                 m_NumberOfDoors = value;
             }
         }
@@ -74,7 +61,7 @@ namespace GarageLogic.Vehicles.Types.Car
 
         public override void VehicleInformationLeftToFill(List<string> i_ListOfInformationToFill)
         {
-            if (!Enum.TryParse(i_ListOfInformationToFill[0], true, out m_eCarColor))
+            if (!Enum.TryParse(i_ListOfInformationToFill[0], true, out m_CarColor))
             {
                 throw new ArgumentException("Invalid car color!");
             }

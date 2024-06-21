@@ -5,7 +5,7 @@ using GarageLogic.Vehicles.VehicleFactory;
 using System;
 using System.Linq;
 using System.Text;
-using GarageLogic.GarageManagement;
+using static GarageLogic.Vehicles.Types.FuelVehicle;
 
 namespace VehicleGarage
 {
@@ -13,7 +13,7 @@ namespace VehicleGarage
     {
         private readonly Dictionary<string, VehicleInformations> r_VehicleInformation = new Dictionary<string, VehicleInformations>();
         private readonly Dictionary<string, Vehicle> r_Vehicles = new Dictionary<string, Vehicle>();
-
+        public readonly int r_MaxSizeOfVehicleStatus = Enum.GetValues(typeof(eVehicleStatus)).Cast<int>().Max();
 
         public List<string> GetListOfVehicleTypesInGarage()
         {
@@ -21,74 +21,78 @@ namespace VehicleGarage
 
             foreach (eVehicleType vehicleType in Enum.GetValues(typeof(eVehicleType)))
             {
-                string enumvehicleTypeName = vehicleType.ToString();
-                string vehicleTypeName = string.Empty;
-
-                for (int i = 0; i < enumvehicleTypeName.Length; i++)
-                {
-                    if (i > 0 && char.IsUpper(enumvehicleTypeName[i]) && !char.IsUpper(enumvehicleTypeName[i - 1]))
-                    {
-                        vehicleTypeName += " ";
-                    }
-                    vehicleTypeName += enumvehicleTypeName[i];
-                }
-
-                ListOfPromptsToSend.Add(vehicleTypeName);
+                ListOfPromptsToSend.Add(separateWordsByUpperCase(vehicleType.ToString()));
             }
 
             return ListOfPromptsToSend;
         }
 
+        private string separateWordsByUpperCase(string i_SentenceToSeperate)
+        {
+            string vehicleTypeName = string.Empty;
+
+            for (int i = 0; i < i_SentenceToSeperate.Length; i++)
+            {
+                if (i > 0 && char.IsUpper(i_SentenceToSeperate[i]) && !char.IsUpper(i_SentenceToSeperate[i - 1]))
+                {
+                    vehicleTypeName += " ";
+                }
+
+                vehicleTypeName += i_SentenceToSeperate[i];
+            }
+
+            return vehicleTypeName;
+        }
+
         public void EnterNewVehicleToGarage(Vehicle i_Vehicle, string i_OwnerName, string i_OwnerPhoneNumber)
         {
             VehicleInformations vehicleInformations = new VehicleInformations();
+
             vehicleInformations.OwnerPhoneNumber = i_OwnerPhoneNumber;
             vehicleInformations.OwnerName = i_OwnerName;
             vehicleInformations.VehicleStatus = eVehicleStatus.InRepair;
-
-            r_Vehicles.Add(i_Vehicle.VehicleInfo.LicensePlateID, i_Vehicle);
-            r_VehicleInformation.Add(i_Vehicle.VehicleInfo.LicensePlateID, vehicleInformations);
+            r_Vehicles.Add(i_Vehicle.m_VehicleInfo.LicensePlateID, i_Vehicle);
+            r_VehicleInformation.Add(i_Vehicle.m_VehicleInfo.LicensePlateID, vehicleInformations);
         }
 
-        public List<string> GetVehiclesLicensePlateListByStatus(eVehicleStatus? i_VehicleStatus = null)
+        public List<string> GetVehicleStatusPrompt()
         {
-            ValidateVehicleStatus(i_VehicleStatus);
+            List<string> listOfPromptsToSend = new List<string>();
+
+            foreach (eVehicleStatus vehicleStatus in Enum.GetValues(typeof(eVehicleStatus)))
+            {
+                listOfPromptsToSend.Add(separateWordsByUpperCase(vehicleStatus.ToString()));
+            }
+
+            listOfPromptsToSend.Add("All vehicles");
+
+            return listOfPromptsToSend;
+        }
+
+        public List<string> GetVehiclesLicensePlateListByStatus(string i_VehicleStatus)
+        {
+            eVehicleStatus vehicleStatus;
+
+            if (!Enum.TryParse(i_VehicleStatus, true, out vehicleStatus))
+            {
+                throw new ArgumentException("Invalid vehicle status!");
+            }
 
             List<string> licensePlatesList;
 
-            if (i_VehicleStatus == null) // To return all of the license plates.
+            if (i_VehicleStatus == $"{r_MaxSizeOfVehicleStatus + 1}") // To return all of the license plates.
             {
                 licensePlatesList = r_VehicleInformation.Keys.ToList();
             }
             else
             {
                 licensePlatesList = r_VehicleInformation
-                    .Where(vehicleInfo => vehicleInfo.Value.VehicleStatus == i_VehicleStatus.Value)
+                    .Where(vehicleInfo => vehicleInfo.Value.VehicleStatus == vehicleStatus)
                     .Select(vehicleInfo => vehicleInfo.Key)
                     .ToList();
             }
 
             return licensePlatesList;
-        }
-
-        private void ValidateVehicleStatus(eVehicleStatus? vehicleStatus)
-        {
-            if (vehicleStatus.HasValue && !Enum.IsDefined(typeof(eVehicleStatus), vehicleStatus.Value))
-            {
-                throw new ArgumentException($"Invalid vehicle status: {vehicleStatus}");
-            }
-        }
-
-        public List<string> GetAllLicensePlatesInGarage() 
-        {
-            List<string> VehicleList = new List<string>();
-
-            foreach (string licensePlate in r_VehicleInformation.Keys)
-            {
-                VehicleList.Add(licensePlate);
-            }
-
-            return VehicleList;
         }
 
         public void ChangeVehicleStatus(string i_LicensePlateID, eVehicleStatus i_VehicleStatusToChange)
@@ -109,13 +113,18 @@ namespace VehicleGarage
             currentVehicle.InflateAllWheelsToMaximum();
         }
 
-        public void RefuelVehicle(string i_LicensePlateID, FuelVehicle.eFuelTypes i_FuelType, float i_AmountToRefuel)
+        public void RefuelVehicle(string i_LicensePlateID, string i_FuelType, float i_AmountToRefuel)
         {
             Vehicle currentVehicle = getVehicleFromSystem(i_LicensePlateID);
+            eFuelTypes fuelTypeToEnter;
 
+            if (!Enum.TryParse(i_FuelType, true, out fuelTypeToEnter))
+            {
+                throw new ArgumentException("Input for Fuel type was wrong!");
+            }
             if (currentVehicle is FuelVehicle currentFuelVehicle)
             {
-                currentFuelVehicle.Refuel(i_AmountToRefuel, i_FuelType);
+                currentFuelVehicle.Refuel(i_AmountToRefuel, fuelTypeToEnter);
             }
             else
             {
@@ -137,15 +146,15 @@ namespace VehicleGarage
             }
         }
 
-        public string GetVehicleInformation(string licensePlateID)
+        public string GetVehicleInformation(string i_LicensePlateID)
         {
-            if (!IsVehicleInSystem(licensePlateID))
+            if (!IsVehicleInSystem(i_LicensePlateID))
             {
-                throw new ArgumentException($"Vehicle with license plate ID '{licensePlateID}' does not exist in the system.");
+                throw new ArgumentException($"Vehicle with license plate ID '{i_LicensePlateID}' does not exist in the system.");
             }
 
-            Vehicle vehicle = r_Vehicles[licensePlateID];
-            VehicleInformations vehicleInfo = r_VehicleInformation[licensePlateID];
+            Vehicle vehicle = r_Vehicles[i_LicensePlateID];
+            VehicleInformations vehicleInfo = r_VehicleInformation[i_LicensePlateID];
             StringBuilder stringBuilder = new StringBuilder();
 
             stringBuilder.AppendLine("Owner Information:");
@@ -159,12 +168,12 @@ namespace VehicleGarage
 
         private Vehicle getVehicleFromSystem(string i_LicensePlateID)
         {
+            Vehicle resultVehicle = null;
+
             if (!IsVehicleInSystem(i_LicensePlateID))
             {
                 throw new ArgumentException($"Vehicle with license plate ID '{i_LicensePlateID}' does not exist in the system.");
             }
-
-            Vehicle resultVehicle = null;
 
             if(!r_Vehicles.TryGetValue(i_LicensePlateID, out resultVehicle))
             {
